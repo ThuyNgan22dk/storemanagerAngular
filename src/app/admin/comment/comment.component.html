@@ -1,0 +1,41 @@
+<p>comment works!</p>
+<p-toast></p-toast>
+<p-card>
+    <!-- <p-toolbar styleClass="mb-4 gap-2">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Add comment" icon="pi pi-plus" class="p-button-success mr-2" (click)="showForm()"></button>
+        </ng-template>
+    </p-toolbar> -->
+
+    <p-table
+      [value]="listComment"
+      [rows]="5"
+      [paginator]="true"
+      [showCurrentPageReport]="true"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Product id</th>
+                <th>User id</th>
+                <th>Rate</th>
+                <th>Comment</th>
+                <th>Enable</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-comment>
+            <tr>
+                <td>{{comment.product.id}}</td>
+                <td>{{comment.user.id}}</td>
+                <td>{{comment.rate}}</td>
+                <td>{{comment.comment}}</td>
+                <td>
+                    <button pButton type="button" class="p-button-info" (click)="enableComment(comment.id)" *ngIf="comment.enabled">Enabled</button>
+                    <button pButton type="button" class="p-button-warning" (click)="enableComment(comment.id)" *ngIf="!comment.enabled">Disabled</button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</p-card>

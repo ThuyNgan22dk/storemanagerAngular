@@ -1,0 +1,6 @@
+#accordionSidebar{
+  position: fixed;
+}
+#wrapper #content-wrapper{
+  margin-left: 256px;
+}

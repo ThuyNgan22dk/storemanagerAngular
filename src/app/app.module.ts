@@ -1,16 +1,96 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AuthComponent } from './admin/auth/auth.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AccountComponent } from './admin/account/account.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AccountDetailComponent } from './admin/account-detail/account-detail.component';
+import { ProductComponent } from './admin/product/product.component';
+import { CategoryComponent } from './admin/category/category.component';
+import { ToastModule } from 'primeng/toast';
+import {CardModule} from 'primeng/card';
+import {DialogModule} from 'primeng/dialog';
+import {ButtonModule} from 'primeng/button';
+import {TableModule} from 'primeng/table';
+import { RatingModule } from 'primeng/rating';
+import { TagModule } from 'primeng/tag';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {ToolbarModule} from 'primeng/toolbar';
+import {FileUploadModule} from 'primeng/fileupload';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {InputTextareaModule} from 'primeng/inputtextarea';
+import {InputTextModule} from 'primeng/inputtext';
+import {RadioButtonModule} from 'primeng/radiobutton';
+import {DividerModule} from 'primeng/divider';
+import {CarouselModule} from 'primeng/carousel';
+import {OverlayPanelModule} from 'primeng/overlaypanel';
+import {TabViewModule} from 'primeng/tabview';
+import {PasswordModule} from 'primeng/password';
+import {SliderModule} from 'primeng/slider';
+import {DataViewModule} from 'primeng/dataview';
+import {MultiSelectModule} from 'primeng/multiselect';
+import { ListboxModule } from 'primeng/listbox';
+import { SplitterModule } from 'primeng/splitter';
+import { SidebarModule } from 'primeng/sidebar';
+import { ImportGoodComponent } from './admin/import-good/import-good.component';
+import { PromotionComponent } from './admin/promotion/promotion.component';
+import { CommentComponent } from './admin/comment/comment.component';
+import { OrderComponent } from './admin/order/order.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AuthComponent,
+    DashboardComponent,
+    AccountComponent,
+    AccountDetailComponent,
+    ProductComponent,
+    CategoryComponent,
+    ImportGoodComponent,
+    PromotionComponent,
+    CommentComponent,
+    OrderComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FontAwesomeModule,
+    FormsModule,
+    HttpClientModule,
+    NgbModule,
+    ToastModule,
+    DialogModule,
+    CardModule,
+    ButtonModule,
+    TableModule,
+    ToolbarModule,
+    ConfirmDialogModule,
+    DividerModule,
+    RadioButtonModule,
+    RatingModule,
+    TagModule,
+    SliderModule,
+    SidebarModule,
+    InputNumberModule,
+    InputTextModule,
+    InputTextareaModule,
+    SplitterModule,
+    ListboxModule,
+    MultiSelectModule,
+    PasswordModule,
+    FileUploadModule,
+    DataViewModule,
+    CarouselModule,
+    OverlayPanelModule,
+    TabViewModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
