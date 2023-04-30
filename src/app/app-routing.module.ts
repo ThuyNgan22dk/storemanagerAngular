@@ -11,23 +11,48 @@ import { OrderComponent } from "./admin/order/order.component";
 import { PromotionComponent } from './admin/promotion/promotion.component';
 import { ImportGoodComponent } from './admin/import-good/import-good.component';
 import { CommentComponent } from './admin/comment/comment.component';
+import { CartComponent } from './client/cart/cart.component';
+import { UserProfileComponent } from './client/user-profile/user-profile.component';
+import { HomeComponent } from './client/home/home.component';
+import { SearchComponent } from './client/search/search.component';
+import { ProductDetailComponent } from './client/product-detail/product-detail.component';
+import { CheckOutComponent } from './client/check-out/check-out.component';
+import { MyOrderComponent } from './client/my-order/my-order.component';
+import { OrderDetailComponent } from './admin/order-detail/order-detail.component';
+import { ImportDetailComponent } from './admin/import-detail/import-detail.component';
+import { IndexComponent } from './client/index/index.component';
+import { ShopComponent } from './client/shop/shop.component';
 
 const routes: Routes = [
   {
     path: 'admin',component:DashboardComponent,canActivate: [RoleGuardService],data: {expectedRole: "ROLE_ADMIN"},
     children:[
       {path:"account",component: AccountComponent},
-      // {path:"customerUpdate",component: AccountDetailComponent},
       {path:"category",component: CategoryComponent},
       {path:'product',component:ProductComponent},
       {path:'promotion',component:PromotionComponent},
       {path:'comment',component:CommentComponent},
       {path:'order',component:OrderComponent},
-      {path:'importGood',component:ImportGoodComponent}
+      {path:'order/orderDetail',component:OrderDetailComponent},
+      {path:'importGood',component:ImportGoodComponent},
+      {path:'import/importDetail/:id',component:ImportDetailComponent}
     ]
   },
-  {path:'',component:AuthComponent},
-  // {path:'',component: AccountComponent}
+  {
+    path: '',component:IndexComponent,
+    children:[
+      {path:"cart",component: CartComponent},
+      {path:"userDetail",component: UserProfileComponent,canActivate: [RoleGuardService]},
+      {path:"search/:keyword",component: SearchComponent},
+      {path:'productDetail/:id',component:ProductDetailComponent},
+      {path:'checkOut',component:CheckOutComponent,canActivate: [RoleGuardService]},
+      {path:'myOrder',component:MyOrderComponent,canActivate: [RoleGuardService]},
+      {path:'category/:id',component:ShopComponent},
+      {path:'',component:HomeComponent},
+      {path:'shop',component:ShopComponent}
+    ]
+  },
+  {path:'auth',component:AuthComponent},
 ];
 
 @NgModule({

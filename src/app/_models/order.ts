@@ -1,4 +1,4 @@
-export interface Order {
+export class Order {
   firstname : string;
   lastname :string;
   address:string;

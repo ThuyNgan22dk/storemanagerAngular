@@ -30,4 +30,8 @@ export class OrderComponent implements OnInit {
     })
   }
 
+  openDetail(order: any){
+
+  }
+
 }

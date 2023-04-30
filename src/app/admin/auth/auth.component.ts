@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '../../_services/auth.service';
 import { StorageService } from '../../_services/storage.service';
@@ -19,15 +20,68 @@ export class AuthComponent {
   roles: string[] = [];
   errorMessage = '';
   loginForm: Login = {username: '' , password: ''};
-  registerForm: Register = {username: '', email: '', password: ''};
+  registerForm: Register = {username: '', email: '', password: '', confirmPassword: ''};
+  form: FormGroup;
+
+  error_messages = {
+    'username': [
+      { type: 'required', message: 'First Name is required.' },
+    ],
+    'email': [
+      { type: 'required', message: 'Email is required.' },
+      { type: 'minlength', message: 'Email length.' },
+      { type: 'maxlength', message: 'Email length.' },
+      { type: 'required', message: 'please enter a valid email address.' }
+    ],
+    'password': [
+      { type: 'required', message: 'password is required.' },
+      { type: 'minlength', message: 'password length.' },
+      { type: 'maxlength', message: 'password length.' }
+    ],
+    'confirmPassword': [
+      { type: 'required', message: 'password is required.' },
+      { type: 'minlength', message: 'password length.' },
+      { type: 'maxlength', message: 'password length.' }
+    ],
+  }
 
   constructor(private authService:AuthService,
               private storageService: StorageService,
               private messageService:MessageService,
+              public formBuilder: FormBuilder,
               private router:Router
-              ) { }
+              ) {
+                this.form = this.formBuilder.group({
+                  username: new FormControl('', Validators.compose([
+                    Validators.required
+                  ])),
+                  email: new FormControl('', Validators.compose([
+                    Validators.required,
+                    Validators.minLength(6),
+                    Validators.maxLength(30)
+                  ])),
+                  password: new FormControl('', Validators.compose([
+                    Validators.required,
+                    Validators.minLength(6),
+                    Validators.maxLength(30)
+                  ])),
+                  confirmPassword: new FormControl('', Validators.compose([
+                    Validators.required,
+                    Validators.minLength(6),
+                    Validators.maxLength(30)
+                  ])),
+                }, {
+                  validators: this.password.bind(this)
+                });
+              }
 
   ngOnInit(): void {
+  }
+
+  password(formGroup: FormGroup) {
+    const { value: password } = formGroup.get('password');
+    const { value: confirmPassword } = formGroup.get('confirmPassword');
+    return password === confirmPassword ? null : { passwordNotMatch: true };
   }
 
   login():void{
@@ -50,9 +104,10 @@ export class AuthComponent {
   }
 
   register():void{
-    const {username,email,password} = this.registerForm;
+    const {username,email,password,confirmPassword} = this.registerForm;
+
     console.log(this.registerForm);
-    this.authService.register(username,email,password).subscribe({
+    this.authService.register(username,email,password,confirmPassword).subscribe({
       next: res =>{
         this.isSuccessful = true;
         this.isSignUpFailed = false;

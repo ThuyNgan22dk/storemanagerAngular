@@ -33,4 +33,28 @@ export class ImportService {
   placeImport(nameShipper: string, phoneShipper: string, note: string,totalPrice: number,importDetails: ImportDetail[]):Observable<any>{
     return this.http.post(IMPORT_API +'create',{nameShipper, phoneShipper, totalPrice, note, importDetails},httpOptions);
   }
+
+  deleteImport(id: number):Observable<any>{
+    return this.http.delete(IMPORT_API + 'delete/' + id, httpOptions);
+  }
+
+  getListImportDetail(importGoodId: number):Observable<any>{
+    if(importGoodId != 0){
+      return this.http.get(IMPORT_API + 'importDetail/' +  importGoodId,httpOptions);
+    } else{
+      return this.http.get(IMPORT_API + 'importDetail',httpOptions);
+    }
+  }
+
+  createImportDetail(name: string, price: number, quantity: number, expiry: string,importGoodId: number): Observable<any>{
+    return this.http.post(IMPORT_API + 'importDetail/create', {name,price,quantity,expiry,importGoodId},httpOptions);
+  }
+
+  updateImportDetail(id: number,name: string, price: number, quantity: number, expiry: string,importGoodId: number): Observable<any>{
+    return this.http.put(IMPORT_API + 'importDetail/update/' + id, {name,price,quantity,expiry,importGoodId},httpOptions);
+  }
+
+  deleteImportDetail(id: number):Observable<any>{
+    return this.http.delete(IMPORT_API + 'importDetail/delete/' + id, httpOptions);
+  }
 }

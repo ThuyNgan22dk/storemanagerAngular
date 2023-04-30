@@ -1,0 +1,119 @@
+<div class="card flex">
+  <p-galleria [value]="images"
+      [autoPlay]="true"
+      [numVisible]="5"
+      [circular]="true"
+      [showItemNavigators]="true"
+      [showThumbnails]="false"
+      [showIndicators]="true"
+      [showIndicatorsOnItem]="true"
+      [responsiveOptions]="responsiveOptions"
+      class="galleria"
+      >
+      <ng-template pTemplate="item" let-item>
+          <img [src]="item.itemImageSrc" class="galleria__img"/>
+      </ng-template>
+      <ng-template pTemplate="thumbnail" let-item>
+          <div class="grid grid-nogutter justify-content-center">
+              <img [src]="item.thumbnailImageSrc" style="display: block;" />
+          </div>
+      </ng-template>
+  </p-galleria>
+</div>
+
+<section id="product1" class="section-p1">
+  <div class="col-lg-12">
+      <div class="section-title">
+          <a href="javascript:void(0)" routerLink="/shop"><h2>Featured Product</h2></a>
+      </div>
+      <div class="featured__controls row">
+          <ul>
+              <li class="categoryId" (click)="addActive(0)">All</li>
+              <li class="categoryId" *ngFor="let category of listCategory" >
+                <span (click)="addActive(category.id)">{{category.name}}</span>
+              </li>
+          </ul>
+      </div>
+  </div>
+  <p-carousel [value]="listProduct" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions" style="width: 100%;">
+      <ng-template let-product pTemplate="item">
+          <div class="product-item">
+              <div class="product-item-content">
+                  <div class="pro-container">
+                    <div class="pro">
+                      <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
+                      <div class="des">
+                        <span>{{product.category.name}}</span>
+                        <h5>{{product.productname}}</h5>
+                        <div class="star">
+                          <p-rating [ngModel]="product.rate" [readonly]="true" [cancel]="false"></p-rating>
+                        </div>
+                        <h4>{{product.price | currency:'VND'}}</h4>
+                      </div>
+                      <a href="javascript:void(0)" (click)="addToWishList(product)"><fa-icon (click)="addRedHeart(product.id)" class="heart" [icon]="heart"></fa-icon></a>
+                      <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}"><fa-icon class="retweet" [icon]="retweet"></fa-icon></a>
+                      <a href="javascript:void(0)" (click)="addToCart(product)"><fa-icon class="cart" [icon]="bag"></fa-icon></a>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </ng-template>
+  </p-carousel>
+
+</section>
+
+<div class="card section-p1" id="feature">
+  <p-carousel [value]="feature" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions" style="width: 100%;">
+      <ng-template let-feature pTemplate="item">
+          <div class="product-item">
+              <div class="product-item-content">
+                  <div class="fe-box">
+                      <img src="{{feature.image}}" alt="">
+                      <h6>{{feature.name}}</h6>
+                  </div>
+              </div>
+          </div>
+      </ng-template>
+  </p-carousel>
+</div>
+
+<section id="product1" class="section-p1">
+  <h2>New Products</h2>
+  <!-- <p>Summer Collection New Model Design</p> -->
+  <p-carousel [value]="listProductNewest" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions" style="width: 100%;">
+      <ng-template let-product pTemplate="item">
+          <div class="product-item">
+              <div class="product-item-content">
+                  <div class="pro-container">
+                    <div class="pro">
+                      <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
+                      <div class="des">
+                        <span>{{product.category.name}}</span>
+                        <h5>{{product.productname}}</h5>
+                        <div class="star">
+                          <p-rating [ngModel]="product.rate" [readonly]="true" [cancel]="false"></p-rating>
+                        </div>
+                        <h4>{{product.price | currency:'VND'}}</h4>
+                      </div>
+                      <a href="javascript:void(0)" (click)="addToWishList(product)"><fa-icon (click)="addRedHeartNew(product.id)" class="heart" [icon]="heart"></fa-icon></a>
+                      <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}"><fa-icon class="retweet" [icon]="retweet"></fa-icon></a>
+                      <a href="javascript:void(0)" (click)="addToCart(product)"><fa-icon class="cart" [icon]="bag"></fa-icon></a>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </ng-template>
+  </p-carousel>
+</section>
+
+<section id="newsletter" class="section-p1">
+  <div class="newstext">
+    <h4>Sign Up For Newsletters</h4>
+    <p>Get E-mail updates about our latest shop and <span>special offers.</span></p>
+  </div>
+  <div class="form">
+    <input type="text" placeholder="Your email address">
+    <button class="normal">Sign Up</button>
+  </div>
+</section>
+

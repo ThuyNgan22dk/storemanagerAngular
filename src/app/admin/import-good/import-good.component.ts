@@ -19,13 +19,13 @@ export class ImportGoodComponent {
     quantity: 0,
     expiry: "1-1-1111",
     subTotal: 0,
-    categoryId: 0,
+    // categoryId: 0,
     importGoodId: 0,
   };
 
   onUpdate : boolean = false;
   showForm : boolean = false;
-  showImage: boolean = false;
+  showFormApp: boolean = false;
   showDelete: boolean = false;
 
   importForm: ImportGood = {
@@ -49,6 +49,14 @@ export class ImportGoodComponent {
     this.onUpdate = false;
     this.showForm = true;
     this.listImports = [];
+    this.importForm = {
+      id: 0,
+      nameShipper: "string",
+      phoneShipper: "string",
+      note: "string",
+      totalPrice: 0,
+      importDetails: []
+    };
   }
 
   getListImport(){
@@ -72,6 +80,20 @@ export class ImportGoodComponent {
       this.importForm.totalPrice = data.totalPrice;
   }
 
+  createImport(){
+    const {nameShipper,phoneShipper,note,totalPrice,importDetails} = this.importForm;
+    console.log(this.importForm);
+    this.importService.placeImport(nameShipper,phoneShipper,note,totalPrice,importDetails).subscribe({
+      next: res =>{
+        this.getListImport();
+        this.showForm = false;
+        this.showSuccess("Thêm mới thành công");
+      },error: err =>{
+        this.showError(err.message);
+      }
+    })
+  }
+
   updateImport(){
     const {id,nameShipper,phoneShipper,note,totalPrice,importDetails} = this.importForm;
     console.log(this.importForm);
@@ -85,6 +107,24 @@ export class ImportGoodComponent {
       }
     })
 
+  }
+
+  onDelete(id: number){
+    // this.importDetailForm.id = null;
+    this.showDelete = true;
+    this.importForm.id = id;
+  }
+
+  deleteImport(){
+    this.importService.deleteImport(this.importForm.id).subscribe({
+      next: res =>{
+        this.getListImport();
+        this.showWarn("Xóa thành công");
+        this.showDelete = false;
+      },error: err =>{
+        this.showError(err.message);
+      }
+    })
   }
 
   showSuccess(text: string) {

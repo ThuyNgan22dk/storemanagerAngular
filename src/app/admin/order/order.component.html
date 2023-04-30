@@ -1,6 +1,6 @@
 <!-- <p>order works!</p> -->
 <div class="card">
-  <p-table #dt [value]="listOrder" [rows]="10" [paginator]="true" [globalFilterFields]="['firstname','lastname','address']" [tableStyle]="{'min-width': '75rem'}"
+  <p-table #dt [value]="listOrder" [rows]="10" [paginator]="true" [tableStyle]="{'min-width': '50rem'}"
       [rowHover]="true" dataKey="id"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
       <ng-template pTemplate="caption">
@@ -17,14 +17,14 @@
               <!-- <th style="width: 4rem">
                   <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
               </th> -->
-              <th pSortableColumn="name">Customer <p-sortIcon field="name"></p-sortIcon></th>
+              <th pSortableColumn="name">Customer<p-sortIcon field="name"></p-sortIcon></th>
               <th>Address</th>
-              <th>PromotionCode</th>
               <th>Phone</th>
-              <th>Email</th>
+              <th>Promotion</th>
+              <!-- <th>Email</th> -->
               <th pSortableColumn="price">Total <p-sortIcon field="price"></p-sortIcon></th>
-              <th style="min-width:10rem">Status</th>
-              <th></th>
+              <th style="min-width:8rem">Status</th>
+              <th>Action</th>
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-order>
@@ -34,11 +34,17 @@
               </td> -->
               <td>{{order.firstname}} {{order.lastname}}</td>
               <td>{{order.address}}</td>
-              <td>{{order.promotionCode}}</td>
               <td>{{order.phone}}</td>
-              <td>{{order.email}}</td>
+              <td>{{order.promotionCode}}</td>
+              <!-- <td>{{order.email}}</td> -->
               <td>{{order.totalPrice}}</td>
               <td><button pButton type="button" label="Waiting For Delivery" class="p-button-success"></button></td>
+              <td>
+                <a class="nav-link collapsed" routerLink="/admin/order/orderDetail" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities" pButton pRipple
+                    icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2">
+                </a>
+              </td>
           </tr>
       </ng-template>
   </p-table>

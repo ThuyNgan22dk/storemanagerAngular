@@ -5,6 +5,6 @@ export interface ImportDetail {
   quantity: number;
   expiry: string;
   subTotal: number;
-  categoryId: number;
+  // categoryId: number;
   importGoodId: number;
 }

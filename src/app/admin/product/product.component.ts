@@ -5,6 +5,9 @@ import { CategoryService } from 'src/app/_services/category.service';
 import { ImageService } from 'src/app/_services/image.service';
 import { ProductService } from 'src/app/_services/product.service';
 
+interface Unit{
+  name: string;
+}
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -35,12 +38,15 @@ export class ProductComponent implements OnInit {
     id: 0,
     productname : "null",
     description : "null",
-    price: "null",
+    origin : "null",
+    unit : "null",
+    price: 0,
     rate: 5,
     inventoryStatus: "INSTOCK",
     quantity: 1,
     categoryId: 1,
-    imageIds: []
+    imageIds: [],
+    commentIds: []
   };
 
   constructor(private messageService: MessageService,private productService: ProductService,private imageService: ImageService,private categoryService:CategoryService){
@@ -51,6 +57,7 @@ export class ProductComponent implements OnInit {
     this.getListProduct();
     this.getListCategoryEnabled();
     this.getListImage();
+
   }
 
   openNew() {
@@ -61,38 +68,40 @@ export class ProductComponent implements OnInit {
       id: 0,
       productname : "null",
       description : "null",
-      price: "null",
+      origin : "null",
+      unit : "null",
+      price: 0,
       rate: 5,
       inventoryStatus: "INSTOCK",
       quantity: 1,
       categoryId: 1,
-      imageIds: this.imageChoosen
+      imageIds: [],
+      commentIds: []
     }
   }
 
   getSeverity (product: any) {
     switch (product.inventoryStatus) {
-        case 'instock':
+        case 'INSTOCK':
             return 'success';
-
-        case 'low stock':
+        case 'LOWSTOCK':
             return 'warning';
-
-        case 'out of stock':
+        case 'OUTOFSTOCK':
             return 'danger';
-
         default:
             return 'info';
     }
   };
 
   openUpdate(data : any){
-    this.listImageChoosen = [];
+      this.listImageChoosen = [];
       this.onUpdate = true;
       this.showForm =true;
       this.productForm.id = data.id;
       this.productForm.productname = data.productname;
       this.productForm.description = data.description;
+      this.productForm.origin = data.origin;
+      this.productForm.unit = data.unit;
       this.productForm.price = data.price;
       this.productForm.rate = data.rate;
       this.productForm.inventoryStatus = data.inventoryStatus;
@@ -103,7 +112,6 @@ export class ProductComponent implements OnInit {
       })
   }
 
-
   onChooseImage(){
     this.showImage =true;
     this.disabled = true;
@@ -112,7 +120,6 @@ export class ProductComponent implements OnInit {
         i.classList.remove('choosen');
     })
   }
-
 
   getListProduct(){
     this.productService.getListProduct().subscribe({
@@ -163,33 +170,34 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  // createProduct(){
-  //   let data = this.listImageChoosen;
-  //   data.forEach((res: any)=>{
-  //     this.productForm.imageIds.push(res.id);
-  //   })
-  //   const {productname,description,price,quantity,categoryId,imageIds} = this.productForm;
-  //   console.log(this.productForm);
-  //   this.productService.createProduct(productname,description,price,quantity,categoryId,imageIds).subscribe({
-  //     next: res =>{
-  //       this.getListProduct();
-  //       this.showForm = false;
-  //       this.showSuccess("Thêm mới thành công");
+  createProduct(){
+    let data = this.listImageChoosen;
+    data.forEach((res: any)=>{
+      this.productForm.imageIds.push(res.id);
+    })
+    const {productname,description,origin,unit,price,categoryId,imageIds} = this.productForm;
+    console.log(this.productForm);
+    this.productService.createProduct(productname,description,origin,unit,price,categoryId,imageIds).subscribe({
+      next: res =>{
+        this.getListProduct();
+        this.showForm = false;
+        this.showSuccess("Thêm mới thành công");
 
-  //     },error: err =>{
-  //       this.showError(err.message);
-  //     }
-  //   })
-  // }
+      },error: err =>{
+        this.showError(err.message);
+      }
+    })
+  }
 
   updateProduct(){
     let data = this.listImageChoosen;
     data.forEach((res: any)=>{
       this.productForm.imageIds.push(res.id);
+      console.log(res.id);
     })
-    const {id,productname,description,price,quantity,categoryId,imageIds} = this.productForm;
+    const {id,productname,description,origin,unit,price,categoryId,imageIds} = this.productForm;
     console.log(this.productForm);
-    this.productService.updateProduct(id,productname,description,price,quantity,categoryId,imageIds).subscribe({
+    this.productService.updateProduct(id,productname,description,origin,unit,price,categoryId,imageIds).subscribe({
       next: res =>{
         this.getListProduct();
         this.showForm = false;
@@ -222,12 +230,13 @@ export class ProductComponent implements OnInit {
 
   chooseImage(){
     this.listImageChoosen.push(this.imageChoosen);
-    console.log(this.listImageChoosen);
+    // console.log(this.listImageChoosen);
     this.showImage = false;
   }
 
   deleteImage(i: number) {
     this.listImageChoosen.splice(i, 1);
+    this.productForm.imageIds.splice(i, 1);
   }
 
   selectImage(event : any,res: any){
@@ -246,7 +255,6 @@ export class ProductComponent implements OnInit {
   showError(text: string) {
     this.messageService.add({severity:'error', summary: 'Error', detail: text});
   }
-
   showWarn(text : string) {
     this.messageService.add({severity:'warn', summary: 'Warn', detail: text});
   }

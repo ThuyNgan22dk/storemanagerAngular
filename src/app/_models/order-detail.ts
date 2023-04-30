@@ -1,4 +1,4 @@
-export interface OrderDetail {
+export class OrderDetail {
   name : string;
   price : number;
   quantity : number;

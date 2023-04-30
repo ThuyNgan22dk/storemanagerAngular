@@ -1,19 +1,57 @@
 <!-- <p>auth works!</p> -->
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
-		<form action="#">
+		<form action="#" [formGroup]="form">
 			<h1>Create Account</h1>
-			<input type="text" placeholder="username" [(ngModel)]="registerForm.username" name="username"/>
-			<input type="email" placeholder="email" [(ngModel)]="registerForm.email" name="email" />
-			<input type="password" placeholder="password" [(ngModel)]="registerForm.password" name="password" />
+      <!-- ngModelOptions]="{standalone: true}" -->
+			<input pInputText class="m-2" type="text" formControlName="username" placeholder="username" [(ngModel)]="registerForm.username" name="username"/>
+        <div class="error-messages">
+          <ng-container *ngFor="let error of error_messages.username">
+            <div class="error-message" *ngIf="form.get('username').hasError(error.type) && (form.get('username').dirty || form.get('username').touched)">
+              {{ error.message }}
+            </div>
+          </ng-container>
+        </div>
+			<input pInputText class="m-2" type="email" formControlName="email" placeholder="email" [(ngModel)]="registerForm.email" name="email"/>
+        <div class="error-messages">
+          <ng-container *ngFor="let error of error_messages.email">
+            <div class="error-message" *ngIf="form.get('email').hasError(error.type) && (form.get('email').dirty || form.get('email').touched)">
+              {{ error.message }}
+            </div>
+          </ng-container>
+        </div>
+			<p-password class="p-2" type="password" formControlName="password" placeholder="password" [(ngModel)]="registerForm.password" name="password" [toggleMask]="true">
+				<ng-template pTemplate="header">
+					<h6>Pick a password</h6>
+				</ng-template>
+        <div class="error-messages">
+          <ng-container *ngFor="let error of error_messages.password">
+            <div class="error-message" *ngIf="form.get('password').hasError(error.type) && (form.get('password').dirty || form.get('password').touched)">
+              {{ error.message }}
+            </div>
+          </ng-container>
+        </div>
+			</p-password>
+			<p-password class="p-2" type="password" formControlName="confirmPassword" placeholder="confirm password" [(ngModel)]="registerForm.confirmPassword" name="confirmPassword" [toggleMask]="true">
+				<ng-template pTemplate="header">
+					<h6>Pick a confirm password</h6>
+				</ng-template>
+        <div class="error-messages">
+          <ng-container *ngFor="let error of error_messages.confirmPassword">
+            <div class="error-message" *ngIf="form.get('confirmPassword').hasError(error.type) && (form.get('confirmPassword').dirty || form.get('confirmPassword').touched)">
+              {{ error.message }}
+            </div>
+          </ng-container>
+        </div>
+			</p-password>
 			<button (click)="register()">Sign Up</button>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
 		<form action="#">
 			<h1>Sign in</h1>
-			<input type="text" placeholder="Username" [(ngModel)]="loginForm.username" name="username" />
-			<input type="password" placeholder="Password" [(ngModel)]="loginForm.password" name="password" />
+			<input pInputText class="m-1" type="text" placeholder="Username" [(ngModel)]="loginForm.username" name="username" />
+			<p-password class="p-2" type="password" placeholder="Password" [(ngModel)]="loginForm.password" name="password" [toggleMask]="true"/>
 			<a href="javascript:void(0)">Forgot your password?</a>
 			<button (click)="login()">Sign In</button>
 		</form>

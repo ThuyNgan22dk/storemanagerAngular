@@ -42,6 +42,23 @@ import { ImportGoodComponent } from './admin/import-good/import-good.component';
 import { PromotionComponent } from './admin/promotion/promotion.component';
 import { CommentComponent } from './admin/comment/comment.component';
 import { OrderComponent } from './admin/order/order.component';
+import { HomeComponent } from './client/home/home.component';
+import { CartComponent } from './client/cart/cart.component';
+import { ProductDetailComponent } from './client/product-detail/product-detail.component';
+import { MyOrderComponent } from './client/my-order/my-order.component';
+import { SearchComponent } from './client/search/search.component';
+import { UserProfileComponent } from './client/user-profile/user-profile.component';
+import { CheckOutComponent } from './client/check-out/check-out.component';
+import { OrderDetailComponent } from './admin/order-detail/order-detail.component';
+import { ImportDetailComponent } from './admin/import-detail/import-detail.component';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
+import { TreeModule } from "primeng/tree";
+import { GalleriaModule  } from "primeng/galleria";
+import { CheckboxModule } from "primeng/checkbox";
+import { IndexComponent } from './client/index/index.component';
+import { ShopComponent } from './client/shop/shop.component';
+import { TabMenuModule } from "primeng/tabmenu";
 
 @NgModule({
   declarations: [
@@ -55,7 +72,18 @@ import { OrderComponent } from './admin/order/order.component';
     ImportGoodComponent,
     PromotionComponent,
     CommentComponent,
-    OrderComponent
+    OrderComponent,
+    HomeComponent,
+    CartComponent,
+    ProductDetailComponent,
+    MyOrderComponent,
+    SearchComponent,
+    UserProfileComponent,
+    CheckOutComponent,
+    OrderDetailComponent,
+    ImportDetailComponent,
+    IndexComponent,
+    ShopComponent
   ],
   imports: [
     BrowserModule,
@@ -90,6 +118,12 @@ import { OrderComponent } from './admin/order/order.component';
     CarouselModule,
     OverlayPanelModule,
     TabViewModule,
+    DropdownModule,
+    CalendarModule,
+    TreeModule,
+    GalleriaModule ,
+    CheckboxModule,
+    TabMenuModule,
     BrowserAnimationsModule
   ],
   providers: [],

@@ -1,4 +1,4 @@
-<p>import-good works!</p>
+<!-- <p>import-good works!</p> -->
 <div class="card">
   <p-toolbar styleClass="mb-4 gap-2">
       <ng-template pTemplate="left">
@@ -7,7 +7,7 @@
   </p-toolbar>
   <p-table #dt [value]="listImports"
       [rows]="5" [paginator]="true"
-      [tableStyle]="{'min-width': '75rem'}"
+      [tableStyle]="{'min-width': '50rem'}"
       [rowHover]="true" dataKey="id"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       [showCurrentPageReport]="true"
@@ -23,33 +23,30 @@
       </ng-template>
       <ng-template pTemplate="header">
           <tr>
-              <!-- <th style="width: 4rem">
-                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-              </th> -->
               <th>Shipper name</th>
               <th>Shipper phone</th>
               <th pSortableColumn="price">Total <p-sortIcon field="price"></p-sortIcon></th>
               <th>Action</th>
-              <th></th>
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-import>
           <tr>
-              <!-- <td style="width: 4rem">
-                  <p-tableCheckbox [value]="import"></p-tableCheckbox>
-              </td> -->
               <td>{{import.nameShipper}}</td>
               <td>{{import.phoneShipper}}</td>
               <td>{{import.totalPrice}}</td>
               <td>
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="openUpdate(import)"></button>
+                  <a class="nav-link collapsed" routerLink="/admin/import/importDetail/{{import.id}}" data-toggle="collapse" data-target="#collapseUtilities"
+                      aria-expanded="true" aria-controls="collapseUtilities" pButton pRipple
+                      icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2">
+                  </a>
+                  <!-- <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="openUpdate(import)"></button> -->
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="onDelete(import.id)"></button>
               </td>
-              <!-- <td><button pButton type="button" label="Waiting For Delivery" class="p-button-success"></button></td> -->
           </tr>
       </ng-template>
   </p-table>
 </div>
-<p-dialog [(visible)]="showForm" [style]="{width: '40vw'}" header="Import Details" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="showForm" [style]="{width: '50vw'}" header="Import Details" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content" p-scroller>
       <div class="formgrid grid">
           <div class="field col">
@@ -64,45 +61,35 @@
           <div class="field col">
             <label for="description" class="col-12 mb-2 md:col-2 md:mb-0">Shipper phone</label>
             <div class="col-12 md:col-10 mb-2">
-                <textarea id="description" type="text"
+                <input id="phone" type="text"
                   class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                  pInputTextarea [(ngModel)]="importForm.phoneShipper" required rows="3" cols="20"
-                ></textarea>
+                  pInputText [(ngModel)]="importForm.phoneShipper" required autofocus
+                >
             </div>
           </div>
       </div>
-      <!-- <div class="field grid">
-
-      </div> -->
 
       <div class="formgrid grid">
           <div class="field col">
               <label for="note">Note</label>
-              <p-inputNumber id="note" [(ngModel)]="importForm.note" locale="en-US"></p-inputNumber>
+              <input id="note" type="text"
+                  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                  pInputText [(ngModel)]="importForm.note" required autofocus
+                >
           </div>
-          <div class="field col">
+          <!-- <div class="field col">
               <label for="totalPrice">totalPrice</label>
               <p-inputNumber id="totalPrice" [(ngModel)]="importForm.totalPrice"></p-inputNumber>
-          </div>
+          </div> -->
       </div>
+      <!-- <app-import-detail app-import-detail [importGood]="importForm" [id]="importForm.id" [subTotal]="importForm.totalPrice" ></app-import-detail> -->
 
   </ng-template>
   <ng-template pTemplate="footer">
-      <!-- <button type="submit" pButton *ngIf="!onUpdate" (click)="createImport()">Tạo mới</button> -->
+      <button type="submit" pButton *ngIf="!onUpdate" (click)="createImport()">Tạo mới</button>
       <button type="submit" pButton *ngIf="onUpdate" (click)="updateImport()" >Cập nhật</button>
       <button pButton type="button" class="p-button-danger ml-3" (click)="showForm=false">Hủy</button>
   </ng-template>
 </p-dialog>
-
-<!-- <p-dialog header="Xác nhận" [(visible)]="showDelete" [style]="{width :'30vw'}" [modal]="true" [transitionOptions]="'.3s'">
-  <div>
-      <i class="pi pi pi-exclamation-triangle"></i>
-      <span class="ml-2">Bạn có chắc xóa <span>{{productForm.productname}}</span> ?</span>
-  </div>
-  <div class="flex justify-content-end mt-3">
-      <p-button label="Yes" icon="pi pi-check" class="mr-2" (click)="deleteProduct()"></p-button>
-      <p-button label="No" icon="pi pi-times" (click)="showDelete=false"></p-button>
-  </div>
-</p-dialog> -->
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

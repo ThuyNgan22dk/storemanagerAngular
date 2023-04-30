@@ -30,9 +30,13 @@ export class ProductService {
     return this.http.get(PRODUCT_API + 'related/' + id,httpOptions);
   }
 
-  getListByCategory(id: number):Observable<any>{
+  getListProductByCategory(id: number):Observable<any>{
     return this.http.get(PRODUCT_API + 'category/' + id,httpOptions);
   }
+
+  // getListProductByCategory(id: number):Observable<any>{
+  //   return this.http.get(PRODUCT_API + 'category/' + id,httpOptions);
+  // }
 
   searchProduct(keyword: string):Observable<any>{
     let params = new HttpParams();
@@ -52,12 +56,12 @@ export class ProductService {
     return this.http.get(PRODUCT_API + id,httpOptions);
   }
 
-  // createProduct(productname:string,description: string,price: string,quantity:number,categoryId: number,imageIds: Array<string>):Observable<any>{
-  //   return this.http.post(PRODUCT_API +'create',{productname,description,price,quantity,categoryId,imageIds},httpOptions);
-  // }
+  createProduct(productname:string,description:string,origin:string,unit:string,price: number,categoryId: number,imageIds: Array<string>):Observable<any>{
+    return this.http.post(PRODUCT_API +'create',{productname,description,origin,unit,price,categoryId,imageIds},httpOptions);
+  }
 
-  updateProduct(id: number,productname:string,description: string,price: string,quantity:number,categoryId: number,imageIds: Array<string>):Observable<any>{
-    return this.http.put(PRODUCT_API + 'update/'+id,{productname,description,price,quantity,categoryId,imageIds},httpOptions);
+  updateProduct(id: number,productname:string,description:string,origin:string,unit:string,price: number,categoryId: number,imageIds: Array<string>):Observable<any>{
+    return this.http.put(PRODUCT_API + 'update/'+id,{productname,description,origin,unit,price,categoryId,imageIds},httpOptions);
   }
 
   deleteProduct(id:number):Observable<any>{

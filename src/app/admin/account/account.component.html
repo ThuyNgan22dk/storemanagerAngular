@@ -1,53 +1,53 @@
-<p>account works!</p>
+<!-- <p>account works!</p> -->
 <p-toast></p-toast>
 <p-card>
-    <p-toolbar styleClass="mb-4 gap-2">
+    <!-- <p-toolbar styleClass="mb-4 gap-2">
         <ng-template pTemplate="left">
             <button pButton pRipple label="Add user" icon="pi pi-plus" class="p-button-success mr-2" (click)="showForm()"></button>
         </ng-template>
-    </p-toolbar>
+    </p-toolbar> -->
 
     <p-dialog header="User" [(visible)]="displayForm" [style]="{width: '40vw'}" [modal]="true" [transitionOptions]="'.3s'">
         <form action="">
             <div class="p-field">
                 <label for="username">Username: </label>
-                <input type="text" pInputText class="w-full mt-2 mb-1" [(ngModel)]="userForm.username" name="username">
+                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.username" name="username">
             </div>
             <div class="p-field">
                 <label for="address">Address: </label>
-                <input type="text" pInputText class="w-full mt-2 mb-1" [(ngModel)]="userForm.address" name="address">
+                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.address" name="address">
             </div>
             <div class="p-field">
                 <label for="email">Email: </label>
-                <input type="text" pInputText class="w-full mt-2 mb-1" [(ngModel)]="userForm.email" name="email">
+                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.email" name="email">
             </div>
             <div class="p-field">
                 <label for="firstname">FirstName: </label>
-                <input type="text" pInputText class="w-full mt-2 mb-1" [(ngModel)]="userForm.firstname" name="firstname">
+                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.firstname" name="firstname">
             </div>
             <div class="p-field">
                 <label for="lastname">LastName: </label>
-                <input type="text" pInputText class="w-full mt-2 mb-1" [(ngModel)]="userForm.lastname" name="lastname">
+                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.lastname" name="lastname">
             </div>
             <div class="p-field">
                 <label for="country">Country: </label>
-                <input type="text" pInputText class="w-full mt-2 mb-1" [(ngModel)]="userForm.country" name="country">
-            </div>
-            <div class="p-field">
-                <label for="bank">Bank: </label>
-                <input type="text" pInputText class="w-full mt-2 mb-1" [(ngModel)]="userForm.bank" name="bank">
-            </div>
-            <div class="p-field">
-                <label for="bankAccount">BankAccount: </label>
-                <input type="text" pInputText class="w-full mt-2 mb-1" [(ngModel)]="userForm.bankAccount" name="bankAccount">
-            </div>
-            <div class="p-field">
-                <label for="phone">Phone: </label>
-                <input type="text" pInputText class="w-full mt-2 mb-1" [(ngModel)]="userForm.phone" name="phone">
+                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.country" name="country">
             </div>
             <div class="p-field">
                 <label for="state">State: </label>
-                <input type="text" pInputText class="w-full mt-2 mb-1" [(ngModel)]="userForm.state" name="state">
+                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.state" name="state">
+            </div>
+            <div class="p-field">
+                <label for="bank">Bank: </label>
+                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.bank" name="bank">
+            </div>
+            <div class="p-field">
+                <label for="bankAccount">BankAccount: </label>
+                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.bankAccount" name="bankAccount">
+            </div>
+            <div class="p-field">
+                <label for="phone">Phone: </label>
+                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.phone" name="phone">
             </div>
             <div class="p-field mt-3">
                 <!-- <button type="submit" pButton (click)="createUser()" *ngIf="!onUpdate" >Tạo mới</button> -->
@@ -65,15 +65,15 @@
       [tableStyle]="{ 'min-width': '50rem' }"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     >
-      <ng-template pTemplate="caption">
-        <div class="flex align-items-center justify-content-between flex-wrap">
-            <h5 class="m-0 flex align-items-center justify-content-center">Manage Products</h5>
-            <span class="p-input-icon-left flex align-items-center justify-content-center">
-                <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search" class="input_Search"/>`
-            </span>
-        </div>
-    </ng-template>
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between flex-wrap">
+                <h5 class="m-0 flex align-items-center justify-content-center">Manage Users</h5>
+                <span class="p-input-icon-left flex align-items-center justify-content-center">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search" class="input_Search"/>`
+                </span>
+            </div>
+        </ng-template>
         <ng-template pTemplate="header">
             <tr>
                 <th>Name</th>
@@ -87,7 +87,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-user>
             <tr>
-                <td>{{user.name}}</td>
+                <td>{{user.username}}</td>
                 <td>{{user.address}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.country}}</td>
