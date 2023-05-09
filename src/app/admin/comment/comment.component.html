@@ -3,7 +3,7 @@
 <p-card>
     <!-- <p-toolbar styleClass="mb-4 gap-2">
         <ng-template pTemplate="left">
-            <button pButton pRipple label="Add comment" icon="pi pi-plus" class="p-button-success mr-2" (click)="showForm()"></button>
+            <button pButton pRipple label="Add comment" icon="pi pi-plus" class="p-button-success mr-2" style="border-radius: 8px;" (click)="showForm()"></button>
         </ng-template>
     </p-toolbar> -->
 
@@ -31,8 +31,8 @@
                 <td>{{comment.rate}}</td>
                 <td>{{comment.comment}}</td>
                 <td>
-                    <button pButton type="button" class="p-button-info" (click)="enableComment(comment.id)" *ngIf="comment.enabled">Enabled</button>
-                    <button pButton type="button" class="p-button-warning" (click)="enableComment(comment.id)" *ngIf="!comment.enabled">Disabled</button>
+                    <button pButton type="button" class="border-round p-button-info" (click)="enableComment(comment.id)" *ngIf="comment.enabled">Enabled</button>
+                    <button pButton type="button" class="border-round p-button-warning" (click)="enableComment(comment.id)" *ngIf="!comment.enabled">Disabled</button>
                 </td>
             </tr>
         </ng-template>

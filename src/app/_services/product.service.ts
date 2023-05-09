@@ -40,7 +40,7 @@ export class ProductService {
 
   searchProduct(keyword: string):Observable<any>{
     let params = new HttpParams();
-    params =params.append('keyword',keyword)
+    params = params.append('keyword',keyword)
     return this.http.get(PRODUCT_API + 'search',{params: params});
   }
 

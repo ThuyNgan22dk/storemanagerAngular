@@ -31,8 +31,8 @@ export class IndexComponent implements OnInit {
   bars = faBars;
 
   showDepartment = false;
-
-
+  loginSuccess = false;
+  items: any[] =[];
 
   loginForm : any = {
     username : null,
@@ -53,7 +53,7 @@ export class IndexComponent implements OnInit {
   errorMessage = '';
   authModal : boolean = false;
   listCategoryEnabled : any;
-
+  username: string;
 
   keyword: any;
 
@@ -69,14 +69,25 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.storageService.currentUser.subscribe(username => this.username = username);
+    this.username = this.storageService.loadUsername();
+    console.log(this.username);
     this.getCategoryEnbled();
     this.isLoggedIn = this.storageService.isLoggedIn();
     this.wishlistService.loadWishList();
-    this.cartService.loadCart();
+    this.getItems();
+    // this.cartService.loadCart();
   }
 
-  showDepartmentClick(){
-    this.showDepartment = !this.showDepartment;
+  // showDepartmentClick(){
+  //   this.showDepartment = !this.showDepartment;
+  // }
+  showAuthForm(){
+    if(!this.isLoggedIn){
+      this.authModal = true;
+      this.loginForm = {username: null,password: null};
+      this.registerForm = {username: null,email: null, password: null};
+    }
   }
 
   getCategoryEnbled(){
@@ -90,57 +101,25 @@ export class IndexComponent implements OnInit {
   }
 
   removeFromCart(item:any){
-    this.cartService.remove(item);
+    console.log(item.id);
+    this.cartService.deleteProduct(item.id).subscribe({
+      next: res =>{
+        this.getItems();
+        this.showWarn("Xóa thành công");
+        // this.showDelete = false;
+      },error: err =>{
+        this.showError(err.message);
+      }
+    })
+    // this.getItems();
   }
 
   removeWishList(item: any){
     this.wishlistService.remove(item);
   }
 
-  showAuthForm(){
-    if(!this.isLoggedIn){
-      this.authModal = true;
-      this.loginForm = {username: null,password: null};
-      this.registerForm = {username: null,email: null, password: null};
-    }
-  }
-
-  login():void{
-    const {username,password} = this.loginForm;
-    console.log(this.loginForm);
-    this.authService.login(username,password).subscribe({
-      next: res =>{
-        this.storageService.saveUser(res);
-        this.isLoggedIn = true;
-        this.isLoginFailed = false;
-        this.roles = this.storageService.getUser().roles;
-        this.showSuccess("Đăng nhập thành công!!");
-        this.authModal = false;
-
-      },error: err =>{
-        console.log(err);
-        this.isLoggedIn = false;
-        this.isLoginFailed = true;
-        this.showError(err.message);
-      }
-    })
-  }
-
-  register():void{
-    const {username,email,password} = this.registerForm;
-    console.log(this.registerForm);
-    this.authService.register(username,email,password,password).subscribe({
-      next: res =>{
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
-        this.showSuccess("Đăng ký thành công")
-        this.authModal = false;
-      },error: err =>{
-        this.showError(err.message);
-        this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
-      }
-    })
+  showAuthFormClick(){
+    this.loginSuccess = true;
   }
 
   logout():void{
@@ -157,9 +136,29 @@ export class IndexComponent implements OnInit {
   }
 
   addToCart(item: any){
-    this.cartService.getItems();
-    this.showSuccess("Add To Cart Successfully!")
-    this.cartService.addToCart(item,1);
+    // this.cartService.getItems(this.username);
+    // this.showSuccess("Add To Cart Successfully!")
+    console.log(item.productname);
+    this.cartService.addToCart(this.username, item.productname, 1).subscribe({
+      next: res =>{
+        this.getItems();
+        // this.showForm = false;
+        this.showSuccess("Thêm mới thành công");
+      },error: err =>{
+        this.showError(err.message);
+      }
+    });
+  }
+
+  getItems(){
+    this.cartService.getItems(this.username).subscribe({
+      next: res =>{
+        this.items = res;
+        console.log(this.items);
+      },error: err =>{
+        console.log(err);
+      }
+    })
   }
 
   addToWishList(item: any){

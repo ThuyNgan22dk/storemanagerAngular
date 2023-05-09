@@ -1,97 +1,149 @@
-<p>cart works!</p>
+<!-- <p>cart works!</p> -->
 
 <p-toast></p-toast>
-
-
-<section class="breadcrumb-section set-bg" [ngStyle]="{backgroundImage:'url(assets/image/breadcrumb.jpg'}">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="breadcrumb__text">
-                    <h2>Shopping Cart</h2>
-                    <div class="breadcrumb__option">
-                        <a routerLink="/" >Home</a>
-                        <span>Shopping Cart</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div style="min-height: calc(100vh - 100px);">
+  <div class="form__cart">
+    <div class="cart__title">
+      <h4>Giỏ Hàng</h4>
     </div>
-</section>
 
-<section class="shoping-cart spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="shoping__cart__table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="shoping__product">Products</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let product of cartService.items">
-                                <td class="shoping__cart__item">
-                                    <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="" width="100px">
-                                    <h5>{{product.name}}</h5>
-                                </td>
-                                <td class="shoping__cart__price">
-                                    {{product.price | currency}}
-                                </td>
-                                <td class="shoping__cart__quantity">
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <span class="dec qtybtn" (click)="subtractQuantity(product)">-</span>
-                                            <input type="text" [ngModel]="product.quantity" (change)="updateQuantity(product,$event)" min="1">
-                                            <span class="inc qtybtn" (click)="plusQuantity(product)">+</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="shoping__cart__total">
-                                    {{product.subTotal | currency}}
-                                </td>
-                                <td class="shoping__cart__item__close">
-                                    <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-text" (click)="removeFromCart(product)"></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <div class="cart__main">
+      <div style="flex: 1 1 910px;">
+
+        <p-table [value]="items" [(selection)]="selectedProducts" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}">
+          <!-- <ng-template pTemplate="caption">
+              <div class="flex align-items-center justify-content-between">
+                  Products
+              </div>
+          </ng-template> -->
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 4rem">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th class="shoping__product" style="width:20%">Products</th>
+              <th style="width:20%">Name</th>
+              <th style="width:20%">Price</th>
+              <th style="width:20%">Quantity</th>
+              <th style="width:20%">Total</th>
+              <th style="width:20%"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="item">
+              <td>
+                  <p-tableCheckbox [value]="items"></p-tableCheckbox>
+              </td>
+              <td>
+                <p-cellEditor>
+                  <ng-template pTemplate="output">
+                    <img src="{{'data:image/jpg;base64,' + item.product.images[0].data}}" alt="" width="100px">
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>
+                <p-cellEditor>
+                  <ng-template pTemplate="output">
+                    {{item.productname}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>
+                <p-cellEditor>
+                  <ng-template pTemplate="output">
+                    {{item.price + " đ"}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>
+                <p-cellEditor>
+                  <ng-template pTemplate="output">
+                    <div class="quantity">
+                      <div class="product-qty">
+                        <div>
+                          <span data-view-id="cart_main_quantity.decrease" data-view-index="ca27fd15-2dfc-11ed-8cc1-ee1ce7624425" class="qty-decrease " (click)="subtractQuantity(item)">
+                            <img src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/decrease.svg" alt="decrease">
+                          </span>
+                          <input type="tel" class="qty-input" value="1" [ngModel]="item.quantity" (change)="updateQuantity(item,$event)" min="1">
+                          <span data-view-id="cart_main_quantity.increase" data-view-index="ca27fd15-2dfc-11ed-8cc1-ee1ce7624425" class="qty-increase " (click)="plusQuantity(item)">
+                            <img src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/increase.svg" alt="increase">
+                          </span>
+                        </div>
+                      </div>
+                      <!-- <div class="pro-qty">
+                        <span class="dec qtybtn" (click)="subtractQuantity(product)">-</span>
+                        <input type="text" [ngModel]="product.quantity" (change)="updateQuantity(product,$event)"
+                          min="1">
+                        <span class="inc qtybtn" (click)="plusQuantity(product)">+</span>
+                      </div> -->
+                    </div>
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>
+                <p-cellEditor>
+                  <ng-template pTemplate="output">
+                    {{item.subTotal + " đ"}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>
+                <div class="flex align-items-center justify-content-center gap-2">
+                  <button *ngIf="!editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                    (click)="removeFromCart(item)" class="p-button-rounded p-button-text p-button-danger"></button>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+      </div>
+      <div style="flex: 1 1 calc(100% - 925px); margin-left: 20px; display: block;">
+          <div class="right-inner" style="top: -346px;">
+            <div>
+              <div class="col-lg-12">
                 <div class="shoping__cart__btns">
-                    <a href="javascript:void(0)" routerLink="/"class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                  <a href="javascript:void(0)" routerLink="/" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
                 </div>
+              </div>
+              <div class="cart__address">
+                <!-- <div class="Section__Container-sc-r6ysni-0 styles__StyledAddressBlock-sc-vgfrvy-0 bVA-DDf cTGPxG">
+                  <div class="block-header">
+                    <h3 class="block-header__title">Giao tới</h3>
+                    <a class="block-header__nav" href="/checkout/shipping?isIntendedCart=1">Thay đổi</a>
+                  </div>
+                  <div class="customer_info">
+                    <p class="customer_info__name">Đào Thị Thúy Ngân</p><i></i>
+                    <p class="customer_info__phone">0763157582</p>
+                  </div>
+                  <div class="address"><span class="address__type address__type--home">Nhà</span>35 đường Đồng Trí 6,
+                    Phường Hòa Khánh Nam, Quận Liên Chiểu, Đà Nẵng<p class="warning-message"></p>
+                  </div>
+                </div> -->
+              </div>
             </div>
-            <div class="col-lg-6">
-                <div class="shoping__continue">
-                    <div class="shoping__discount">
-                        <h5>Discount Codes</h5>
-                        <form action="#">
-                            <input type="text" placeholder="Enter your coupon code">
-                            <button type="submit" class="site-btn">APPLY COUPON</button>
-                        </form>
-                    </div>
-                </div>
+            <div class="row">
+              <div class="">
+                  <div class="shopping__discount">
+                    <h5>Promotion Code</h5>
+                    <form action="#">
+                      <input pInputText type="text" placeholder="Add your code">
+                      <button type="submit" class="site-btn">ADD</button>
+                    </form>
+                  </div>
+              </div>
             </div>
-            <div class="col-lg-6">
-                <div class="shoping__checkout">
-                    <h5>Cart Total</h5>
-                    <ul>
-                        <li>Subtotal <span>{{cartService.totalPrice | currency}}</span></li>
-                        <li>Sale <span>- 0%</span></li>
-                        <li>Total <span>{{cartService.total | currency}}</span></li>
-                    </ul>
-                    <a href="javascript:void(0)" routerLink="/checkout" class="primary-btn">PROCEED TO CHECKOUT</a>
-                </div>
+            <div class="shopping__checkout">
+              <h5>Cart Total</h5>
+              <ul>
+                <li>Subtotal <span class="text-red-500">{{cartService.totalPrice + " đ"}}</span></li>
+                <li>Sale <span class="text-red-500">- 0%</span></li>
+                <li>Total <span class="text-red-500">{{cartService.total + " đ"}}</span></li>
+              </ul>
+              <a href="javascript:void(0)" routerLink="/checkout" class="btn-primary">PROCEED TO CHECKOUT</a>
             </div>
-        </div>
+      </div>
     </div>
-</section>
+  </div>
+</div>
+

@@ -1,21 +1,5 @@
 <p>my-order works!</p>
 
-<section class="breadcrumb-section set-bg" [ngStyle]="{backgroundImage:'url(assets/image/breadcrumb.jpg'}">
-  <div class="container">
-      <div class="row">
-          <div class="col-lg-12 text-center">
-              <div class="breadcrumb__text">
-                  <h2>My Order</h2>
-                  <div class="breadcrumb__option">
-                      <a routerLink="/" >Home</a>
-                      <span>My Order</span>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-</section>
-
 <div class="card">
   <p-table #dt [value]="listOrder" [rows]="10" [paginator]="true" [globalFilterFields]="['firstname','lastname','address']" [tableStyle]="{'min-width': '75rem'}"
       [rowHover]="true" dataKey="id"

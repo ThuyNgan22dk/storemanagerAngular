@@ -4,12 +4,12 @@
 <div class="card flex">
     <p-toolbar styleClass="mb-4 gap-2">
         <ng-template pTemplate="left">
-            <button pButton pRipple label="Thêm sản phẩm" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+            <button pButton pRipple label="Thêm sản phẩm" icon="pi pi-plus" class="border-round p-button-success mr-2" style="border-radius: 8px;" (click)="openNew()"></button>
         </ng-template>
     </p-toolbar>
 
     <p-table #dt
-        [value]="listProduct"
+        [value]="listProductImport"
         [rows]="5"
         [paginator]="true"
         [globalFilterFields]="['name','price']"
@@ -53,14 +53,22 @@
 
 <p-dialog [(visible)]="showForm" [style]="{width: '40vw'}" header="Product Details" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content" p-scroller>
-        <div class="field grid">
+        <div class="field grid" style="margin-left: 6px;">
             <label for="name" class="col-12 mb-2 md:col-2 md:mb-0">Name</label>
-            <div class="col-12 md:col-10">
+            <p-autoComplete [(ngModel)]="selectedProductname" [suggestions]="filteredProducts" (completeMethod)="filterProduct($event)" field="productname" [dropdown]="true">
+                <ng-template let-product pTemplate="item">
+                    <div class="flex align-items-center gap-2" >
+                        <!-- <img src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + product.code.toLowerCase()" style="width: 18px"/> -->
+                        <div>{{ product.productname }}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            <!-- <div class="col-12 md:col-10">
                 <input id="name" type="text"
                   class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                   pInputText [(ngModel)]="importDetailForm.name" required autofocus
                 >
-            </div>
+            </div> -->
         </div>
 
         <div class="field grid">
@@ -88,9 +96,9 @@
 
     </ng-template>
     <ng-template pTemplate="footer">
-        <button type="submit" pButton *ngIf="!onUpdate" (click)="createProduct()">Tạo mới</button>
-        <button type="submit" pButton *ngIf="onUpdate" (click)="updateProduct()" >Cập nhật</button>
-        <button pButton type="button" class="p-button-danger ml-3" (click)="showForm=false">Hủy</button>
+        <button type="submit" pButton class="border-round" *ngIf="!onUpdate" (click)="createProduct()">Tạo mới</button>
+        <button type="submit" pButton class="border-round" *ngIf="onUpdate" (click)="updateProduct()" >Cập nhật</button>
+        <button pButton type="button" class="border-round p-button-danger ml-3" (click)="showForm=false">Hủy</button>
     </ng-template>
 </p-dialog>
 
@@ -100,8 +108,8 @@
         <span class="ml-2">Bạn có chắc xóa <span>{{importDetailForm.name}}</span> ?</span>
     </div>
     <div class="flex justify-content-end mt-3">
-        <p-button label="Yes" icon="pi pi-check" class="mr-2" (click)="deleteProduct()"></p-button>
-        <p-button label="No" icon="pi pi-times" (click)="showDelete=false"></p-button>
+        <p-button label="Yes" icon="pi pi-check" class="border-round mr-2" (click)="deleteProduct()"></p-button>
+        <p-button label="No" icon="pi pi-times" class="border-round" (click)="showDelete=false"></p-button>
     </div>
 </p-dialog>
 

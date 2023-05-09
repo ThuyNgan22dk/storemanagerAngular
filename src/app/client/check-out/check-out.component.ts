@@ -24,6 +24,7 @@ export class CheckOutComponent implements OnInit {
   order = new Order();
   listOrderDetail: any[] =[];
   username !: string;
+  items: any[] = [];
 
   orderForm :any ={
     firstname: null,
@@ -43,8 +44,20 @@ export class CheckOutComponent implements OnInit {
   }
   ngOnInit(): void {
     this.username = this.storageService.getUser().username;
-    this.cartService.getItems();
+    // this.cartService.getItems(this.username);
+    // this.cartService.getTotalPrice();
     console.log(this.username);
+    this.getItems();
+  }
+  getItems(){
+    this.cartService.getItems(this.username).subscribe({
+      next: res =>{
+        this.items = res;
+        this.cartService.getTotalPrice(this.items);
+      },error: err =>{
+        console.log(err);
+      }
+    })
   }
 
   showDepartmentClick(){
@@ -52,23 +65,23 @@ export class CheckOutComponent implements OnInit {
   }
 
   placeOrder(){
-    this.cartService.items.forEach(res =>{
+    console.log(this.items);
+    this.items.forEach(res =>{
       let orderDetail : OrderDetail = new OrderDetail;
-      orderDetail.name = res.name;
-      orderDetail.price = res.price;
-      orderDetail.quantity = res.quantity;
-      orderDetail.subTotal = res.subTotal;
+      orderDetail.cartId = res.id;
+      orderDetail.promotionCode = null;
       this.listOrderDetail.push(orderDetail);
     })
 
-    const {firstname,lastname,country,address,town,state,postCcode,phone,email,note} = this.orderForm;
-    // this.orderService.placeOrder(firstname,lastname,country,address,town,state,postCcode,phone,email,note,this.listOrderDetail,this.username).subscribe({
-    //   next: res =>{
-    //     this.cartService.clearCart();
-    //   },error: err=>{
-    //     console.log(err);
-    //   }
-    // })
+    const {address,note} = this.orderForm;
+    console.log(this.username, address, note, this.listOrderDetail);
+    this.orderService.placeOrder(this.username, address, note, this.listOrderDetail).subscribe({
+      next: res =>{
+        this.cartService.clearCart();
+      },error: err=>{
+        console.log(err);
+      }
+    })
 
   }
 

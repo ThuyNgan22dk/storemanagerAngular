@@ -2,7 +2,7 @@
 <div class="card">
   <p-toolbar styleClass="mb-4 gap-2">
       <ng-template pTemplate="left">
-          <button pButton pRipple label="Thêm đơn mua hàng" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+          <button pButton pRipple label="Thêm đơn mua hàng" icon="pi pi-plus" class="border-round p-button-success mr-2" style="border-radius: 8px;" (click)="openNew()"></button>
       </ng-template>
   </p-toolbar>
   <p-table #dt [value]="listImports"
@@ -86,9 +86,9 @@
 
   </ng-template>
   <ng-template pTemplate="footer">
-      <button type="submit" pButton *ngIf="!onUpdate" (click)="createImport()">Tạo mới</button>
-      <button type="submit" pButton *ngIf="onUpdate" (click)="updateImport()" >Cập nhật</button>
-      <button pButton type="button" class="p-button-danger ml-3" (click)="showForm=false">Hủy</button>
+      <button type="submit" pButton class="border-round" *ngIf="!onUpdate" (click)="createImport()">Tạo mới</button>
+      <button type="submit" pButton class="border-round" *ngIf="onUpdate" (click)="updateImport()" >Cập nhật</button>
+      <button pButton type="button" class="border-round p-button-danger ml-3" (click)="showForm=false">Hủy</button>
   </ng-template>
 </p-dialog>
 

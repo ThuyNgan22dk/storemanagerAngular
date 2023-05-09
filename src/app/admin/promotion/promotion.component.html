@@ -3,7 +3,7 @@
 <p-card>
     <p-toolbar styleClass="mb-4 gap-2">
         <ng-template pTemplate="left">
-            <button pButton pRipple label="Thêm mã giảm giá" icon="pi pi-plus" class="p-button-success mr-2" (click)="showForm()"></button>
+            <button pButton pRipple label="Thêm mã giảm giá" icon="pi pi-plus" class="border-round p-button-success mr-2" (click)="showForm()"></button>
         </ng-template>
     </p-toolbar>
 
@@ -84,8 +84,8 @@
                 <td>{{promotion.quantity}}</td>
                 <td>{{promotion.percent}}%</td>
                 <td>
-                    <button pButton type="button" class="p-button-info" (click)="enablePromotion(promotion.id)" *ngIf="promotion.enabled">Enabled</button>
-                    <button pButton type="button" class="p-button-warning" (click)="enablePromotion(promotion.id)" *ngIf="!promotion.enabled">Disabled</button>
+                    <button pButton type="button" class="border-round p-button-info" (click)="enablePromotion(promotion.id)" *ngIf="promotion.enabled">Enabled</button>
+                    <button pButton type="button" class="border-round p-button-warning" (click)="enablePromotion(promotion.id)" *ngIf="!promotion.enabled">Disabled</button>
                 </td>
                 <td>
                     <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button-success" (click)="onUpdateForm(promotion.id,promotion.name,promotion.detail,promotion.code,promotion.quantity,promotion.percent)"></button>
@@ -96,8 +96,8 @@
                             <span class="ml-2">Bạn có chắc xóa <span>{{promotionForm.name}}</span> ?</span>
                         </div>
                         <div class="flex justify-content-end mt-3">
-                            <p-button label="Yes" icon="pi pi-check" class="mr-2" (click)="deletePromotion()"></p-button>
-                            <p-button label="No" icon="pi pi-times" (click)="deleteForm=false"></p-button>
+                            <p-button label="Yes" icon="pi pi-check" class="border-round mr-2" (click)="deletePromotion()"></p-button>
+                            <p-button label="No" icon="pi pi-times" class="border-round" (click)="deleteForm=false"></p-button>
                         </div>
                     </p-dialog>
                 </td>

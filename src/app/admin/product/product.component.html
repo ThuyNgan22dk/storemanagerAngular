@@ -1,9 +1,10 @@
 <p-toast></p-toast>
 
-<div class="card">
+<p-card>
     <p-toolbar styleClass="mb-4 gap-2">
         <ng-template pTemplate="left">
-            <button pButton pRipple label="Thêm sản phẩm" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+            <button pButton pRipple label="Thêm sản phẩm" icon="pi pi-plus" class="border-round p-button-success mr-2"
+            style="border-radius: 8px;" (click)="openNew()"></button>
         </ng-template>
     </p-toolbar>
 
@@ -28,23 +29,23 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <!-- <th>
+                <th style="width: 4rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th> -->
-                <th pSortableColumn="name" style="min-width:8rem">Name <p-sortIcon field="name"></p-sortIcon></th>
+                </th>
+                <th pSortableColumn="name" style="min-width:15rem">Name <p-sortIcon field="name"></p-sortIcon></th>
                 <th>Image</th>
-                <th pSortableColumn="price">Price<p-sortIcon field="price"></p-sortIcon></th>
-                <th style="min-width:8rem">Category</th>
-                <th style="min-width:8rem">Reviews</th>
-                <th>Status</th>
-                <th style="min-width:8rem">Action</th>
+                <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
+                <th pSortableColumn="category" style="min-width:10rem">Category <p-sortIcon field="category"></p-sortIcon></th>
+                <th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon></th>
+                <th pSortableColumn="inventoryStatus" style="min-width:10rem">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
+                <th></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-product>
             <tr>
-                <!-- <td>
+                <td>
                     <p-tableCheckbox [value]="product"></p-tableCheckbox>
-                </td> -->
+                </td>
                 <td>{{product.productname}}</td>
                 <td>
                   <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" [alt]="product.productname" width="100" class="shadow-4" />
@@ -60,7 +61,7 @@
             </tr>
         </ng-template>
     </p-table>
-</div>
+</p-card>
 
 <p-dialog [(visible)]="showForm" [style]="{width: '40vw'}" header="Product Details" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content" p-scroller>
@@ -132,16 +133,16 @@
         </div> -->
 
         <div class="field">
-            <button pButton type="button" class="p-button-success w-auto" (click)="onChooseImage()"> Chọn ảnh</button>
+            <button pButton type="button" class="border-round p-button-success w-auto" (click)="onChooseImage()"> Chọn ảnh</button>
             <p-dialog header="Chọn ảnh" [(visible)]="showImage" position="top" [modal]="true" [style]="{width: '40vw'}" [transitionOptions]="'.3s'">
                 <div class="flex justify-content-between">
                     <div>
                         <input type="file" #file (change)="uploadFile($event)" hidden>
-                        <button pButton (click)="file.click()" label="Tải ảnh lên" icon="pi pi-plus" class="p-button-warning w-auto"></button>
+                        <button pButton (click)="file.click()" label="Tải ảnh lên" icon="pi pi-plus" class="border-round p-button-warning w-auto"></button>
                     </div>
                     <div>
-                        <button pButton (click)="chooseImage()" class="p-button-primary w-auto" label="Chọn ảnh" [disabled]="disabled"></button>
-                        <button pButton class="p-button-danger ml-2 w-auto" icon="pi pi-trash " label="Xóa ảnh" [disabled]="disabled"></button>
+                        <button pButton (click)="chooseImage()" class="border-round p-button-primary w-auto" label="Chọn ảnh" [disabled]="disabled"></button>
+                        <button pButton class="border-round p-button-danger ml-2 w-auto" icon="pi pi-trash " label="Xóa ảnh" [disabled]="disabled"></button>
                     </div>
                 </div>
                 <p-divider align="left" >
@@ -157,16 +158,16 @@
             <div class="grid mt-1" *ngIf="listImageChoosen != null">
                 <div class="product-image col-2 flex align-items-center" *ngFor="let image of listImageChoosen; let i = index;">
                     <img src="{{'data:image/jpg;base64,' + image.data}}" alt="" class="w-full h-full">
-                    <button pButton icon="pi pi-times" class="btn-remove-image" (click)="deleteImage(i)" ></button>
+                    <button pButton icon="pi pi-times" class="border-round btn-remove-image" (click)="deleteImage(i)" ></button>
                 </div>
             </div>
         </div>
 
     </ng-template>
     <ng-template pTemplate="footer">
-        <button type="submit" pButton *ngIf="!onUpdate" (click)="createProduct()">Tạo mới</button>
-        <button type="submit" pButton *ngIf="onUpdate" (click)="updateProduct()" >Cập nhật</button>
-        <button pButton type="button" class="p-button-danger ml-3" (click)="showForm=false">Hủy</button>
+        <button type="submit" pButton *ngIf="!onUpdate" class="border-round" (click)="createProduct()">Tạo mới</button>
+        <button type="submit" pButton *ngIf="onUpdate" class="border-round" (click)="updateProduct()" >Cập nhật</button>
+        <button pButton type="button" class="border-round p-button-danger ml-3" (click)="showForm=false">Hủy</button>
     </ng-template>
 </p-dialog>
 
@@ -176,8 +177,8 @@
         <span class="ml-2">Bạn có chắc xóa <span>{{productForm.productname}}</span> ?</span>
     </div>
     <div class="flex justify-content-end mt-3">
-        <p-button label="Yes" icon="pi pi-check" class="mr-2" (click)="deleteProduct()"></p-button>
-        <p-button label="No" icon="pi pi-times" (click)="showDelete=false"></p-button>
+        <p-button label="Yes" icon="pi pi-check" class="border-round mr-2" (click)="deleteProduct()"></p-button>
+        <p-button label="No" icon="pi pi-times" class="border-round" (click)="showDelete=false"></p-button>
     </div>
 </p-dialog>
 

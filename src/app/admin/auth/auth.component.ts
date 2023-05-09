@@ -94,7 +94,14 @@ export class AuthComponent {
         this.isLoginFailed = false;
         this.roles = this.storageService.getUser().roles;
         this.showSuccess("Đăng nhập thành công!!");
-        this.router.navigate(['/admin']);
+        if(this.roles[0] == 'ROLE_USER'){
+          console.log("user");
+          this.router.navigate(['']);
+          this.storageService.changeUsername(username);
+        } else{
+          console.log("administrator");
+          this.router.navigate(['/admin']);
+        }
       },error: err =>{
         console.log(err);
         this.isLoggedIn = false;
@@ -105,7 +112,6 @@ export class AuthComponent {
 
   register():void{
     const {username,email,password,confirmPassword} = this.registerForm;
-
     console.log(this.registerForm);
     this.authService.register(username,email,password,confirmPassword).subscribe({
       next: res =>{

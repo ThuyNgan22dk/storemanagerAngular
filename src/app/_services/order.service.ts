@@ -18,9 +18,16 @@ export class OrderService {
 
 
   getListOrder():Observable<any>{
-    return this.http.get(ORDER_API,httpOptions);
+    return this.http.get(ORDER_API, httpOptions);
   }
 
+  getListOrderDetail(order_id: number):Observable<any>{
+    return this.http.get(ORDER_API  + 'orderDetail/' + order_id, httpOptions);
+  }
+
+  setOrderState(id: number, state: number): Observable<any>{
+    return this.http.put(ORDER_API  + id + '/' + state, httpOptions);
+  }
 
   getListOrderByUser(username: string):Observable<any>{
     let params = new HttpParams();
@@ -29,7 +36,10 @@ export class OrderService {
 
   }
 
-  placeOrder(firstname: string,lastname:string,address: string,state:string,promotionCode: string,phone:string,email:string,note:string,orderDetails: OrderDetail[],username: string):Observable<any>{
-    return this.http.post(ORDER_API +'create',{firstname,lastname,address,state,promotionCode,phone,email,note,orderDetails,username},httpOptions);
+  placeOrder(username: string,address: string,note:string,orderDetails: OrderDetail[]):Observable<any>{
+    return this.http.post(ORDER_API +'create',{username, address, note, orderDetails},httpOptions);
   }
+  // placeOrder(firstname: string,lastname:string,address: string,state:string,promotionCode: string,phone:string,email:string,note:string,orderDetails: OrderDetail[],username: string):Observable<any>{
+  //   return this.http.post(ORDER_API +'create',{firstname,lastname,address,state,promotionCode,phone,email,note,orderDetails,username},httpOptions);
+  // }
 }

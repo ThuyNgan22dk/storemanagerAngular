@@ -51,8 +51,8 @@
             </div>
             <div class="p-field mt-3">
                 <!-- <button type="submit" pButton (click)="createUser()" *ngIf="!onUpdate" >Tạo mới</button> -->
-                <button type="submit" pButton (click)="updateUser()" *ngIf="onUpdate" >Cập nhật</button>
-                <button pButton type="button" class="p-button-danger ml-3" (click)="displayForm=false">Hủy</button>
+                <button type="submit" pButton class="border-round" (click)="updateUser()" *ngIf="onUpdate" >Cập nhật</button>
+                <button pButton type="button" class="border-round p-button-danger ml-3" (click)="displayForm=false">Hủy</button>
             </div>
         </form>
     </p-dialog>
@@ -93,8 +93,8 @@
                 <td>{{user.country}}</td>
                 <td>{{user.phone}}</td>
                 <td>
-                    <button pButton type="button" class="p-button-info" (click)="enableUser(user.id)" *ngIf="user.enabled">Enabled</button>
-                    <button pButton type="button" class="p-button-warning" (click)="enableUser(user.id)" *ngIf="!user.enabled">Disabled</button>
+                    <button pButton type="button" class="p-button-info border-round" (click)="enableUser(user.id)" *ngIf="user.enabled">Enabled</button>
+                    <button pButton type="button" class="p-button-warning border-round" (click)="enableUser(user.id)" *ngIf="!user.enabled">Disabled</button>
                 </td>
                 <td>
                     <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button-success" (click)="onUpdateForm(user)"></button>
@@ -105,8 +105,8 @@
                             <span class="ml-2">Bạn có chắc xóa <span>{{userForm.id}}</span> ?</span>
                         </div>
                         <div class="flex justify-content-end mt-3">
-                            <p-button label="Yes" icon="pi pi-check" class="mr-2" (click)="deleteUser()"></p-button>
-                            <p-button label="No" icon="pi pi-times" (click)="deleteForm=false"></p-button>
+                            <p-button label="Yes" icon="pi pi-check" class="border-round mr-2" (click)="deleteUser()"></p-button>
+                            <p-button label="No" icon="pi pi-times" class="border-round" (click)="deleteForm=false"></p-button>
                         </div>
                     </p-dialog>
                 </td>

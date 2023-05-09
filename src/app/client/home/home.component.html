@@ -1,119 +1,164 @@
-<div class="card flex">
-  <p-galleria [value]="images"
-      [autoPlay]="true"
-      [numVisible]="5"
-      [circular]="true"
-      [showItemNavigators]="true"
-      [showThumbnails]="false"
-      [showIndicators]="true"
-      [showIndicatorsOnItem]="true"
-      [responsiveOptions]="responsiveOptions"
-      class="galleria"
-      >
-      <ng-template pTemplate="item" let-item>
-          <img [src]="item.itemImageSrc" class="galleria__img"/>
-      </ng-template>
-      <ng-template pTemplate="thumbnail" let-item>
-          <div class="grid grid-nogutter justify-content-center">
-              <img [src]="item.thumbnailImageSrc" style="display: block;" />
-          </div>
-      </ng-template>
-  </p-galleria>
-</div>
-
-<section id="product1" class="section-p1">
-  <div class="col-lg-12">
-      <div class="section-title">
-          <a href="javascript:void(0)" routerLink="/shop"><h2>Featured Product</h2></a>
+<div class="form__template">
+  <div class="form__template-box">
+    <div class="form__info">
+      <div class="form__info-detail">
+        <h6>Nổi bật</h6>
+        <a class="form__info-a" href="#">Giá rẻ mỗi ngày</a>
+        <a class="form__info-a" href="#">Chương trình khuyến mãi</a>
+        <a class="form__info-a" href="#">Tips mua hàng tiết kiệm</a>
       </div>
-      <div class="featured__controls row">
-          <ul>
-              <li class="categoryId" (click)="addActive(0)">All</li>
-              <li class="categoryId" *ngFor="let category of listCategory" >
-                <span (click)="addActive(category.id)">{{category.name}}</span>
-              </li>
-          </ul>
-      </div>
-  </div>
-  <p-carousel [value]="listProduct" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions" style="width: 100%;">
-      <ng-template let-product pTemplate="item">
-          <div class="product-item">
-              <div class="product-item-content">
-                  <div class="pro-container">
-                    <div class="pro">
-                      <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
-                      <div class="des">
-                        <span>{{product.category.name}}</span>
-                        <h5>{{product.productname}}</h5>
-                        <div class="star">
-                          <p-rating [ngModel]="product.rate" [readonly]="true" [cancel]="false"></p-rating>
-                        </div>
-                        <h4>{{product.price | currency:'VND'}}</h4>
-                      </div>
-                      <a href="javascript:void(0)" (click)="addToWishList(product)"><fa-icon (click)="addRedHeart(product.id)" class="heart" [icon]="heart"></fa-icon></a>
-                      <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}"><fa-icon class="retweet" [icon]="retweet"></fa-icon></a>
-                      <a href="javascript:void(0)" (click)="addToCart(product)"><fa-icon class="cart" [icon]="bag"></fa-icon></a>
-                    </div>
-                  </div>
-              </div>
-          </div>
-      </ng-template>
-  </p-carousel>
-
-</section>
-
-<div class="card section-p1" id="feature">
-  <p-carousel [value]="feature" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions" style="width: 100%;">
-      <ng-template let-feature pTemplate="item">
-          <div class="product-item">
-              <div class="product-item-content">
+      <div class="form__info-detail">
+        <h6>Feature</h6>
+        <div id="feature">
+          <p-galleria [value]="feature" [numVisible]="1" [autoPlay]="true" [circular]="true" [showThumbnails]="false"
+            [responsiveOptions]="responsiveOptions">
+            <ng-template let-feature pTemplate="item">
+              <div class="product-item">
+                <div class="product-item-content">
                   <div class="fe-box">
-                      <img src="{{feature.image}}" alt="">
-                      <h6>{{feature.name}}</h6>
+                    <img src="{{feature.image}}" alt="">
+                    <h6>{{feature.name}}</h6>
                   </div>
+                </div>
               </div>
-          </div>
-      </ng-template>
-  </p-carousel>
-</div>
-
-<section id="product1" class="section-p1">
-  <h2>New Products</h2>
-  <!-- <p>Summer Collection New Model Design</p> -->
-  <p-carousel [value]="listProductNewest" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions" style="width: 100%;">
-      <ng-template let-product pTemplate="item">
-          <div class="product-item">
-              <div class="product-item-content">
-                  <div class="pro-container">
-                    <div class="pro">
-                      <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
-                      <div class="des">
-                        <span>{{product.category.name}}</span>
-                        <h5>{{product.productname}}</h5>
-                        <div class="star">
-                          <p-rating [ngModel]="product.rate" [readonly]="true" [cancel]="false"></p-rating>
+            </ng-template>
+          </p-galleria>
+        </div>
+      </div>
+      <div class="form__info-detail">
+        <h6>Danh mục</h6>
+        <ul>
+          <li><a class="form__info-a" href="javascript:void(0)" routerLink="/category/0">All</a></li>
+          <li *ngFor="let category of listCategory">
+            <a class="form__info-a" href="javascript:void(0)"
+              routerLink="/category/{{category.id}}">{{category.name}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="form__detail">
+      <div class="galleria__form">
+        <p-galleria [value]="images" [autoPlay]="true" [circular]="true" [showItemNavigators]="true"
+          [showThumbnails]="false" [showIndicators]="true" [showIndicatorsOnItem]="true"
+          [responsiveOptions]="responsiveOptions" class="galleria">
+          <ng-template pTemplate="item" let-item>
+            <img [src]="item.itemImageSrc" class="galleria__img" />
+          </ng-template>
+          <ng-template pTemplate="thumbnail" let-item>
+            <div class="grid grid-nogutter justify-content-center">
+              <img [src]="item.thumbnailImageSrc" style="display: block;" />
+            </div>
+          </ng-template>
+        </p-galleria>
+        <div class="form__detail-product">
+          <section id="product1">
+            <h2>Featured Product</h2>
+            <p-carousel [value]="listProduct" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+              <ng-template let-product pTemplate="item">
+                <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}" class="product-item">
+                  <div class="product-item-content">
+                    <div class="pro-container">
+                      <div class="pro">
+                        <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
+                        <div class="des">
+                          <span>{{product.category.name}}</span>
+                          <h5>{{product.productname}}</h5>
+                          <div style="display: flex; align-items: center; min-height: 18px;">
+                            <div class="total" style="display: flex; align-items: center;">
+                              <span
+                                style="font-weight: 400; font-size: 12px; line-height: 150%; color: rgb(128, 128, 137);">
+                                4.95
+                              </span>
+                              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                size="14" color="#fdd836" height="14" width="14" xmlns="http://www.w3.org/2000/svg"
+                                style="color: rgb(253, 216, 54);">
+                                <path
+                                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z">
+                                </path>
+                              </svg>
+                            </div>
+                            <div
+                              style="display: flex; align-items: center; color: rgb(128, 128, 137); line-height: 150%; font-size: 12px; padding-left: 4px;">
+                              <div style="width: 1px; height: 9px; background-color: rgb(199, 199, 199);"></div>
+                              <div data-view-id="pdp_quantity_sold" style="padding-left: 6px;">Đã bán 1000+</div>
+                            </div>
+                          </div>
+                          <h4>{{product.price}} đ</h4>
                         </div>
-                        <h4>{{product.price | currency:'VND'}}</h4>
+                        <!-- <a href="javascript:void(0)" (click)="addToWishList(product)"><fa-icon (click)="addRedHeartNew(product.id)" class="heart" [icon]="heart"></fa-icon></a> -->
+                        <!-- <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}"><fa-icon class="retweet"
+                            [icon]="retweet"></fa-icon></a>
+                        <a href="javascript:void(0)" (click)="addToCart(product)"><fa-icon class="cart"
+                            [icon]="bag"></fa-icon></a> -->
                       </div>
-                      <a href="javascript:void(0)" (click)="addToWishList(product)"><fa-icon (click)="addRedHeartNew(product.id)" class="heart" [icon]="heart"></fa-icon></a>
-                      <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}"><fa-icon class="retweet" [icon]="retweet"></fa-icon></a>
-                      <a href="javascript:void(0)" (click)="addToCart(product)"><fa-icon class="cart" [icon]="bag"></fa-icon></a>
                     </div>
                   </div>
-              </div>
-          </div>
-      </ng-template>
-  </p-carousel>
-</section>
+                </a>
+              </ng-template>
+            </p-carousel>
+          </section>
+        </div>
 
-<section id="newsletter" class="section-p1">
-  <div class="newstext">
-    <h4>Sign Up For Newsletters</h4>
-    <p>Get E-mail updates about our latest shop and <span>special offers.</span></p>
+        <div class="form__detail-product">
+          <section id="product1">
+            <h2>New Products</h2>
+            <p-carousel [value]="listProductNewest" [numVisible]="5" [numScroll]="1"
+              [responsiveOptions]="responsiveOptions">
+              <ng-template let-product pTemplate="item">
+                <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}" class="product-item">
+                  <div class="product-item-content">
+                    <div class="pro-container">
+                      <div class="pro">
+                        <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
+                        <div class="des">
+                          <span>{{product.category.name}}</span>
+                          <h5>{{product.productname}}</h5>
+                          <div style="display: flex; align-items: center; min-height: 18px;">
+                            <div class="total" style="display: flex; align-items: center;">
+                              <span
+                                style="font-weight: 400; font-size: 12px; line-height: 150%; color: rgb(128, 128, 137);">
+                                4.95
+                              </span>
+                              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                size="14" color="#fdd836" height="14" width="14" xmlns="http://www.w3.org/2000/svg"
+                                style="color: rgb(253, 216, 54);">
+                                <path
+                                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z">
+                                </path>
+                              </svg>
+                            </div>
+                            <div
+                              style="display: flex; align-items: center; color: rgb(128, 128, 137); line-height: 150%; font-size: 12px; padding-left: 4px;">
+                              <div style="width: 1px; height: 9px; background-color: rgb(199, 199, 199);"></div>
+                              <div data-view-id="pdp_quantity_sold" style="padding-left: 6px;">Đã bán 1000+</div>
+                            </div>
+                          </div>
+                          <h4>{{product.price}} đ</h4>
+                        </div>
+                        <!-- <a href="javascript:void(0)" (click)="addToWishList(product)"><fa-icon (click)="addRedHeartNew(product.id)" class="heart" [icon]="heart"></fa-icon></a> -->
+                        <!-- <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}"><fa-icon class="retweet"
+                            [icon]="retweet"></fa-icon></a>
+                        <a href="javascript:void(0)" (click)="addToCart(product)"><fa-icon class="cart"
+                            [icon]="bag"></fa-icon></a> -->
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </ng-template>
+            </p-carousel>
+          </section>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="form">
-    <input type="text" placeholder="Your email address">
-    <button class="normal">Sign Up</button>
-  </div>
-</section>
-
+  <section id="newsletter" class="section-p1">
+    <div class="newstext">
+      <h4>Sign Up For Newsletters</h4>
+      <p>Get E-mail updates about our latest shop and <span>special offers.</span></p>
+    </div>
+    <div class="form">
+      <input type="text" placeholder="Your email address">
+      <button class="normal">Sign Up</button>
+    </div>
+  </section>
+</div>

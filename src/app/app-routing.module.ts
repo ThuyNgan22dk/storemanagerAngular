@@ -22,6 +22,7 @@ import { OrderDetailComponent } from './admin/order-detail/order-detail.componen
 import { ImportDetailComponent } from './admin/import-detail/import-detail.component';
 import { IndexComponent } from './client/index/index.component';
 import { ShopComponent } from './client/shop/shop.component';
+import { AuthGuardService } from './_services/auth-guard.service';
 
 const routes: Routes = [
   {
@@ -42,14 +43,14 @@ const routes: Routes = [
     path: '',component:IndexComponent,
     children:[
       {path:"cart",component: CartComponent},
-      {path:"userDetail",component: UserProfileComponent,canActivate: [RoleGuardService]},
-      {path:"search/:keyword",component: SearchComponent},
+      {path:"userDetail",component: UserProfileComponent,canActivate: [AuthGuardService]},
       {path:'productDetail/:id',component:ProductDetailComponent},
-      {path:'checkOut',component:CheckOutComponent,canActivate: [RoleGuardService]},
-      {path:'myOrder',component:MyOrderComponent,canActivate: [RoleGuardService]},
-      {path:'category/:id',component:ShopComponent},
+      {path:'checkout',component:CheckOutComponent,canActivate: [AuthGuardService]},
+      {path:'myOrder',component:MyOrderComponent,canActivate: [AuthGuardService]},
       {path:'',component:HomeComponent},
-      {path:'shop',component:ShopComponent}
+      {path:'shop',component:ShopComponent,},
+      {path:"search/:keyword",component: ShopComponent},
+      {path:'category/:id',component:ShopComponent},
     ]
   },
   {path:'auth',component:AuthComponent},

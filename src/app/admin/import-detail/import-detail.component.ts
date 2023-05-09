@@ -5,6 +5,7 @@ import { ImportDetail } from 'src/app/_models/import-detail';
 import { ImportGood } from 'src/app/_models/import-good';
 import { CategoryService } from 'src/app/_services/category.service';
 import { ImportService } from 'src/app/_services/import.service';
+import { ProductService } from 'src/app/_services/product.service';
 
 interface Unit{
   name: string;
@@ -20,7 +21,17 @@ export class ImportDetailComponent implements OnInit {
   // @Input() importGood: ImportGood;
   // @Input('id') ig_id: number;
   // @Input('subTotal') total: number;
-  listProduct: any;
+  // countries: any[];
+
+  items: any[];
+
+  // groupedCities: SelectItemGroup[];
+
+  selectedProductname: any;
+
+  filteredProducts: any[];
+  listProduct: any[];
+  listProductImport: any;
   listCategory: any;
 
   disabled : boolean = true;
@@ -33,6 +44,7 @@ export class ImportDetailComponent implements OnInit {
   showDelete: boolean = false;
   importGId: number;
 
+
   importDetailForm: ImportDetail ={
     id: 0,
     name : "null",
@@ -44,13 +56,23 @@ export class ImportDetailComponent implements OnInit {
     importGoodId: 0
   };
 
-  constructor(private messageService: MessageService,private importService: ImportService,private categoryService:CategoryService,private router: Router,private route:ActivatedRoute){
+  constructor(private messageService: MessageService,
+    private importService: ImportService,
+    // private categoryService:CategoryService,
+    private productService: ProductService,
+    private router: Router,
+    private route:ActivatedRoute){
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(): void {
     this.importGId = this.route.snapshot.params['id'];
+    this.getListProductImport();
     this.getListProduct();
+    this.items = [];
+    for (let i = 0; i < 10000; i++) {
+        this.items.push({ value: 'Item ' + i });
+    }
     // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     // this.getListCategoryEnabled();
   }
@@ -84,10 +106,21 @@ export class ImportDetailComponent implements OnInit {
   }
 
   getListProduct(){
+    this.productService.getListProduct().subscribe({
+      next: res =>{
+        this.listProduct = res;
+        // console.log(this.listProduct);
+      },error: err=>{
+        console.log(err);
+      }
+    })
+  }
+
+  getListProductImport(){
     this.importService.getListImportDetail(this.importGId).subscribe({
       next: res =>{
-        this.listProduct =res;
-        console.log(this.listProduct)
+        this.listProductImport = res;
+        // console.log(this.listProductImport);
       },error: err=>{
         console.log(err);
       }
@@ -105,11 +138,12 @@ export class ImportDetailComponent implements OnInit {
   // }
 
   createProduct(){
-    const {name,price,quantity,expiry,importGoodId} = this.importDetailForm;
+    const {price,quantity,expiry,importGoodId} = this.importDetailForm;
+    const name = this.selectedProductname.productname;
     console.log(this.importDetailForm);
     this.importService.createImportDetail(name,price,quantity,expiry,importGoodId).subscribe({
       next: res =>{
-        this.getListProduct();
+        this.getListProductImport();
         this.showForm = false;
         this.showSuccess("Thêm mới thành công");
       },error: err =>{
@@ -123,7 +157,7 @@ export class ImportDetailComponent implements OnInit {
     console.log(this.importDetailForm);
     this.importService.updateImportDetail(id,name,price,quantity,expiry,importGoodId).subscribe({
       next: res =>{
-        this.getListProduct();
+        this.getListProductImport();
         this.showForm = false;
         this.showSuccess("Cập nhật thành công");
       },error: err =>{
@@ -142,13 +176,26 @@ export class ImportDetailComponent implements OnInit {
   deleteProduct(){
     this.importService.deleteImportDetail(this.importDetailForm.id).subscribe({
       next: res =>{
-        this.getListProduct();
+        this.getListProductImport();
         this.showWarn("Xóa thành công");
         this.showDelete = false;
       },error: err =>{
         this.showError(err.message);
       }
     })
+  }
+
+  filterProduct(event) {
+      let filtered: any[] = [];
+      let query = event.query;
+
+      for (let i = 0; i < this.listProduct.length; i++) {
+          let product = this.listProduct[i];
+          if (product.productname.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+              filtered.push(product);
+          }
+      }
+      this.filteredProducts = filtered;
   }
 
   showSuccess(text: string) {

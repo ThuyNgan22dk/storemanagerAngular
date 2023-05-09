@@ -1,15 +1,16 @@
 
 @import "../../../assets/css/style.css";
 @import "../../../assets/css/responsive.css";
+@import "primeicons/primeicons.css";
 
 .price-input{
+  padding: 0 10px;
   font-size: 16px;
   color: #dd2222;
   font-weight: 700;
   border: none;
   display: inline-block;
 }
-
 
 :host ::ng-deep .p-slider .p-slider-range, :host ::ng-deep  .p-slider .p-slider-handle {
   background-color: #dd2222;

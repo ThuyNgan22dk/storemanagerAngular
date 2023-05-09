@@ -1,2 +1,176 @@
 @import "../../../assets/css/style.css";
 @import "../../../assets/css/responsive.css";
+
+.form__cart{
+  width: 1270px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+h4{
+  font-size: 24px;
+  margin-left: 8px;
+}
+
+.cart__title{
+  margin: 20px 0px;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.cart__main{
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+
+.right-inner {
+  position: sticky;
+  top: 20px;
+}
+
+.product-qty{
+  display: inline-flex;
+  flex-wrap: nowrap;
+  border: 1px solid rgb(200, 200, 200);
+  border-radius: 3px;
+  width: 84px;
+}
+
+.qty-decrease{
+  display: inline-block;
+  border-right: 1px solid rgb(200, 200, 200);
+  color: rgb(153, 153, 153);
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.qty-input{
+  border: none;
+  background: transparent;
+  width: 32px;
+  text-align: center;
+  font-size: 13px;
+  appearance: none;
+  margin: 0px;
+  outline: none;
+}
+
+.qty-increase{
+  display: inline-block;
+  border-right: none;
+  border-left: 1px solid rgb(200, 200, 200);
+  color: rgb(153, 153, 153);
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.cart__address{
+  /* background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAADIAQMAAACNufaLAAAAA1BMVEX///+nxBvIAAAAKUlEQVR42u3BAQ0AAADCIPunNsc3YAAAAAAAAAAAAAAAAAAAAAAAACQcSjgAAcybzv4AAAAASUVORK5CYII=&quot;); */
+  background-color: #fff;
+  background-size: cover;
+  border-radius: 8px;
+}
+
+.primary-btn.cart-btn{
+  margin-bottom: 10px;
+  padding: 12px 20px;
+  text-decoration: none;
+  border-radius: 8px;
+  color: #fff;
+  background: #9BA4B5;
+}
+
+.shopping__discount{
+  position: relative;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+}
+
+.shopping__discount h5{
+  font-size: 20px;
+  color: #1c1c1c;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.shopping__discount input{
+  width: 190px;
+  height: 40px;
+  border: 1px solid #cccccc;
+  font-size: 16px;
+  color: #b2b2b2;
+  text-align: center;
+  display: inline-block;
+}
+
+.shopping__discount button{
+  padding: 10px 20px;
+  font-size: 14px;
+  letter-spacing: 2px;
+  background: #9BA4B5;
+  margin-left: 13px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.shopping__checkout {
+  background: #f5f5f5;
+    padding: 16px;
+    padding-top: 20px;
+    margin-top: 16px;
+    border-radius: 8px;
+}
+
+.shopping__checkout h5 {
+  color: #1c1c1c;
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.shopping__checkout ul{
+  margin-bottom: 24px;
+}
+
+.shopping__checkout ul li{
+  font-size: 16px;
+  color: #1c1c1c;
+  font-weight: 600;
+  list-style: none;
+  overflow: hidden;
+  border-bottom: 1px solid #ebebeb;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+
+.shopping__checkout ul li span{
+  font-size: 16px;
+  /* color: #dd2222; */
+  float: right;
+}
+
+.shopping__checkout .btn-primary {
+  display: block;
+  text-align: center;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.btn-primary{
+  font-size: 14px;
+  padding: 10px;
+  color: #F1F6F9;
+  text-transform: uppercase;
+  font-weight: 700;
+  background: #394867;
+  letter-spacing: 1px;
+}

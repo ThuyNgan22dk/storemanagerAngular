@@ -23,8 +23,8 @@ export class PhotoService {
                 title: 'Title 3'
             },
             {
-                itemImageSrc: 'https://baodanang.vn/dataimages/202010/original/images1586089_Tiger_Beer_thay___i_di_n_m_o_b_t_ph__h_n_nh_ng_v_n_gi__nguy_n_v__bia_b_n_l_nh.jpg',
-                thumbnailImageSrc: 'https://baodanang.vn/dataimages/202010/original/images1586089_Tiger_Beer_thay___i_di_n_m_o_b_t_ph__h_n_nh_ng_v_n_gi__nguy_n_v__bia_b_n_l_nh.jpg',
+                itemImageSrc: 'https://heineken-vietnam.com.vn/images/2023/bia-cao-cap-quoc-te-chau-a.jpg',
+                thumbnailImageSrc: 'https://heineken-vietnam.com.vn/images/2023/bia-cao-cap-quoc-te-chau-a.jpg',
                 alt: 'Description for Image 4',
                 title: 'Title 4'
             },

@@ -1,2 +1,96 @@
 @import "../../../assets/css/style.css";
 @import "../../../assets/css/responsive.css";
+
+.form__cart{
+  width: 1270px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+h4{
+  font-size: 20px;
+  margin-left: 8px;
+}
+
+.cart__title{
+  font-size: 18px;
+  color: #212121;
+  margin-bottom: 10px;
+  padding: 25px 8px 15px 0;
+}
+
+.cart__main{
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+
+.right-inner {
+  position: sticky;
+  top: 20px;
+}
+
+.form__address-left{
+  width: 49%;
+  float: left;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding-right: 30px;
+}
+
+.form__address-right{
+  width: 50%;
+  float: left;
+}
+
+.checkout__input{
+  margin-bottom: 16px;
+}
+
+.checkout__input p{
+  margin-bottom: 4px;
+  margin-left: 4px;
+}
+
+.checkout__input input{
+  width: 100%;
+  height: 40px;
+  border: 1px solid #ebebeb;
+  padding-left: 20px;
+  font-size: 16px;
+  color: #b2b2b2;
+  border-radius: 8px;
+}
+
+.checkout__input textarea{
+  /* width: 100%;
+  height: 40px; */
+  border: 1px solid #ebebeb;
+  padding-left: 20px;
+  font-size: 16px;
+  color: #b2b2b2;
+  border-radius: 8px;
+}
+
+.checkout__input__checkbox label{
+  padding-left: 12px;
+}
+
+.checkout__order {
+  border-radius: 8px;
+  font-size: 20px;
+}
+
+.btn-primary{
+  font-size: 14px;
+  padding: 10px;
+  color: #F1F6F9;
+  text-transform: uppercase;
+  font-weight: 700;
+  background: #394867;
+  letter-spacing: 1px;
+  border-radius: 8px;
+}

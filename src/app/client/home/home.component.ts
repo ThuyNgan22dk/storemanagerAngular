@@ -6,6 +6,7 @@ import { CartService } from 'src/app/_services/cart.service';
 import { CategoryService } from 'src/app/_services/category.service';
 import { PhotoService } from 'src/app/_services/photo.service';
 import { ProductService } from 'src/app/_services/product.service';
+import { StorageService } from 'src/app/_services/storage.service';
 import { WishlistService } from 'src/app/_services/wishlist.service';
 
 @Component({
@@ -52,6 +53,7 @@ export class HomeComponent implements OnInit {
   bag = faShoppingBag;
   retweet = faInfo;
 
+  username: string;
   listProductNewest : any;
   listProductPrice: any;
   id: number = 0;
@@ -59,6 +61,7 @@ export class HomeComponent implements OnInit {
   listCategory : any;
   check: boolean = true;
   listProductHeart = [];
+  items: any[] =[];
 
   showDepartment = true;
 
@@ -84,6 +87,7 @@ constructor(private productService:ProductService,
             private categoryService:CategoryService,
             private cartService: CartService,
             private wishlistService: WishlistService,
+            public storageService:StorageService,
             private messageService: MessageService,
             private photoService: PhotoService){}
 
@@ -109,6 +113,9 @@ ngOnInit(): void {
   this.photoService.getImages().then((images) => {
     this.images = images;
   });
+  // this.storageService.currentUser.subscribe(username => this.username = username);
+  this.username = this.storageService.loadUsername();
+  // console.log(this.username);
   this.getListProductNewest();
   this.getListCategoryEnabled();
 }
@@ -144,32 +151,6 @@ addRedHeart(id: number){
     this.listProductHeart.push(id);
     this.check = true;
   }
-}
-
-addRedHeartNew(id: number) {
-  this.check = true;
-  let index = 0;
-  console.log(this.listProductHeart.length);
-  //delete heart
-  while(this.listProductHeart[index] <= this.listProductHeart.length){
-    console.log(this.listProductHeart);
-    if (this.listProductHeart[index] == id) {
-      this.id = 7-id;
-      document.getElementsByClassName('heart')[this.id].classList.remove('active');
-      this.listProductHeart.splice(index,1);
-      this.check = false;
-      break;
-    }
-    index++;
-  }
-  //add heart
-  if (this.check) {
-    this.id = 7 - id;
-    document.getElementsByClassName('heart')[this.id].classList.add('active');
-    this.listProductHeart.push(id);
-    this.check = true;
-  }
-  console.log('after: ', this.listProductHeart);
 }
 
 addActive(id: number){
@@ -223,9 +204,29 @@ getListProductByPrice(){
 }
 
 addToCart(item: any){
-  this.cartService.getItems();
-  this.showSuccess("Add To Cart Successfully!")
-  this.cartService.addToCart(item,1);
+  // this.cartService.getItems(this.username);
+  // this.showSuccess("Add To Cart Successfully!")
+  console.log(item.productname);
+  this.cartService.addToCart(this.username, item.productname, 1).subscribe({
+    next: res =>{
+      this.getItems();
+      // this.showForm = false;
+      this.showSuccess("Thêm mới thành công");
+    },error: err =>{
+      this.showError(err.message);
+    }
+  })
+}
+
+getItems(){
+  this.cartService.getItems(this.username).subscribe({
+    next: res =>{
+      this.items = res;
+      console.log(this.items);
+    },error: err =>{
+      console.log(err);
+    }
+  })
 }
 
 addToWishList(item: any){

@@ -18,7 +18,7 @@ export class RoleGuardService implements CanActivate {
     this.isloggedIn = this.storageService.isLoggedIn();
     this.roles = this.storageService.getUser().roles
     if( this.isloggedIn == false || !this.roles.includes(expectedRole)){
-      this.router.navigate(['login']);
+      this.router.navigate(['auth']);
       return false;
     }
     return true;

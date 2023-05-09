@@ -4,6 +4,7 @@ import { faBars, faHeart, faPhone, faRetweet, faShoppingBag, faStar, faStarHalf 
 import { MessageService } from 'primeng/api';
 import { CartService } from 'src/app/_services/cart.service';
 import { ProductService } from 'src/app/_services/product.service';
+import { StorageService } from 'src/app/_services/storage.service';
 import { WishlistService } from 'src/app/_services/wishlist.service';
 
 @Component({
@@ -22,18 +23,30 @@ export class ProductDetailComponent implements OnInit {
   star_half = faStarHalf;
   retweet = faRetweet;
 
+  username: string;
   showDepartment = false;
 
   id: number = 0;
   product : any;
   listRelatedProduct: any[] =[];
+  items: any[] = [];
   quantity : number = 1;
 
-  constructor(private productService: ProductService,private router: Router,private route: ActivatedRoute,public cartService: CartService,public wishlistService: WishlistService,private messageService: MessageService){
+  constructor(private productService: ProductService,
+              private router: Router,
+              private route: ActivatedRoute,
+              public cartService: CartService,
+              public storageService:StorageService,
+              public wishlistService: WishlistService,
+              private messageService: MessageService
+              ){
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 
   }
   ngOnInit(): void {
+    // this.storageService.currentUser.subscribe(username => this.username = username);
+    this.username = this.storageService.loadUsername();
+    // console.log(this.username);
     this.id = this.route.snapshot.params['id'];
     this.getProduct();
   }
@@ -67,15 +80,35 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart(item: any){
-    this.cartService.getItems();
-    this.cartService.addToCart(item,1);
-    this.showSuccess("Add To Cart Successfully!")
+    // this.cartService.getItems(this.username);
+    // this.showSuccess("Add To Cart Successfully!")
+    console.log(item.productname);
+    this.cartService.addToCart(this.username, item.productname, 1).subscribe({
+      next: res =>{
+        this.getItems();
+        // this.showForm = false;
+        this.showSuccess("Thêm mới thành công");
+      },error: err =>{
+        this.showError(err.message);
+      }
+    });
 
+  }
+  getItems(){
+    this.cartService.getItems(this.username).subscribe({
+      next: res =>{
+        this.items = res;
+        console.log(this.items);
+      },error: err =>{
+        console.log(err);
+      }
+    })
   }
 
   addCart(item:any){
-    this.cartService.getItems();
-    this.cartService.addToCart(item,this.quantity);
+    this.cartService.getItems(this.username);
+    /* can fix */
+    // this.cartService.addToCart(item,this.quantity);
     this.showSuccess("Add To Cart Successfully!");
   }
 

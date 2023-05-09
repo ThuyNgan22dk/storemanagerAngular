@@ -1,136 +1,101 @@
-<p>shop works!</p>
-
+<!-- <p>shop works!</p> -->
 <p-toast></p-toast>
 
-<!-- <section class="breadcrumb-section set-bg" [ngStyle]="{backgroundImage:'url(assets/image/breadcrumb.jpg'}">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="breadcrumb__text">
-                    <h2>Category</h2>
-                    <div class="breadcrumb__option">
-                        <a routerLink="/" >Home</a>
-                        <span>Category</span>
-                    </div>
-                </div>
-            </div>
+<div class="form__template">
+  <div class="form__template-box">
+    <div class="form__info">
+      <div class="sidebar">
+        <div class="form__info-detail">
+          <h6>Danh mục</h6>
+          <ul>
+            <li><a class="form__info-a" href="javascript:void(0)" (click)="getListProductByCategoryId(0)">All</a></li>
+            <li *ngFor="let category of listCategory">
+              <a class="form__info-a" href="javascript:void(0)"
+                (click)="getListProductByCategoryId(category.id)">{{category.name}}</a>
+            </li>
+          </ul>
         </div>
-    </div>
-</section> -->
-
-<section class="product">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-5">
-                <div class="sidebar">
-                    <div class="sidebar__item">
-                        <h4>Department</h4>
-                        <ul>
-                            <li><a routerLink="/category/{{category.id}}" *ngFor="let category of listCategory">{{category.name}}</a></li>
-                        </ul>
-                    </div>
-                    <div class="sidebar__item">
-                        <h4>Price</h4>
-                        <p-slider [(ngModel)]="rangeValues" [range]="true" [min]="0" [max]="500" [style]="{'background':'#dd2222'}" (onChange)="getListProductByPriceRange()" ></p-slider>
-                        <div class="price-input mt-3">
-                            {{rangeValues[0] | currency}} - {{rangeValues[1] | currency}}
-                        </div>
-                    </div>
-                    <div class="sidebar__item">
-                        <div class="latest-product__text">
-                            <h4>Latest Products</h4>
-                            <div class="latest-product__slider">
-                                <div class="latest-prdouct__slider__item">
-                                    <a href="#" class="latest-product__item" *ngFor="let product of listProductNewest">
-                                        <div class="latest-product__item__pic">
-                                            <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
-                                        </div>
-                                        <div class="latest-product__item__text">
-                                            <h6>{{product.name}}</h6>
-                                            <span>{{product.price | currency}}</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="form__info-detail">
+          <h6>Price</h6>
+          <p-slider [(ngModel)]="rangeValues" [range]="true" [min]="0" [max]="500" [style]="{'background': 'var(--bs-gray-200)', 'margin-left': '16px'}"
+            (onChange)="getListProductByPriceRange()"></p-slider>
+          <div class="price-input mt-3">
+            {{rangeValues[0] + " đ"}} - {{rangeValues[1] + "000 đ"}}
+          </div>
+        </div>
+        <div class="form__info-detail">
+          <div class="latest-product__text">
+            <h6>Latest Products</h6>
+            <div class="latest-product__slider">
+              <div class="latest-prdouct__slider__item">
+                <a href="#" class="latest-product__item" *ngFor="let product of listProductNewest">
+                  <div class="latest-product__item__pic">
+                    <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
+                  </div>
+                  <div class="latest-product__item__text">
+                    <h6>{{product.name}}</h6>
+                    <span>{{product.price + " đ"}}</span>
+                  </div>
+                </a>
+              </div>
             </div>
-            <div class="col-lg-9 col-md-7">
-                <!-- <div class="product__discount">
-                    <div class="section-title product__discount__title">
-                        <h2>Sale Off</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form__detail">
+      <div class="container">
+        <div class="row">
+          <section id="product1">
+            <p-dataView #dv [value]="listProduct" [layout]="layout" *ngIf="!showSearch">
+              <ng-template let-product pTemplate="gridItem">
+                <div class="col-12 sm:col-6 lg:col-12 xl:col-3 p-3">
+                  <div class="p-3 border-1 surface-border surface-card border-round">
+                    <div class="flex flex-wrap align-items-center justify-content-between gap-2">
+                      <span class="flex align-items-center gap-2">
+                        <i class="pi pi-tag"></i>
+                        <span class="font-semibold">{{ product.category.name }}</span>
+                      </span>
+                      <p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product)"></p-tag>
                     </div>
-                    <div class="row">
-                        <div class="product__discount__slider">
-                            <div class="col-lg-4">
-                                <div class="product__discount__item">
-                                    <div class="product__discount__item__pic set-bg"
-                                        data-setbg="img/product/discount/pd-1.jpg">
-                                        <div class="product__discount__percent">-20%</div>
-                                        <ul class="product__item__pic__hover">
-                                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__discount__item__text">
-                                        <span>Dried Fruit</span>
-                                        <h5><a href="#">Raisin’n’nuts</a></h5>
-                                        <div class="product__item__price">$30.00 <span>$36.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="flex flex-column align-items-center gap-3 py-3">
+                      <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
+                      src="{{'data:image/jpg;base64,' + product.images[0].data}}"
+                      style="height: 160px;"
+                      [alt]="product.productname" />
+                      <div class="text-base font-bold">{{ product.productname }}</div>
+                      <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
                     </div>
-                </div> -->
-
-                <section id="product1" class="section-p1">
-                  <h2>New Arrivals</h2>
-                  <p>Summer Collection New Model Design</p>
-                  <div class="pro-container">
-                    <div class="pro" *ngFor="let product of listProductNewest">
-                      <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
-                      <div class="des">
-                        <span>{{product.category.name}}</span>
-                        <h5>{{product.productname}}</h5>
-                        <div class="star">
-                          <p-rating [ngModel]="product.rate" [readonly]="true" [cancel]="false"></p-rating>
-                        </div>
-                        <h4>{{product.price | currency:'VND'}}</h4>
-                      </div>
-                      <a href="javascript:void(0)" (click)="addToWishList(product)"><fa-icon class="heart" [icon]="heart"></fa-icon></a>
-                      <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}"><fa-icon class="retweet" [icon]="retweet"></fa-icon></a>
-                      <a href="javascript:void(0)" (click)="addToCart(product)"><fa-icon class="cart" [icon]="bag"></fa-icon></a>
+                    <div class="flex align-items-center justify-content-between">
+                      <span class="text-base font-semibold text-red-500">{{ product.price + " đ" }}</span>
+                      <button pButton icon="pi pi-shopping-cart" class="p-button-rounded"
+                        (click)="addToCart(product)"
+                        [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>
                     </div>
                   </div>
-                </section>
-
-                <!-- <div class="row">
-                    <p-dataView [value]="listProduct" [paginator]="true" [rows]="9" >
-                        <ng-template let-product pTemplate="listItem">
-                            <div class="col-lg-4 col-md-5 col-sm-6 px-2">
-                                <div class="featured__item">
-                                    <div class="featured__item__pic set-bg" [ngStyle]="{'background-image': 'url(data:image/jpeg;base64,'+ product.images[0].data+')'}">
-                                        <ul class="featured__item__pic__hover">
-                                            <li><a href="javascript:void(0)" (click)="addToWishList(product)"><fa-icon [icon]="heart"></fa-icon></a></li>
-                                            <li><a href="javascript:void(0)" routerLink="/product/{{product.id}}"><fa-icon [icon]="retweet"></fa-icon></a></li>
-                                            <li><a href="javascript:void(0)" (click)="addToCart(product)"><fa-icon [icon]="bag"></fa-icon></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="featured__item__text">
-                                        <h6><a href="javascript:void(0)">{{product.name}}</a></h6>
-                                        <h5>{{product.price | currency}}</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-template>
-                    </p-dataView>
-
-                </div> -->
-            </div>
+                </div>
+              </ng-template>
+            </p-dataView>
+            <app-search *ngIf="showSearch" [keywords]="keywords"></app-search>
+            <!-- <div class="pro-container">
+              <div class="pro" *ngFor="let product of listProductNewest">
+                <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
+                <div class="des">
+                  <span>{{product.category.name}}</span>
+                  <h5>{{product.productname}}</h5>
+                  <div class="star">
+                    <p-rating [ngModel]="product.rate" [readonly]="true" [cancel]="false"></p-rating>
+                  </div>
+                  <h4>{{product.price | currency:'VND'}}</h4>
+                </div>
+                <a href="javascript:void(0)" (click)="addToWishList(product)"><fa-icon class="heart" [icon]="heart"></fa-icon></a>
+                <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}"><fa-icon class="retweet" [icon]="retweet"></fa-icon></a>
+                <a href="javascript:void(0)" (click)="addToCart(product)"><fa-icon class="cart" [icon]="bag"></fa-icon></a>
+              </div>
+            </div> -->
+          </section>
         </div>
+      </div>
     </div>
-</section>
-
-
+  </div>
+</div>
