@@ -25,8 +25,6 @@ export class ImportDetailComponent implements OnInit {
 
   items: any[];
 
-  // groupedCities: SelectItemGroup[];
-
   selectedProductname: any;
 
   filteredProducts: any[];

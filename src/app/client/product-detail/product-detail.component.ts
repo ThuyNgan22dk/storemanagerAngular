@@ -107,8 +107,15 @@ export class ProductDetailComponent implements OnInit {
 
   addCart(item:any){
     this.cartService.getItems(this.username);
-    /* can fix */
-    // this.cartService.addToCart(item,this.quantity);
+    this.cartService.addToCart(this.username, item.productname, 1).subscribe({
+      next: res =>{
+        this.getItems();
+        // this.showForm = false;
+        this.showSuccess("Thêm mới thành công");
+      },error: err =>{
+        this.showError(err.message);
+      }
+    });
     this.showSuccess("Add To Cart Successfully!");
   }
 

@@ -113,11 +113,11 @@ h4{
 }
 
 .shopping__discount button{
-  padding: 10px 20px;
+  padding: 10px 16px;
   font-size: 14px;
   letter-spacing: 2px;
   background: #9BA4B5;
-  margin-left: 13px;
+  margin-left: 10px;
   border-radius: 8px;
   font-weight: 700;
 }

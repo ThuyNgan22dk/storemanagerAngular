@@ -30,17 +30,17 @@
     >
         <ng-template pTemplate="header">
             <tr>
-                <th>Name</th>
-                <th>Enable</th>
-                <th>Action</th>
+                <th>Tên danh mục</th>
+                <th>Xác nhận</th>
+                <th>Hoạt động</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-category>
             <tr>
                 <td>{{category.name}}</td>
                 <td>
-                    <button pButton type="button" class="p-button-info border-round" (click)="enableCategory(category.id)" *ngIf="category.enable">Enabled</button>
-                    <button pButton type="button" class="p-button-warning border-round" (click)="enableCategory(category.id)" *ngIf="!category.enable">Disabled</button>
+                    <button pButton type="button" class="p-button-info border-round" (click)="enableCategory(category.id)" *ngIf="category.enable">Đã xác nhận</button>
+                    <button pButton type="button" class="p-button-warning border-round" (click)="enableCategory(category.id)" *ngIf="!category.enable">Chưa xác nhận</button>
                 </td>
                 <td>
                     <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button-success" (click)="onUpdateForm(category.id,category.name)"></button>

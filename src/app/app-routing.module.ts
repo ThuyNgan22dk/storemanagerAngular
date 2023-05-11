@@ -34,7 +34,7 @@ const routes: Routes = [
       {path:'promotion',component:PromotionComponent},
       {path:'comment',component:CommentComponent},
       {path:'order',component:OrderComponent},
-      {path:'order/orderDetail',component:OrderDetailComponent},
+      {path:'order/orderDetail/:id',component:OrderDetailComponent},
       {path:'importGood',component:ImportGoodComponent},
       {path:'import/importDetail/:id',component:ImportDetailComponent}
     ]

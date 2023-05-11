@@ -61,21 +61,43 @@ export class CartComponent implements OnInit{
 
   updateQuantity(item: any,event: any){
     let quantity : number = event.target.value;
-    this.cartService.updateProduct(item,quantity);
-    this.getItems();
+    // console.log(item);
+    this.cartService.updateProduct(item.id,quantity).subscribe({
+      next: res =>{
+        this.getItems();
+        // this.cartService.getTotalPrice(this.items);
+      },error: err =>{
+        console.log(err);
+      }
+    })
+    // this.getItems();
   }
 
   plusQuantity(item:any){
     let quantity = Number(item.quantity);
-    this.cartService.updateCart(item,quantity+=1);
-    this.getItems();
+    this.cartService.updateProduct(item.id,quantity+=1).subscribe({
+      next: res =>{
+        this.getItems();
+        // this.cartService.getTotalPrice(this.items);
+      },error: err =>{
+        console.log(err);
+      }
+    })
+    // this.getItems();
   }
 
   subtractQuantity(item: any){
     if(item.quantity > 1){
       let quantity = Number(item.quantity);
-      this.cartService.updateCart(item,quantity-=1);
-      this.getItems();
+      this.cartService.updateProduct(item.id,quantity-=1).subscribe({
+        next: res =>{
+          this.getItems();
+        //   this.cartService.getTotalPrice(this.items);
+        },error: err =>{
+          console.log(err);
+        }
+      })
+      // this.getItems();
     }
   }
 

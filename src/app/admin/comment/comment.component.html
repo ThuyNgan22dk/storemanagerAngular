@@ -17,11 +17,11 @@
     >
         <ng-template pTemplate="header">
             <tr>
-                <th>Product id</th>
-                <th>User id</th>
-                <th>Rate</th>
-                <th>Comment</th>
-                <th>Enable</th>
+                <th>Id sản phẩm</th>
+                <th>Id người dùng</th>
+                <th>Số sao</th>
+                <th>Đánh giá</th>
+                <th>Xác nhận</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-comment>
@@ -31,8 +31,8 @@
                 <td>{{comment.rate}}</td>
                 <td>{{comment.comment}}</td>
                 <td>
-                    <button pButton type="button" class="border-round p-button-info" (click)="enableComment(comment.id)" *ngIf="comment.enabled">Enabled</button>
-                    <button pButton type="button" class="border-round p-button-warning" (click)="enableComment(comment.id)" *ngIf="!comment.enabled">Disabled</button>
+                    <button pButton type="button" class="border-round p-button-info" (click)="enableComment(comment.id)" *ngIf="comment.enabled">Đã xác nhận</button>
+                    <button pButton type="button" class="border-round p-button-warning" (click)="enableComment(comment.id)" *ngIf="!comment.enabled">Chưa xác nhận</button>
                 </td>
             </tr>
         </ng-template>

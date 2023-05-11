@@ -8,7 +8,7 @@
         <div class="form__info-detail">
           <h6>Danh mục</h6>
           <ul>
-            <li><a class="form__info-a" href="javascript:void(0)" (click)="getListProductByCategoryId(0)">All</a></li>
+            <li><a class="form__info-a" href="javascript:void(0)" (click)="getListProductByCategoryId(0)">Tất cả</a></li>
             <li *ngFor="let category of listCategory">
               <a class="form__info-a" href="javascript:void(0)"
                 (click)="getListProductByCategoryId(category.id)">{{category.name}}</a>
@@ -16,16 +16,16 @@
           </ul>
         </div>
         <div class="form__info-detail">
-          <h6>Price</h6>
+          <h6>Giá</h6>
           <p-slider [(ngModel)]="rangeValues" [range]="true" [min]="0" [max]="500" [style]="{'background': 'var(--bs-gray-200)', 'margin-left': '16px'}"
             (onChange)="getListProductByPriceRange()"></p-slider>
           <div class="price-input mt-3">
-            {{rangeValues[0] + " đ"}} - {{rangeValues[1] + "000 đ"}}
+            {{rangeValues[0] + "000 đ"}} - {{rangeValues[1] + "000 đ"}}
           </div>
         </div>
         <div class="form__info-detail">
           <div class="latest-product__text">
-            <h6>Latest Products</h6>
+            <h6>Sản phẩm mới</h6>
             <div class="latest-product__slider">
               <div class="latest-prdouct__slider__item">
                 <a href="#" class="latest-product__item" *ngFor="let product of listProductNewest">

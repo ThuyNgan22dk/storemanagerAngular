@@ -18,8 +18,8 @@
     </div>
 
     <ul id="navbar">
-        <li><a href="javascript:void(0)" routerLink="category/0">Shop</a></li>
-        <li><a href="javascript:void(0)" routerLink="/blog/0">Blog</a></li>
+        <li><a href="javascript:void(0)" routerLink="category/0">Cửa hàng</a></li>
+        <!-- <li><a href="javascript:void(0)" routerLink="/blog/0">Blog</a></li> -->
         <!-- <li><a href="#" >Contact</a></li> -->
         <li>
           <a href="javascript:void(0)" (click)="cart.toggle($event)">
@@ -61,21 +61,21 @@
         </p-overlayPanel>
         <li>
           <a href="javascript:void(0)" routerLink="/auth" *ngIf="!isLoggedIn" (click)="showAuthFormClick()"><fa-icon [icon]="userIcon"></fa-icon> Tài khoản</a>
-          <a href="javascript:void(0)" (click)="profile.toggle($event)" *ngIf="isLoggedIn"><fa-icon [icon]="userIcon"></fa-icon> Tài khoản</a>
+          <a href="javascript:void(0)" (click)="profile.toggle($event)" *ngIf="isLoggedIn"><fa-icon [icon]="userIcon"></fa-icon> {{username}}</a>
           <p-overlayPanel #profile>
               <div>
                   <a class="dropdown-item" href="javascript:void(0)" routerLink="/userDetail">
                       <fa-icon [icon]="userIcon"></fa-icon>
-                      Profile
+                      Hồ sơ cá nhân
                   </a>
                   <a class="dropdown-item" href="javascript:void(0)" routerLink="my-order">
                       <fa-icon [icon]="bag"></fa-icon>
-                      My Orders
+                      Đơn hàng của tôi
                   </a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" (click)="logout();profile.toggle($event)">
                       <fa-icon [icon]="logoutIcon"></fa-icon>
-                      Logout
+                      Đăng xuất
                   </a>
               </div>
           </p-overlayPanel>
@@ -89,49 +89,44 @@
 <footer class="section-p1 form__template">
   <div class="col">
     <img class="logo" src="../../../assets/img/logo.png" alt="">
-    <h4>Contact</h4>
-    <p><strong>Address: </strong> 35 Dong Tri 6 Lien Chieu Da Nang</p>
-    <p><strong>Phone: </strong> +01 2222 365</p>
-    <p><strong>Hours: </strong> 8:00 - 21:00, Mon - Sat</p>
+    <h4>Liên hệ</h4>
+    <p><strong>Địa chỉ: </strong> 35 Dong Tri 6 Lien Chieu Da Nang</p>
+    <p><strong>Số điện thoại: </strong> +01 2222 365</p>
+    <p><strong>Thời gian hoạt động: </strong> 8:00 - 21:00, Mon - Sat</p>
+  </div>
+
+  <div class="col">
+    <h4>Về Store Home</h4>
+    <a href="#">Giới thiệu về Store Home</a>
+    <a href="#">Giao hàng</a>
+    <a href="#">Hướng Dẫn Mua Hàng</a>
+    <a href="#">Trung tâm trợ giúp</a>
+    <a href="#">Chính sách bảo mật</a>
+    <a href="#">Liên hệ và truyền thông</a>
+  </div>
+
+  <div class="col">
+    <h4>Tài khoản</h4>
+    <a href="#">Đăng nhập</a>
+    <a href="#">Xem giỏ hàng</a>
+    <a href="#">Danh sách yêu thích</a>
+    <a href="#">Theo dõi đơn hàng</a>
+    <a href="#">Trợ giúp</a>
+  </div>
+
+  <div class="col">
     <div class="follow">
-      <h4>Follow us</h4>
-      <div class="icon">
-        <i class="pi pi-facebook" style="font-size: 1.5rem"></i>
-        <i class="pi pi-twitter" style="font-size: 1.5rem"></i>
-        <i class="pi pi-instagram" style="font-size: 1.5rem"></i>
-        <i class="pi pi-youtube" style="font-size: 1.5rem"></i>
+      <h4>Theo dõi chúng tôi tại</h4>
+      <div class="row">
+        <a href="#"><i class="pi pi-facebook" style="font-size: 1.5rem"></i> Facebook</a>
+        <a href="#"><i class="pi pi-twitter" style="font-size: 1.5rem"></i> Twitter</a>
+        <a href="#"><i class="pi pi-instagram" style="font-size: 1.5rem"></i> Instagram</a>
+        <a href="#"><i class="pi pi-youtube" style="font-size: 1.5rem"></i> Youtube</a>
+        
+        
+        
       </div>
     </div>
-  </div>
-
-  <div class="col">
-    <h4>About</h4>
-    <a href="#">About us</a>
-    <a href="#">Delivery</a>
-    <a href="#">Information</a>
-    <a href="#">Privacy Policy</a>
-    <a href="#">Terms & Conditions</a>
-    <a href="#">Contact Us</a>
-  </div>
-
-  <div class="col">
-    <h4>My Account</h4>
-    <a href="#">Sign In</a>
-    <a href="#">View Cart</a>
-    <a href="#">My Wishlist</a>
-    <a href="#">Track My Order</a>
-    <a href="#">Help</a>
-  </div>
-
-  <div class="col install">
-    <h4>Install App</h4>
-    <p>Form App Store or Google Play</p>
-    <div class="row">
-      <img src="../../../assets/img/pay/app.jpg" alt="">
-      <img src="../../../assets/img/pay/play.jpg" alt="">
-    </div>
-    <p>Secured Payment Gateways</p>
-    <img src="../../../assets/img/pay/pay.png" alt="">
   </div>
 
   <div class="copyright">

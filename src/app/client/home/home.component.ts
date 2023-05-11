@@ -204,8 +204,6 @@ getListProductByPrice(){
 }
 
 addToCart(item: any){
-  // this.cartService.getItems(this.username);
-  // this.showSuccess("Add To Cart Successfully!")
   console.log(item.productname);
   this.cartService.addToCart(this.username, item.productname, 1).subscribe({
     next: res =>{

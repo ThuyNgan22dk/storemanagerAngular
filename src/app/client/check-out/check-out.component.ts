@@ -53,6 +53,7 @@ export class CheckOutComponent implements OnInit {
     this.cartService.getItems(this.username).subscribe({
       next: res =>{
         this.items = res;
+        // console.log(this.items);
         this.cartService.getTotalPrice(this.items);
       },error: err =>{
         console.log(err);

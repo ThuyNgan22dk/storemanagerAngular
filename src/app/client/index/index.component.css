@@ -228,7 +228,7 @@ footer .col{
 }
 
 footer .col:nth-child(1){
-  flex: 2;
+  flex: 1.5;
 }
 footer .col:nth-child(2),
 footer .col:nth-child(3){
@@ -254,9 +254,9 @@ footer a{
   margin-bottom: 10px;
 }
 
-footer .follow{
-  margin-top: 20px;
-}
+/* footer .follow{ */
+  /* margin-top: 20px; */
+/* } */
 
 footer .follow i {
   color: #465b52;

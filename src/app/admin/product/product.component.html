@@ -20,24 +20,24 @@
       >
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between flex-wrap">
-                <h5 class="m-0 flex align-items-center justify-content-center">Manage Products</h5>
-                <span class="p-input-icon-left flex align-items-center justify-content-center">
+                <h5 class="m-0 flex align-items-center justify-content-center">Quản lý sản phẩm</h5>
+                <!-- <span class="p-input-icon-left flex align-items-center justify-content-center">
                     <i class="pi pi-search"></i>
                     <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search" class="input_Search"/>`
-                </span>
+                </span> -->
             </div>
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th style="width: 4rem">
+                <th style="min-width: 4rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
-                <th pSortableColumn="name" style="min-width:15rem">Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="name" style="min-width:4rem">Tên <p-sortIcon field="name"></p-sortIcon></th>
                 <th>Image</th>
-                <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
-                <th pSortableColumn="category" style="min-width:10rem">Category <p-sortIcon field="category"></p-sortIcon></th>
-                <th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon></th>
-                <th pSortableColumn="inventoryStatus" style="min-width:10rem">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
+                <th pSortableColumn="price">Giá <p-sortIcon field="price"></p-sortIcon></th>
+                <th pSortableColumn="category" style="min-width:4rem">Danh mục <p-sortIcon field="category"></p-sortIcon></th>
+                <th pSortableColumn="rating">Đánh giá <p-sortIcon field="rating"></p-sortIcon></th>
+                <th pSortableColumn="inventoryStatus" style="min-width:10rem">Tình trạng <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
                 <th></th>
             </tr>
         </ng-template>
@@ -65,73 +65,6 @@
 
 <p-dialog [(visible)]="showForm" [style]="{width: '40vw'}" header="Product Details" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content" p-scroller>
-        <!-- <img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.image" class="product-image" *ngIf="product.image"> -->
-        <div class="field grid">
-            <label for="name" class="col-12 mb-2 md:col-2 md:mb-0">Name</label>
-            <div class="col-12 md:col-10">
-                <input id="name" type="text"
-                  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                  pInputText [(ngModel)]="productForm.productname" required autofocus
-                >
-            </div>
-        </div>
-        <div class="field grid">
-            <label for="description" class="col-12 mb-2 md:col-2 md:mb-0">Description</label>
-            <div class="col-12 md:col-10">
-                <textarea id="description" type="text"
-                  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                  pInputTextarea [(ngModel)]="productForm.description" required rows="3" cols="20"
-                ></textarea>
-            </div>
-        </div>
-
-        <div class="formgrid grid">
-            <div class="field col">
-                <label for="origin">Origin</label>
-                <input id="origin" type="text"
-                  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                  pInputText [(ngModel)]="productForm.origin" required autofocus
-                >
-
-                <!-- <p-inputNumber id="origin" [(ngModel)]="productForm.origin"></p-inputNumber> -->
-            </div>
-            <div class="field col">
-                <label for="unit">Unit</label>
-                <input id="unit" type="text"  placeholder="Thung/Lon/Loc/Hop"
-                  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                  pInputText [(ngModel)]="productForm.unit" required autofocus
-                >
-                <!-- <div class="card flex justify-content-center">
-                    <span class="p-float-label">
-                        <p-multiSelect [options]="units" [(ngModel)]="selectedUnits" placeholder="Select a Unit" optionLabel="name" inputId="float-label"></p-multiSelect>
-                        <label for="float-label">Unit</label>
-                    </span>
-                </div> -->
-                <!-- <p-inputNumber id="unit" [(ngModel)]="productForm.unit"></p-inputNumber> -->
-            </div>
-        </div>
-
-        <div class="field">
-            <label class="mb-3">Category</label>
-            <div class="formgrid grid">
-                <div class="field-radiobutton col-6" *ngFor="let category of listCategory">
-                        <p-radioButton name="category" value="{{category.id}}" [(ngModel)]="productForm.categoryId" [inputId]="category.id" class="mr-2"></p-radioButton>
-                    <label [for]="category.id">{{category.name}}</label>
-                </div>
-            </div>
-        </div>
-
-        <!-- <div class="formgrid grid">
-            <div class="field col">
-                <label for="price">Price</label>
-                <p-inputNumber id="price" [(ngModel)]="productForm.price" mode="currency" currency="VND" locale="VN"></p-inputNumber>
-            </div>
-            <div class="field col">
-                <label for="quantity">Quantity</label>
-                <p-inputNumber id="quantity" [(ngModel)]="productForm.quantity"></p-inputNumber>
-            </div>
-        </div> -->
-
         <div class="field">
             <button pButton type="button" class="border-round p-button-success w-auto" (click)="onChooseImage()"> Chọn ảnh</button>
             <p-dialog header="Chọn ảnh" [(visible)]="showImage" position="top" [modal]="true" [style]="{width: '40vw'}" [transitionOptions]="'.3s'">
@@ -162,6 +95,71 @@
                 </div>
             </div>
         </div>
+        <div class="field grid">
+            <label for="name" class="col-12 mb-2 md:col-2 md:mb-0">Tên</label>
+            <div class="col-12 md:col-10">
+                <input id="name" type="text"
+                  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                  pInputText [(ngModel)]="productForm.productname" required autofocus
+                >
+            </div>
+        </div>
+        <div class="field grid">
+            <label for="description" class="col-12 mb-2 md:col-2 md:mb-0">Mô tả</label>
+            <div class="col-12 md:col-10">
+                <textarea id="description" type="text"
+                  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                  pInputTextarea [(ngModel)]="productForm.description" required rows="3" cols="20"
+                ></textarea>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field col">
+                <label for="origin">Xuất xứ</label>
+                <input id="origin" type="text"
+                  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                  pInputText [(ngModel)]="productForm.origin" required autofocus
+                >
+
+                <!-- <p-inputNumber id="origin" [(ngModel)]="productForm.origin"></p-inputNumber> -->
+            </div>
+            <div class="field col">
+                <label for="unit">Đơn vị tính</label>
+                <input id="unit" type="text"  placeholder="Thung/Lon/Loc/Hop"
+                  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                  pInputText [(ngModel)]="productForm.unit" required autofocus
+                >
+                <!-- <div class="card flex justify-content-center">
+                    <span class="p-float-label">
+                        <p-multiSelect [options]="units" [(ngModel)]="selectedUnits" placeholder="Select a Unit" optionLabel="name" inputId="float-label"></p-multiSelect>
+                        <label for="float-label">Unit</label>
+                    </span>
+                </div> -->
+                <!-- <p-inputNumber id="unit" [(ngModel)]="productForm.unit"></p-inputNumber> -->
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="mb-3">Danh mục</label>
+            <div class="formgrid grid">
+                <div class="field-radiobutton col-6" *ngFor="let category of listCategory">
+                        <p-radioButton name="category" value="{{category.id}}" [(ngModel)]="productForm.categoryId" [inputId]="category.id" class="mr-2"></p-radioButton>
+                    <label [for]="category.id">{{category.name}}</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="formgrid grid">
+            <div class="field col">
+                <label for="price">Price</label>
+                <p-inputNumber id="price" [(ngModel)]="productForm.price" mode="currency" currency="VND" locale="VN"></p-inputNumber>
+            </div>
+            <div class="field col">
+                <label for="quantity">Quantity</label>
+                <p-inputNumber id="quantity" [(ngModel)]="productForm.quantity"></p-inputNumber>
+            </div>
+        </div> -->
 
     </ng-template>
     <ng-template pTemplate="footer">

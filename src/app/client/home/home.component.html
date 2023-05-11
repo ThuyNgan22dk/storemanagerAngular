@@ -8,7 +8,7 @@
         <a class="form__info-a" href="#">Tips mua hàng tiết kiệm</a>
       </div>
       <div class="form__info-detail">
-        <h6>Feature</h6>
+        <h6>Tính năng</h6>
         <div id="feature">
           <p-galleria [value]="feature" [numVisible]="1" [autoPlay]="true" [circular]="true" [showThumbnails]="false"
             [responsiveOptions]="responsiveOptions">
@@ -28,7 +28,7 @@
       <div class="form__info-detail">
         <h6>Danh mục</h6>
         <ul>
-          <li><a class="form__info-a" href="javascript:void(0)" routerLink="/category/0">All</a></li>
+          <li><a class="form__info-a" href="javascript:void(0)" routerLink="/category/0">Tất cả</a></li>
           <li *ngFor="let category of listCategory">
             <a class="form__info-a" href="javascript:void(0)"
               routerLink="/category/{{category.id}}">{{category.name}}</a>
@@ -52,7 +52,7 @@
         </p-galleria>
         <div class="form__detail-product">
           <section id="product1">
-            <h2>Featured Product</h2>
+            <h2>Sản phẩm nổi bật</h2>
             <p-carousel [value]="listProduct" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
               <ng-template let-product pTemplate="item">
                 <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}" class="product-item">
@@ -87,9 +87,9 @@
                         </div>
                         <!-- <a href="javascript:void(0)" (click)="addToWishList(product)"><fa-icon (click)="addRedHeartNew(product.id)" class="heart" [icon]="heart"></fa-icon></a> -->
                         <!-- <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}"><fa-icon class="retweet"
-                            [icon]="retweet"></fa-icon></a>
+                            [icon]="retweet"></fa-icon></a>-->
                         <a href="javascript:void(0)" (click)="addToCart(product)"><fa-icon class="cart"
-                            [icon]="bag"></fa-icon></a> -->
+                            [icon]="bag"></fa-icon></a> 
                       </div>
                     </div>
                   </div>
@@ -101,7 +101,7 @@
 
         <div class="form__detail-product">
           <section id="product1">
-            <h2>New Products</h2>
+            <h2>Sản phẩm mới</h2>
             <p-carousel [value]="listProductNewest" [numVisible]="5" [numScroll]="1"
               [responsiveOptions]="responsiveOptions">
               <ng-template let-product pTemplate="item">
@@ -153,12 +153,12 @@
   </div>
   <section id="newsletter" class="section-p1">
     <div class="newstext">
-      <h4>Sign Up For Newsletters</h4>
-      <p>Get E-mail updates about our latest shop and <span>special offers.</span></p>
+      <h4>Đăng ký nhận thông báo qua email</h4>
+      <p>Nhận thông tin cập nhật qua email về cửa hàng mới nhất của chúng tôi và <span>các ưu đãi đặc biệt.</span></p>
     </div>
     <div class="form">
-      <input type="text" placeholder="Your email address">
-      <button class="normal">Sign Up</button>
+      <input type="text" placeholder="Nhập địa chỉ email của bạn">
+      <button class="normal">Đăng ký ngay</button>
     </div>
   </section>
 </div>

@@ -5,11 +5,7 @@
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
       <ng-template pTemplate="caption">
           <div class="flex align-items-center justify-content-between">
-              <h5 class="m-0">Manage Orders</h5>
-              <span class="p-input-icon-left">
-                  <i class="pi pi-search"></i>
-                  <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search" />`
-              </span>
+              <h5 class="m-0">Quản lý đơn hàng</h5>
           </div>
       </ng-template>
       <ng-template pTemplate="header">
@@ -17,14 +13,14 @@
               <!-- <th style="width: 4rem">
                   <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
               </th> -->
-              <th pSortableColumn="name">Customer<p-sortIcon field="name"></p-sortIcon></th>
-              <th>Address</th>
-              <th>Phone</th>
-              <th>Promotion</th>
+              <th pSortableColumn="name">Khách hàng<p-sortIcon field="name"></p-sortIcon></th>
+              <th>Địa chỉ</th>
+              <th>Số điện thoại</th>
+              <th>Mã giảm giá</th>
               <!-- <th>Email</th> -->
-              <th pSortableColumn="price">Total <p-sortIcon field="price"></p-sortIcon></th>
-              <th style="min-width:8rem">Status</th>
-              <th>Action</th>
+              <th pSortableColumn="price">Tổng tiền <p-sortIcon field="price"></p-sortIcon></th>
+              <th style="min-width:8rem">Trạng thái</th>
+              <th>Hoạt động</th>
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-order>
@@ -32,18 +28,24 @@
               <!-- <td style="width: 4rem">
                   <p-tableCheckbox [value]="order"></p-tableCheckbox>
               </td> -->
-              <td>{{order.firstname}} {{order.lastname}}</td>
+              <td>{{order.user.username}}</td>
+              <!-- <td>{{order.firstname}} {{order.lastname}}</td> -->
               <td>{{order.address}}</td>
               <td>{{order.phone}}</td>
               <td>{{order.promotionCode}}</td>
               <!-- <td>{{order.email}}</td> -->
               <td>{{order.totalPrice}}</td>
-              <td><button pButton type="button" label="Waiting For Delivery" class="p-button-success"></button></td>
+              <td><button pButton type="button" label="Waiting For Delivery" class="border-round p-button-success"></button></td>
               <td>
+                <button class="nav-link collapsed" routerLink="/admin/order/orderDetail/{{order.id}}" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities" pButton pRipple
+                    icon="pi pi-info" class="p-button-rounded p-button-info mr-2">
+                </button>
+                <!-- <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="openUpdate(order)"></button>
                 <a class="nav-link collapsed" routerLink="/admin/order/orderDetail" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities" pButton pRipple
-                    icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2">
-                </a>
+                    icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"> -->
+                <!-- </a> -->
               </td>
           </tr>
       </ng-template>

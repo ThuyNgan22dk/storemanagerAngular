@@ -83,6 +83,7 @@ export class ShopComponent implements OnInit {
   };
 
   getListProductByCategory(){
+    this.showSearch = false;
     if(this.id == 0){
       this.productService.getListProduct().subscribe({
         next: res =>{
@@ -103,6 +104,7 @@ export class ShopComponent implements OnInit {
   }
 
   getListProductByCategoryId(id: number){
+    this.showSearch = false;
     if(id == 0){
       this.productService.getListProduct().subscribe({
         next: res =>{
@@ -143,6 +145,7 @@ export class ShopComponent implements OnInit {
   }
 
   getListProductByPriceRange(){
+    this.showSearch = false;
     this.productService.getListByPriceRange(this.id,this.rangeValues[0],this.rangeValues[1]).subscribe({
       next: res =>{
         this.listProduct = res;
