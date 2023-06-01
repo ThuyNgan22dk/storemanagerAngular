@@ -19,8 +19,9 @@ export class CartService {
   addToCart(username: string, name: string, quantity: number):Observable<any>{
     return this.http.post(CART_API + 'create',{username, name, quantity},httpOptions);
   }
+
   productAvailableOnCart(username: string, name: string, quantity: number, quantityAdd: number):Observable<any>{
-    return this.http.post(CART_API + 'changeProduct',{username, name, quantity, quantityAdd},httpOptions);
+    return this.http.put(CART_API + 'changeProduct',{username, name, quantity, quantityAdd},httpOptions);
   }
 
   updateProduct(id: number, quantity: number):Observable<any>{

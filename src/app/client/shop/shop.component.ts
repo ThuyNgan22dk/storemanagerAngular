@@ -145,6 +145,7 @@ export class ShopComponent implements OnInit {
     this.productService.getListByPriceRange(this.id,this.rangeValues[0],this.rangeValues[1]).subscribe({
       next: res =>{
         this.listProduct = res;
+        this.showWarn("Bạn đợi chút chờ dữ liệu nha!");
       },error: err =>{
         console.log(err);
       }

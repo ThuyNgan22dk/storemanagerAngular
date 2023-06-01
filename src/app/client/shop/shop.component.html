@@ -17,7 +17,7 @@
         </div>
         <div class="form__info-detail">
           <h6>Giá</h6>
-          <p-slider [(ngModel)]="rangeValues" [range]="true" [min]="0" [max]="500" [style]="{'background': 'var(--bs-gray-200)', 'margin-left': '16px'}"
+          <p-slider [(ngModel)]="rangeValues" [range]="true" [min]="0" [max]="300" [style]="{'background': 'var(--bs-gray-200)', 'margin-left': '16px'}"
             (onChange)="getListProductByPriceRange()"></p-slider>
           <div class="price-input mt-3">
             {{rangeValues[0] + "000" | currency:'VND'}} - {{rangeValues[1] + "000" | currency:'VND'}}

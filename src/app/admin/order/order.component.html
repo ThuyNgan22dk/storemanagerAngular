@@ -61,6 +61,7 @@
                 onLabel="Đã xác nhận" offLabel="Chưa xác nhận"
                 onIcon="pi pi-check" offIcon="pi pi-times"
                 [style]="{ width: '10em' }" (click)="setState(state.id)"
+                [disabled]="state.checked == true"
                 >
               </p-toggleButton>
           </p-card>
