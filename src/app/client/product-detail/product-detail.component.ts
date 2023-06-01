@@ -5,7 +5,6 @@ import { MessageService } from 'primeng/api';
 import { CartService } from 'src/app/_services/cart.service';
 import { ProductService } from 'src/app/_services/product.service';
 import { StorageService } from 'src/app/_services/storage.service';
-import { WishlistService } from 'src/app/_services/wishlist.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -25,28 +24,45 @@ export class ProductDetailComponent implements OnInit {
 
   username: string;
   showDepartment = false;
+  layout: string = 'grid';
+  responsiveOptions: any[];
 
   id: number = 0;
   product : any;
   listRelatedProduct: any[] =[];
   items: any[] = [];
   quantity : number = 1;
+  addOrChange: boolean;
 
   constructor(private productService: ProductService,
               private router: Router,
               private route: ActivatedRoute,
               public cartService: CartService,
               public storageService:StorageService,
-              public wishlistService: WishlistService,
               private messageService: MessageService
               ){
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 
   }
   ngOnInit(): void {
-    // this.storageService.currentUser.subscribe(username => this.username = username);
+    this.responsiveOptions = [
+      {
+          breakpoint: '1199px',
+          numVisible: 1,
+          numScroll: 1
+      },
+      {
+          breakpoint: '991px',
+          numVisible: 2,
+          numScroll: 1
+      },
+      {
+          breakpoint: '767px',
+          numVisible: 1,
+          numScroll: 1
+      }
+    ];
     this.username = this.storageService.loadUsername();
-    // console.log(this.username);
     this.id = this.route.snapshot.params['id'];
     this.getProduct();
   }
@@ -55,9 +71,8 @@ export class ProductDetailComponent implements OnInit {
     this.showDepartment = !this.showDepartment;
   }
 
-
   getProduct(){
-    this.productService.getProdct(this.id).subscribe({
+    this.productService.getProduct(this.id).subscribe({
       next: res =>{
         this.product = res;
         this.getListRelatedProduct();
@@ -66,8 +81,6 @@ export class ProductDetailComponent implements OnInit {
       }
     })
   }
-
-
 
   getListRelatedProduct(){
     this.productService.getListRelatedProduct(this.product.category.id).subscribe({
@@ -80,58 +93,81 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart(item: any){
-    // this.cartService.getItems(this.username);
-    // this.showSuccess("Add To Cart Successfully!")
-    console.log(item.productname);
-    this.cartService.addToCart(this.username, item.productname, 1).subscribe({
-      next: res =>{
-        this.getItems();
-        // this.showForm = false;
-        this.showSuccess("Thêm mới thành công");
-      },error: err =>{
-        this.showError(err.message);
+    this.addOrChange = true;//true -> add, false -> change
+    if (this.quantity < 0) {
+      this.showError("Lỗi số lượng! Yêu cầu bạn không nhập giá trị âm.");
+    } else if (this.items != null){
+      for (let i = 0; i < this.items.length; i++) {
+        if (this.items[i].name === item.productname) {
+          this.addOrChange = false;
+          var quantity = Number(this.items[i].quantity) + Number(this.quantity);
+          if(quantity <= item.quantity) {
+            this.cartService.productAvailableOnCart(this.username, item.productname, this.items[i].quantity, this.quantity).subscribe({
+              next: res =>{
+                console.log(res);
+                this.getItems();
+                this.showSuccess("Cập nhật thành công");
+              },error: err =>{
+                this.showError(err.message);
+              }
+            })
+          } else{
+            this.showError("Lỗi số lượng! Yêu cầu bạn không nhập giá trị lớn hơn lượng tồn kho.");
+          }
+        }
       }
-    });
-
-  }
-  getItems(){
-    this.cartService.getItems(this.username).subscribe({
-      next: res =>{
-        this.items = res;
-        console.log(this.items);
-      },error: err =>{
-        console.log(err);
+      if (this.addOrChange) {
+        this.cartService.addToCart(this.username, item.productname, 1).subscribe({
+          next: res =>{
+            this.getItems();
+            this.showSuccess("Thêm mới thành công");
+          },error: err =>{
+            this.showError(err.message);
+          }
+        })
       }
-    })
-  }
-
-  addCart(item:any){
-    this.cartService.getItems(this.username);
-    this.cartService.addToCart(this.username, item.productname, 1).subscribe({
-      next: res =>{
-        this.getItems();
-        // this.showForm = false;
-        this.showSuccess("Thêm mới thành công");
-      },error: err =>{
-        this.showError(err.message);
-      }
-    });
-    this.showSuccess("Add To Cart Successfully!");
-  }
-
-  addToWishList(item: any){
-    if(!this.wishlistService.productInWishList(item)){
-      this.wishlistService.addToWishList(item);
-      this.showSuccess("Add To Wishlist Successfully!")
+      window.location.reload();
+    } else{
+      this.showWarn("Mời bạn đăng nhập để thêm sản phẩm vào giở hàng");
     }
   }
 
-  plusQuantity(){
-    this.quantity += 1;
+  getItems(){
+    if( this.username != null){
+      this.cartService.getItems(this.username).subscribe({
+        next: res =>{
+          this.items = res;
+          // this.cartService.getTotalPrice(this.items);
+          // console.log(this.items);
+        },error: err =>{
+          console.log(err);
+        }
+      })
+    }
   }
+
+  updateQuantity(item: any,event: any){
+    this.quantity = ( event.target.value);
+    if (this.quantity < 0) {
+      this.showError("Lỗi số lượng! Yêu cầu bạn không nhập giá trị âm.");
+    }
+    else if(this.quantity > item.quantity){
+      this.showError("Lỗi số lượng! Yêu cầu bạn không nhập giá trị lớn hơn lượng tồn kho.");
+    }
+  }
+
+  plusQuantity(item: any){
+    if(this.quantity > item.quantity)
+      this.showError("Lỗi số lượng! Yêu cầu bạn không nhập giá trị lớn hơn lượng tồn kho.");
+    else
+      this.quantity += 1;
+  }
+
   subtractQuantity(){
     if(this.quantity > 1){
       this.quantity -= 1;
+    } else{
+      this.showError("Lỗi số lượng! Yêu cầu bạn không nhập giá trị âm.");
     }
   }
 
@@ -141,7 +177,6 @@ export class ProductDetailComponent implements OnInit {
   showError(text: string) {
     this.messageService.add({severity:'error', summary: 'Error', detail: text});
   }
-
   showWarn(text: string) {
     this.messageService.add({severity:'warn', summary: 'Warn', detail: text});
   }

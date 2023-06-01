@@ -13,38 +13,38 @@ const httpOptions = {
 export class UserService {
 
   constructor(private http: HttpClient) { }
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   getUser(username: string):Observable<any>{
-    let params = new HttpParams();
-    params = params.append('username',username);
-    return this.http.get(USER_API + {params: params})
+    return this.http.get(USER_API + username, httpOptions)
   }
 
   getListUser():Observable<any>{
     return this.http.get(USER_API, httpOptions);
   }
 
-  enableUser(id: number){
+  enableUser(id: number):Observable<any>{
     return this.http.put(USER_API + 'enable/'+ id,httpOptions);
   }
 
-  updateProfile(username: string,firstname: string,lastname:string,email:string,country:string,state:string,address: string,phone: string):Observable<any>{
-    return this.http.put(USER_API +'update',{username,firstname,lastname,email,country,state,address,phone},httpOptions);
+  // setImageForUser(username: string, imageId: number):Observable<any>{
+  //   return this.http.put(USER_API + 'uploadImage/'+ username + '/' + imageId,httpOptions);
+  // }
+
+  updateProfile(username: string,firstname: string,lastname:string,email:string,country:string,address: string,phone: string):Observable<any>{
+    return this.http.put(USER_API +'update',{username,firstname,lastname,email,country,address,phone},httpOptions);
   }
 
-  updateUser(id:number,username: string,firstname: string,lastname:string,email:string,country:string,state:string,address: string,phone: string):Observable<any>{
-    return this.http.put(USER_API +'update/' + id,{username,firstname,lastname,email,country,state,address,phone},httpOptions);
+  updateUser(id:number,username: string,firstname: string,lastname:string,email:string,country:string,address: string,phone: string):Observable<any>{
+    return this.http.put(USER_API +'update/' + id,{username,firstname,lastname,email,country,address,phone},httpOptions);
   }
 
-  changePassword(id: number, oldPassword: string,newPassword: string):Observable<any>{
-    return this.http.put(USER_API + 'changePassword' + id,{oldPassword,newPassword},httpOptions);
+  changePassword(username: string, oldPassword: string,newPassword: string):Observable<any>{
+    return this.http.put(USER_API + 'changePassword/' + username,{oldPassword,newPassword},httpOptions);
   }
 
-  resetPassword(id: number): Observable<any>{
-    return this.http.put(USER_API + 'resetPassword' + id,httpOptions);
+  resetPassword(username: string): Observable<any>{
+    return this.http.put(USER_API + 'resetPassword/' + username,httpOptions);
   }
 
   deleteUser(id:number){

@@ -35,7 +35,7 @@
                 <td>{{product.price | currency:'VND'}}</td>
                 <td>{{product.quantity}}</td>
                 <td>{{product.expiry}}</td>
-                <td>{{product.subTotal}}</td>
+                <td>{{product.subTotal | currency:'VND'}}</td>
                 <!-- <td>{{product.category.name}}</td> -->
                 <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="openUpdate(product)"></button>

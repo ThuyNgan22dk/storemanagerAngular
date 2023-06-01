@@ -37,7 +37,7 @@ export class CategoryComponent implements OnInit {
     this.categoryService.getListCategory().subscribe({
       next: res =>{
         this.listCategory = res;
-        console.log(res);
+        // console.log(res);
       },error: err =>{
         console.log(err);
       }

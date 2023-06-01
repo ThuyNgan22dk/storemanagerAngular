@@ -63,7 +63,7 @@ export class ImportGoodComponent {
     this.importService.getListImport().subscribe({
       next: res=>{
         this.listImports = res;
-        console.log(this.listImports);
+        // console.log(this.listImports);
       },error: err =>{
         console.log(err);
       }
@@ -82,7 +82,7 @@ export class ImportGoodComponent {
 
   createImport(){
     const {nameShipper,phoneShipper,note,totalPrice,importDetails} = this.importForm;
-    console.log(this.importForm);
+    // console.log(this.importForm);
     this.importService.placeImport(nameShipper,phoneShipper,note,totalPrice,importDetails).subscribe({
       next: res =>{
         this.getListImport();
@@ -96,7 +96,7 @@ export class ImportGoodComponent {
 
   updateImport(){
     const {id,nameShipper,phoneShipper,note,totalPrice,importDetails} = this.importForm;
-    console.log(this.importForm);
+    // console.log(this.importForm);
     this.importService.updateImport(id,nameShipper,phoneShipper,note,totalPrice,importDetails).subscribe({
       next: res =>{
         this.getListImport();

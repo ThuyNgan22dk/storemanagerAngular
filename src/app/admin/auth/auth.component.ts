@@ -25,23 +25,24 @@ export class AuthComponent {
 
   error_messages = {
     'username': [
-      { type: 'required', message: 'First Name is required.' },
+      { type: 'required', message: 'Tên người dùng là bắt buộc.' },
+      { type: 'minlength', message: 'Tên người dùng không đủ dài.' },
+      { type: 'maxlength', message: 'Tên người dùng quá dài.' }
     ],
     'email': [
-      { type: 'required', message: 'Email is required.' },
-      { type: 'minlength', message: 'Email length.' },
-      { type: 'maxlength', message: 'Email length.' },
-      { type: 'required', message: 'please enter a valid email address.' }
+      { type: 'required', message: 'Email là bắt buộc.' },
+      { type: 'minlength', message: 'Email không đủ dài.' },
+      { type: 'maxlength', message: 'Email không đủ dài.' },
     ],
     'password': [
-      { type: 'required', message: 'password is required.' },
-      { type: 'minlength', message: 'password length.' },
-      { type: 'maxlength', message: 'password length.' }
+      { type: 'required', message: 'Mật khẩu là bắt buộc.' },
+      { type: 'minlength', message: 'Mật khẩu không đủ dài.' },
+      { type: 'maxlength', message: 'Mật khẩu quá dài.' }
     ],
     'confirmPassword': [
-      { type: 'required', message: 'password is required.' },
-      { type: 'minlength', message: 'password length.' },
-      { type: 'maxlength', message: 'password length.' }
+      { type: 'required', message: 'Xác nhận mật khẩu là bắt buộc.' },
+      { type: 'minlength', message: 'Xác nhận mật khẩu không đủ dài.' },
+      { type: 'maxlength', message: 'Xác nhận mật khẩu quá dài.' },
     ],
   }
 
@@ -53,21 +54,21 @@ export class AuthComponent {
               ) {
                 this.form = this.formBuilder.group({
                   username: new FormControl('', Validators.compose([
-                    Validators.required
+                    Validators.required,
+                    Validators.minLength(5),
+                    Validators.maxLength(30)
                   ])),
                   email: new FormControl('', Validators.compose([
                     Validators.required,
-                    Validators.minLength(6),
-                    Validators.maxLength(30)
                   ])),
                   password: new FormControl('', Validators.compose([
                     Validators.required,
-                    Validators.minLength(6),
+                    Validators.minLength(5),
                     Validators.maxLength(30)
                   ])),
                   confirmPassword: new FormControl('', Validators.compose([
                     Validators.required,
-                    Validators.minLength(6),
+                    Validators.minLength(5),
                     Validators.maxLength(30)
                   ])),
                 }, {
@@ -86,7 +87,6 @@ export class AuthComponent {
 
   login():void{
     const {username,password} = this.loginForm;
-    console.log(this.loginForm);
     this.authService.login(username,password).subscribe({
       next: res =>{
         this.storageService.saveUser(res);
@@ -112,7 +112,6 @@ export class AuthComponent {
 
   register():void{
     const {username,email,password,confirmPassword} = this.registerForm;
-    console.log(this.registerForm);
     this.authService.register(username,email,password,confirmPassword).subscribe({
       next: res =>{
         this.isSuccessful = true;
@@ -132,6 +131,7 @@ export class AuthComponent {
   loginFormChange(){
     document.getElementById('container')?.classList.remove("right-panel-active");
   }
+
   registerFormChange(){
     document.getElementById('container')?.classList.add("right-panel-active");
   }
@@ -139,6 +139,7 @@ export class AuthComponent {
   showSuccess(text: string) {
     this.messageService.add({severity:'success', summary: 'Success', detail: text});
   }
+
   showError(text: string) {
     this.messageService.add({severity:'error', summary: 'Error', detail: text});
   }

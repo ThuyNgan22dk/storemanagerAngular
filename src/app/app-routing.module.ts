@@ -10,7 +10,7 @@ import { ProductComponent } from "./admin/product/product.component";
 import { OrderComponent } from "./admin/order/order.component";
 import { PromotionComponent } from './admin/promotion/promotion.component';
 import { ImportGoodComponent } from './admin/import-good/import-good.component';
-import { CommentComponent } from './admin/comment/comment.component';
+// import { CommentComponent } from './admin/comment/comment.component';
 import { CartComponent } from './client/cart/cart.component';
 import { UserProfileComponent } from './client/user-profile/user-profile.component';
 import { HomeComponent } from './client/home/home.component';
@@ -23,6 +23,7 @@ import { ImportDetailComponent } from './admin/import-detail/import-detail.compo
 import { IndexComponent } from './client/index/index.component';
 import { ShopComponent } from './client/shop/shop.component';
 import { AuthGuardService } from './_services/auth-guard.service';
+import { WarehouseComponent } from './admin/warehouse/warehouse.component';
 
 const routes: Routes = [
   {
@@ -30,9 +31,9 @@ const routes: Routes = [
     children:[
       {path:"account",component: AccountComponent},
       {path:"category",component: CategoryComponent},
+      {path:'',component: WarehouseComponent},
       {path:'product',component:ProductComponent},
       {path:'promotion',component:PromotionComponent},
-      {path:'comment',component:CommentComponent},
       {path:'order',component:OrderComponent},
       {path:'order/orderDetail/:id',component:OrderDetailComponent},
       {path:'importGood',component:ImportGoodComponent},
@@ -42,11 +43,11 @@ const routes: Routes = [
   {
     path: '',component:IndexComponent,
     children:[
-      {path:"cart",component: CartComponent},
+      {path:"cart",component: CartComponent,canActivate: [AuthGuardService]},
       {path:"userDetail",component: UserProfileComponent,canActivate: [AuthGuardService]},
       {path:'productDetail/:id',component:ProductDetailComponent},
       {path:'checkout',component:CheckOutComponent,canActivate: [AuthGuardService]},
-      {path:'myOrder',component:MyOrderComponent,canActivate: [AuthGuardService]},
+      {path:'myOrder',component:UserProfileComponent,canActivate: [AuthGuardService]},
       {path:'',component:HomeComponent},
       {path:'shop',component:ShopComponent,},
       {path:"search/:keyword",component: ShopComponent},

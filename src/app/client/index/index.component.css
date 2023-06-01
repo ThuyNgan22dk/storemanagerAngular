@@ -2,6 +2,12 @@
 @import "../../../assets/css/responsive.css";
 @import "primeicons/primeicons.css";
 
+a:hover, a:focus{
+  text-decoration: none;
+  outline: none;
+  color: #212A3E;
+}
+
 .form__template{
   width: 1440px;
   padding-left: 24px;
@@ -68,8 +74,7 @@
   color: #9BA4B5;
 }
 
-#navbar li a.active::after,
-#navbar li a:hover::after{
+#navbar li a.active::after{
   content: "";
   width: 30%;
   height: 2px;
@@ -182,6 +187,104 @@
   color: #fff;
 }
 
+.cart_add_hover:hover .cart__toggled{
+  display: block;
+}
+
+.cart__hover{
+  z-index: 1001;
+  transform-origin: center top;
+  width: 350px;
+  top: 36px;
+  right: 0;
+  --overlayArrowLeft: 214px;
+  transform: translateY(0px);
+  opacity: 1;
+  background: #ffffff;
+  color: #495057;
+  border: 0 none;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  font-size: 1rem;
+  font-weight: normal;
+  position: absolute;
+  margin-top: 10px;
+  display: none;
+  padding: 8px 0 16px;
+}
+
+.cart__hover::before{
+  content: " ";
+  border: solid #fff;
+  border-color: rgba(255, 255, 255, 0);
+  border-bottom-color: #fff;
+  border-width: 16px 20px;
+  border-style: solid;
+  position: absolute;
+  right: 41px;
+  top: -26px;
+  z-index: 0;
+}
+
+.cart__hover::after{
+  border-color: rgba(255, 255, 255, 0);
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: -16px;
+  width: 100px;
+  height: 20px;
+}
+
+.user_add_hover:hover .user__toggled{
+  display: block;
+}
+
+.user__hover{
+  z-index: 1001;
+  transform-origin: center top;
+  width: 200px;
+  top: 36px;
+  right: 0;
+  --overlayArrowLeft: 214px;
+  transform: translateY(0px);
+  opacity: 1;
+  background: #ffffff;
+  color: #495057;
+  border: 0 none;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  font-size: 1rem;
+  font-weight: normal;
+  position: absolute;
+  margin-top: 10px;
+  display: none;
+  padding: 8px 16px;
+}
+
+.user__hover::before{
+  content: " ";
+  border: solid #fff;
+  border-color: rgba(255, 255, 255, 0);
+  border-bottom-color: #fff;
+  border-width: 16px 20px;
+  border-style: solid;
+  position: absolute;
+  right: 30px;
+  top: -26px;
+  z-index: 0;
+}
+
+.user__hover::after{
+  border-color: rgba(255, 255, 255, 0);
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: -16px;
+  width: 100px;
+  height: 20px;
+}
+
 .cart-box{
   display: flex;
   align-items: center;
@@ -190,6 +293,7 @@
   padding-bottom: 0.75rem;
   border-bottom: 1px solid #dee2e6;
 }
+
 .listItemInCart .cart-box:last-child{
   border: none;
   padding: 0;

@@ -1,183 +1,161 @@
 <p-toast></p-toast>
 
 <p-card>
-    <p-toolbar styleClass="mb-4 gap-2">
-        <ng-template pTemplate="left">
-            <button pButton pRipple label="Thêm sản phẩm" icon="pi pi-plus" class="border-round p-button-success mr-2"
-            style="border-radius: 8px;" (click)="openNew()"></button>
-        </ng-template>
-    </p-toolbar>
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="Thêm sản phẩm" icon="pi pi-plus" class="border-round p-button-success mr-2"
+        style="border-radius: 8px;" (click)="openNew()"></button>
+    </ng-template>
+  </p-toolbar>
 
-    <p-table #dt
-        [value]="listProduct"
-        [rows]="5"
-        [paginator]="true"
-        [globalFilterFields]="['name','price']"
-        [tableStyle]="{'min-width': '50rem'}"
-        [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [showCurrentPageReport]="true"
-      >
-        <ng-template pTemplate="caption">
-            <div class="flex align-items-center justify-content-between flex-wrap">
-                <h5 class="m-0 flex align-items-center justify-content-center">Quản lý sản phẩm</h5>
-                <!-- <span class="p-input-icon-left flex align-items-center justify-content-center">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search" class="input_Search"/>`
-                </span> -->
-            </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="min-width: 4rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
-                <th pSortableColumn="name" style="min-width:4rem">Tên <p-sortIcon field="name"></p-sortIcon></th>
-                <th>Image</th>
-                <th pSortableColumn="price">Giá <p-sortIcon field="price"></p-sortIcon></th>
-                <th pSortableColumn="category" style="min-width:4rem">Danh mục <p-sortIcon field="category"></p-sortIcon></th>
-                <th pSortableColumn="rating">Đánh giá <p-sortIcon field="rating"></p-sortIcon></th>
-                <th pSortableColumn="inventoryStatus" style="min-width:10rem">Tình trạng <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
-                <th></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-product>
-            <tr>
-                <td>
-                    <p-tableCheckbox [value]="product"></p-tableCheckbox>
-                </td>
-                <td>{{product.productname}}</td>
-                <td>
-                  <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" [alt]="product.productname" width="100" class="shadow-4" />
-                </td>
-                <td>{{product.price | currency:'VND'}}</td>
-                <td>{{product.category.name}}</td>
-                <td><p-rating [ngModel]="product.rate" [readonly]="true" [cancel]="false"></p-rating></td>
-                <td><p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product)"></p-tag></td>
-                <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="openUpdate(product)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="onDelete(product.id,product.productname)"></button>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+  <p-table #dt [value]="listProduct" [rows]="5" [paginator]="true" [globalFilterFields]="['name','price']"
+    [tableStyle]="{'min-width': '50rem'}" [rowHover]="true" dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between flex-wrap">
+        <h5 class="m-0 flex align-items-center justify-content-center">Quản lý sản phẩm</h5>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <!-- <th style="min-width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th> -->
+        <th pSortableColumn="productname" style="min-width:4rem">Tên <p-sortIcon field="productname"></p-sortIcon></th>
+        <th>Image</th>
+        <th pSortableColumn="price">Giá <p-sortIcon field="price"></p-sortIcon></th>
+        <th pSortableColumn="category.name">Danh mục <p-sortIcon field="category.name"></p-sortIcon></th>
+        <!-- <th pSortableColumn="rating">Đánh giá <p-sortIcon field="rating"></p-sortIcon></th> -->
+        <th pSortableColumn="inventoryStatus" style="min-width:10rem">Tình trạng <p-sortIcon
+            field="inventoryStatus"></p-sortIcon></th>
+        <th>Số lượng</th>
+        <th>Hoạt động</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <!-- <td>
+          <p-tableCheckbox [value]="product"></p-tableCheckbox>
+        </td> -->
+        <td>{{product.productname}}</td>
+        <td>
+          <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" [alt]="product.productname" width="100"
+            class="shadow-4" />
+        </td>
+        <td>{{product.price | currency:'VND'}}</td>
+        <td>{{product.category.name}}</td>
+        <!-- <td><p-rating [ngModel]="product.rate" [readonly]="true" [cancel]="false"></p-rating></td> -->
+        <td><p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product)"></p-tag></td>
+        <td>{{product.quantity}}</td>
+        <td>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+            (click)="openUpdate(product)"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+            (click)="onDelete(product.id,product.productname)"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 </p-card>
 
-<p-dialog [(visible)]="showForm" [style]="{width: '40vw'}" header="Product Details" [modal]="true" styleClass="p-fluid">
-    <ng-template pTemplate="content" p-scroller>
-        <div class="field">
-            <button pButton type="button" class="border-round p-button-success w-auto" (click)="onChooseImage()"> Chọn ảnh</button>
-            <p-dialog header="Chọn ảnh" [(visible)]="showImage" position="top" [modal]="true" [style]="{width: '40vw'}" [transitionOptions]="'.3s'">
-                <div class="flex justify-content-between">
-                    <div>
-                        <input type="file" #file (change)="uploadFile($event)" hidden>
-                        <button pButton (click)="file.click()" label="Tải ảnh lên" icon="pi pi-plus" class="border-round p-button-warning w-auto"></button>
-                    </div>
-                    <div>
-                        <button pButton (click)="chooseImage()" class="border-round p-button-primary w-auto" label="Chọn ảnh" [disabled]="disabled"></button>
-                        <button pButton class="border-round p-button-danger ml-2 w-auto" icon="pi pi-trash " label="Xóa ảnh" [disabled]="disabled"></button>
-                    </div>
-                </div>
-                <p-divider align="left" >
-                    Ảnh đã tải lên
-                </p-divider>
-                <div class="grid">
-                    <div class="col-4 list-image flex align-items-center" *ngFor="let image of listImage">
-                        <img src="{{'data:image/jpg;base64,' + image.data}}" alt="" class="w-full h-full p-2 border-1" (click)="selectImage($event,image)" >
-                    </div>
-                </div>
-
-            </p-dialog>
-            <div class="grid mt-1" *ngIf="listImageChoosen != null">
-                <div class="product-image col-2 flex align-items-center" *ngFor="let image of listImageChoosen; let i = index;">
-                    <img src="{{'data:image/jpg;base64,' + image.data}}" alt="" class="w-full h-full">
-                    <button pButton icon="pi pi-times" class="border-round btn-remove-image" (click)="deleteImage(i)" ></button>
-                </div>
-            </div>
+<p-dialog [(visible)]="showForm" [style]="{width: '50vw'}" header="Product Details" [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content" p-scroller>
+    <div class="field">
+      <button pButton type="button" class="border-round p-button-success w-auto" (click)="onChooseImage()"> Chọn
+        ảnh</button>
+      <p-dialog header="Chọn ảnh" [(visible)]="showImage" position="top" [modal]="true" [style]="{width: '50vw'}"
+        [transitionOptions]="'.3s'">
+        <div class="flex justify-content-between">
+          <div>
+            <input type="file" #file (change)="uploadFile($event)" hidden>
+            <button pButton (click)="file.click()" label="Tải ảnh lên" icon="pi pi-plus"
+              class="border-round p-button-warning w-auto"></button>
+          </div>
+          <div>
+            <button pButton (click)="chooseImage()" class="border-round p-button-primary w-auto" label="Chọn ảnh"
+              [disabled]="disabled"></button>
+            <button pButton class="border-round p-button-danger ml-2 w-auto" icon="pi pi-trash " label="Xóa ảnh"
+              [disabled]="disabled"></button>
+          </div>
         </div>
-        <div class="field grid">
-            <label for="name" class="col-12 mb-2 md:col-2 md:mb-0">Tên</label>
-            <div class="col-12 md:col-10">
-                <input id="name" type="text"
-                  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                  pInputText [(ngModel)]="productForm.productname" required autofocus
-                >
-            </div>
+        <p-divider align="left">
+          Ảnh đã tải lên
+        </p-divider>
+        <div class="grid">
+          <div class="col-4 list-image flex align-items-center" *ngFor="let image of listImage">
+            <img src="{{'data:image/jpg;base64,' + image.data}}" alt="" class="w-full h-full p-2 border-1"
+              (click)="selectImage($event,image)">
+          </div>
         </div>
-        <div class="field grid">
-            <label for="description" class="col-12 mb-2 md:col-2 md:mb-0">Mô tả</label>
-            <div class="col-12 md:col-10">
-                <textarea id="description" type="text"
-                  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                  pInputTextarea [(ngModel)]="productForm.description" required rows="3" cols="20"
-                ></textarea>
-            </div>
+      </p-dialog>
+      <div class="grid mt-1" *ngIf="listImageChoosen != null">
+        <div class="product-image col-2 flex align-items-center" *ngFor="let image of listImageChoosen; let i = index;">
+          <img src="{{'data:image/jpg;base64,' + image.data}}" alt="" class="w-full h-full">
+          <button pButton icon="pi pi-times" class="border-round btn-remove-image" (click)="deleteImage(i)"></button>
         </div>
+      </div>
+    </div>
+    <div class="field grid">
+      <label for="name" class="col-12 mb-2 md:col-2 md:mb-0">Tên</label>
+      <div class="col-12 md:col-10">
+        <input id="name" type="text"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          pInputText [(ngModel)]="productForm.productname" required autofocus>
+      </div>
+    </div>
+    <div class="field grid">
+      <label for="description" class="col-12 mb-2 md:col-2 md:mb-0">Mô tả</label>
+      <div class="col-12 md:col-10">
+        <textarea id="description" type="text"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          pInputTextarea [(ngModel)]="productForm.description" required rows="3" cols="20"></textarea>
+      </div>
+    </div>
 
-        <div class="formgrid grid">
-            <div class="field col">
-                <label for="origin">Xuất xứ</label>
-                <input id="origin" type="text"
-                  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                  pInputText [(ngModel)]="productForm.origin" required autofocus
-                >
+    <div class="formgrid grid">
+      <div class="field col">
+        <label for="origin">Xuất xứ</label>
+        <input id="origin" type="text"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          pInputText [(ngModel)]="productForm.origin" required autofocus>
+      </div>
+      <div class="field col">
+        <label for="unit">Đơn vị tính</label>
+        <input id="unit" type="text" placeholder="Thung/Lon/Loc/Hop"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          pInputText [(ngModel)]="productForm.unit" required autofocus>
+      </div>
+    </div>
 
-                <!-- <p-inputNumber id="origin" [(ngModel)]="productForm.origin"></p-inputNumber> -->
-            </div>
-            <div class="field col">
-                <label for="unit">Đơn vị tính</label>
-                <input id="unit" type="text"  placeholder="Thung/Lon/Loc/Hop"
-                  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                  pInputText [(ngModel)]="productForm.unit" required autofocus
-                >
-                <!-- <div class="card flex justify-content-center">
-                    <span class="p-float-label">
-                        <p-multiSelect [options]="units" [(ngModel)]="selectedUnits" placeholder="Select a Unit" optionLabel="name" inputId="float-label"></p-multiSelect>
-                        <label for="float-label">Unit</label>
-                    </span>
-                </div> -->
-                <!-- <p-inputNumber id="unit" [(ngModel)]="productForm.unit"></p-inputNumber> -->
-            </div>
+    <div class="field">
+      <label class="mb-3">Danh mục</label>
+      <div class="formgrid grid">
+        <div class="field-radiobutton col-6" *ngFor="let category of listCategory">
+          <p-radioButton name="category" value="{{category.id}}" [(ngModel)]="productForm.categoryId"
+            [inputId]="category.id" class="mr-2"></p-radioButton>
+          <label [for]="category.id">{{category.name}}</label>
         </div>
+      </div>
+    </div>
 
-        <div class="field">
-            <label class="mb-3">Danh mục</label>
-            <div class="formgrid grid">
-                <div class="field-radiobutton col-6" *ngFor="let category of listCategory">
-                        <p-radioButton name="category" value="{{category.id}}" [(ngModel)]="productForm.categoryId" [inputId]="category.id" class="mr-2"></p-radioButton>
-                    <label [for]="category.id">{{category.name}}</label>
-                </div>
-            </div>
-        </div>
-
-        <!-- <div class="formgrid grid">
-            <div class="field col">
-                <label for="price">Price</label>
-                <p-inputNumber id="price" [(ngModel)]="productForm.price" mode="currency" currency="VND" locale="VN"></p-inputNumber>
-            </div>
-            <div class="field col">
-                <label for="quantity">Quantity</label>
-                <p-inputNumber id="quantity" [(ngModel)]="productForm.quantity"></p-inputNumber>
-            </div>
-        </div> -->
-
-    </ng-template>
-    <ng-template pTemplate="footer">
-        <button type="submit" pButton *ngIf="!onUpdate" class="border-round" (click)="createProduct()">Tạo mới</button>
-        <button type="submit" pButton *ngIf="onUpdate" class="border-round" (click)="updateProduct()" >Cập nhật</button>
-        <button pButton type="button" class="border-round p-button-danger ml-3" (click)="showForm=false">Hủy</button>
-    </ng-template>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button type="submit" pButton *ngIf="!onUpdate" class="border-round" (click)="createProduct()">Tạo mới</button>
+    <button type="submit" pButton *ngIf="onUpdate" class="border-round" (click)="updateProduct()">Cập nhật</button>
+    <button pButton type="button" class="border-round p-button-danger ml-3" (click)="showForm=false">Hủy</button>
+  </ng-template>
 </p-dialog>
 
-<p-dialog header="Xác nhận" [(visible)]="showDelete" [style]="{width :'30vw'}" [modal]="true" [transitionOptions]="'.3s'">
-    <div>
-        <i class="pi pi pi-exclamation-triangle"></i>
-        <span class="ml-2">Bạn có chắc xóa <span>{{productForm.productname}}</span> ?</span>
-    </div>
-    <div class="flex justify-content-end mt-3">
-        <p-button label="Yes" icon="pi pi-check" class="border-round mr-2" (click)="deleteProduct()"></p-button>
-        <p-button label="No" icon="pi pi-times" class="border-round" (click)="showDelete=false"></p-button>
-    </div>
+<p-dialog header="Xác nhận" [(visible)]="showDelete" [style]="{width :'30vw'}" [modal]="true"
+  [transitionOptions]="'.3s'">
+  <div>
+    <i class="pi pi pi-exclamation-triangle"></i>
+    <span class="ml-2">Bạn có chắc xóa <span>{{productForm.productname}}</span> ?</span>
+  </div>
+  <div class="flex justify-content-end mt-3">
+    <p-button label="Yes" icon="pi pi-check" class="border-round mr-2" (click)="deleteProduct()"></p-button>
+    <p-button label="No" icon="pi pi-times" class="border-round" (click)="showDelete=false"></p-button>
+  </div>
 </p-dialog>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

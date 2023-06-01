@@ -11,10 +11,15 @@ export class StorageService {
   currentUser = this.userSource.asObservable();
   username: string;
 
+  promotionCode: string = null;
+
   constructor() { }
 
   clean():void{
+    this.username = null;
+    localStorage.removeItem('username');
     window.sessionStorage.clear();
+    // window.localStorage.clear();
   }
 
   // saveUsername():void{
@@ -30,7 +35,7 @@ export class StorageService {
   }
 
   loadUsername(){
-    this.username = JSON.parse(localStorage.getItem('username') as any);
+    this.username = JSON.parse(localStorage.getItem('username'));
     // console.log(this.username);
     return this.username;
   }

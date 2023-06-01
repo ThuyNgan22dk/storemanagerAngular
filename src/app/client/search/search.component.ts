@@ -6,7 +6,6 @@ import { CartService } from 'src/app/_services/cart.service';
 import { CategoryService } from 'src/app/_services/category.service';
 import { ProductService } from 'src/app/_services/product.service';
 import { StorageService } from 'src/app/_services/storage.service';
-import { WishlistService } from 'src/app/_services/wishlist.service';
 
 @Component({
   selector: 'app-search',
@@ -30,6 +29,7 @@ export class SearchComponent implements OnInit {
   listCategory: any;
   items: any[] = [];
   rangeValues = [0,100];
+  addOrChange: boolean;
 
   constructor(
     private router: Router,
@@ -38,19 +38,14 @@ export class SearchComponent implements OnInit {
     private productService: ProductService,
     private cartService: CartService,
     public storageService:StorageService,
-    private messageService:MessageService,
-    private wishlistService:WishlistService){
+    private messageService:MessageService){
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(): void {
-    // this.storageService.currentUser.subscribe(username => this.username = username);
-    // console.log(this.username);
     this.username = this.storageService.loadUsername();
-    console.log(this.route.snapshot.params['keyword']);
+    // this.items = this.cartService.loadCartLocal();
     this.keyword = this.route.snapshot.params['keyword'];
-    // console.log(this.keyword);
-    // this.keyword = this.keywords;
     this.getListProduct();
     this.getListCategoryEnabled();
     this.getNewestProduct();
@@ -80,7 +75,6 @@ export class SearchComponent implements OnInit {
     this.productService.getListByPriceRange(0,this.rangeValues[0],this.rangeValues[1]).subscribe({
       next: res =>{
         this.listProduct = res;
-        // console.log(this.listProduct);
       },error: err =>{
         console.log(err);
       }
@@ -103,11 +97,9 @@ export class SearchComponent implements OnInit {
   };
 
   getListProduct(){
-    // console.log(this.keyword);
     this.productService.searchProduct(this.keyword).subscribe({
       next: res =>{
         this.listProduct = res;
-        console.log(this.listProduct);
       },error: err =>{
         console.log(err);
       }
@@ -134,40 +126,61 @@ export class SearchComponent implements OnInit {
     })
   }
 
+  addToCart(item: any){
+    this.addOrChange = true;//true -> add, false -> change
+    if(this.items != null){
+      for (let i = 0; i < this.items.length; i++) {
+        if (this.items[i].name === item.productname) {
+          this.addOrChange = false;
+          var quantity = Number(this.items[i].quantity) + 1;
+          console.log("cập nhật");
+          if(quantity <= item.quantity) {
+            this.cartService.productAvailableOnCart(this.username, item.productname, this.items[i].quantity, 1).subscribe({
+              next: res =>{
+                this.getItems();
+                this.showSuccess("Cập nhật thành công");
+              },error: err =>{
+                this.showError(err.message);
+              }
+            })
+          } else{
+            this.showError("Lỗi số lượng! Yêu cầu bạn không nhập giá trị lớn hơn lượng tồn kho.");
+          }
+        }
+      }
+      if (this.addOrChange) {
+        console.log("thêm mới");
+        this.cartService.addToCart(this.username, item.productname, 1).subscribe({
+          next: res =>{
+            this.getItems();
+            this.showSuccess("Thêm mới thành công");
+          },error: err =>{
+            this.showError(err.message);
+          }
+        })
+      }
+      window.location.reload();
+    }else{
+      this.showWarn("Mời bạn đăng nhập để thêm sản phẩm vào giở hàng");
+    }
+  }
+
   getItems(){
     this.cartService.getItems(this.username).subscribe({
       next: res =>{
         this.items = res;
-        console.log(this.items);
+        // this.cartService.getTotalPrice(this.items);
+        // this.cartService.saveCartLocal(this.items);
       },error: err =>{
         console.log(err);
       }
     })
   }
 
-  addToCart(item: any){
-    // this.cartService.getItems(this.username);
-    // this.showSuccess("Add To Cart Successfully!")
-    console.log(item.productname);
-    this.cartService.addToCart(this.username, item.productname, 1).subscribe({
-      next: res =>{
-        this.getItems();
-        // this.showForm = false;
-        this.showSuccess("Thêm mới thành công");
-      },error: err =>{
-        this.showError(err.message);
-      }
-    });
-  }
-
-  addToWishList(item: any){
-    if(!this.wishlistService.productInWishList(item)){
-      this.wishlistService.addToWishList(item);
-    }
-  }
   showSuccess(text: string) {
     this.messageService.add({severity:'success', summary: 'Success', detail: text});
   }
+
   showError(text: string) {
     this.messageService.add({severity:'error', summary: 'Error', detail: text});
   }

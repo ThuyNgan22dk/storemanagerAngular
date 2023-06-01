@@ -4,6 +4,7 @@ a {
 h1 {
 	font-weight: bold;
 	margin: 0;
+  padding: 12px;
 }
 
 h2 {
@@ -11,6 +12,7 @@ h2 {
 }
 
 p {
+  padding: 0 8px;
 	font-size: 14px;
 	font-weight: 100;
 	line-height: 20px;

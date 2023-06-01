@@ -1,98 +1,151 @@
-<p>user-profile works!</p>
-<section class="breadcrumb-section set-bg" [ngStyle]="{backgroundImage:'url(assets/image/breadcrumb.jpg'}">
-  <div class="container">
-      <div class="row">
-          <div class="col-lg-12 text-center">
-              <div class="breadcrumb__text">
-                  <h2>UserDetail</h2>
-                  <div class="breadcrumb__option">
-                      <a routerLink="/" >Home</a>
-                      <span>User</span>
-                  </div>
-              </div>
+<div class="form__template"  *ngIf="user != null">
+  <div class="form__template-box">
+    <div class="account">
+      <div class="account__sidebar">
+        <div class="account__sidebar-user">
+          <img src="./../../../assets/img/icon-5359553_1280.webp" alt="avatar" *ngIf="!showImageUser"/>
+          <img src="{{'data:image/jpg;base64,' + listImage[0].data}}" alt="avatar" *ngIf="showImageUser">
+          <div class="info">
+            Tài khoản của<strong>{{user.firstname}} {{user.lastname}}</strong>
           </div>
+        </div>
+        <ul class="account__sidebar-detail">
+          <li>
+            <a href="/userDetail" (click)="showOrder = !showOrder">
+              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em"
+                width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z">
+                </path>
+              </svg>
+              <span>Hồ sơ cá nhân</span>
+            </a>
+          </li>
+          <li>
+            <a (click)="showOrder = !showOrder">
+              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em"
+                width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M13 12h7v1.5h-7zm0-2.5h7V11h-7zm0 5h7V16h-7zM21 4H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 15h-9V6h9v13z">
+                </path>
+              </svg>
+              <span>Quản lý đơn hàng</span>
+            </a>
+          </li>
+        </ul>
       </div>
-  </div>
-</section>
-
-<section class="user mt-5 mb-5">
-  <div class="container">
-      <div class="row">
-          <div class="col-md-3 border-right" *ngIf="user != null">
-              <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
-                      src="assets/image/author.jpg"><span
-                      class="font-weight-bold">{{user.username}}</span><span class="text-black-50">{{user.email}}</span><span>
-              </span></div>
-          </div>
-          <div class="col-md-5 border-right">
-              <div class="p-3 py-5">
-                  <div class="d-flex justify-content-between align-items-center mb-3">
-                      <h4 class="text-right">Profile Settings</h4>
-                  </div>
-                  <div class="row mt-2">
-                      <div class="col-md-6"><label class="labels">First Name</label>
-                          <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="updateForm.firstname" name="firstname">
-                      </div>
-                      <div class="col-md-6"><label class="labels">Last Name</label>
-                          <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="updateForm.lastname" name="lastname">
-                          </div>
-                  </div>
-                  <div class="row mt-3">
-                      <div class="col-md-12"><label class="labels">PhoneNumber</label>
-                          <input type="text"  class="form-control" placeholder="Phone Number" [(ngModel)]="updateForm.phone" name="phone">
-                      </div>
-                      <div class="col-md-12"><label class="labels">Address</label>
-                          <input type="text" class="form-control" placeholder="Address" [(ngModel)]="updateForm.address" name="address">
-                      </div>
-                      <div class="col-md-12"><label class="labels">Email</label>
-                          <input type="text" class="form-control" placeholder="Email" [(ngModel)]="updateForm.email" name="email">
-                      </div>
-                  </div>
-                  <div class="row mt-3">
-                      <div class="col-md-6"><label class="labels">Country</label>
-                          <input type="text" class="form-control" placeholder="country" [(ngModel)]="updateForm.country" name="country">
-                      </div>
-                      <div class="col-md-6"><label class="labels">State/Region</label>
-                          <input type="text" class="form-control" placeholder="state" [(ngModel)]="updateForm.state" name="state">
-                      </div>
-                  </div>
-                  <div class="mt-5 text-center">
-                      <button class="btn btn-primary profile-button" type="button" (click)="updateProfile()">Save Profile</button>
-                  </div>
+      <div class="account__info" *ngIf="!showOrder">
+        <p>Hồ sơ cá nhân</p>
+        <div class="info">
+          <div class="container">
+            <div class="row p-5">
+              <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5" style="position: relative;">
+                  <img class="rounded-circle" style="width: 75%" src="./../../../assets/img/icon-5359553_1280.webp" alt="avatar" *ngIf="!showImageUser"/>
+                  <img class="rounded-circle" style="width: 75%" src="{{'data:image/jpg;base64,' + listImage[0].data}}" alt="avatar" *ngIf="showImageUser">
+                    <input type="file" #file (change)="setImg($event)" hidden>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded btn_pencil" (click)="file.click()"></button>
+                    <!-- <button pButton (click)="file.click()" label="Tải ảnh lên" icon="pi pi-plus"
+                      class="border-round p-button-warning w-auto"></button> -->
+                  <span class="font-weight-bold">{{ user.username }}</span>
+                  <span class="text-black-50">{{ user.email }}</span>
+                  <span></span>
+                </div>
               </div>
-          </div>
-          <!-- <div class="col-md-4">
-              <div class="p-3 py-5">
-                  <div class="col-md-12">
-                      <button pButton pRipple type="button" label="Change Password" class="p-button-primary" (click)="showChangePassword()"></button>
-                      <p-dialog header="Danh mục" [(visible)]="changePassword" [style]="{width: '30vw'}" [modal]="true" [transitionOptions]="'.3s'">
-                          <form action="">
-                              <div class="p-field">
-                                  <label for="username">Old Password: </label>
-                                  <input type="text" pInputText class="w-full mt-2" [(ngModel)]="changePasswordForm.oldPassword" name="oldPassword">
-                              </div>
-                              <div class="p-field">
-                                  <label for="username">New Password: </label>
-                                  <input type="text" pInputText class="w-full mt-2" name="name"[(ngModel)]="changePasswordForm.newPassword">
-                              </div>
-                              <div class="p-field">
-                                  <label for="username">Repeat Password: </label>
-                                  <input type="text" pInputText class="w-full mt-2" name="name">
-                              </div>
-                              <div class="p-field mt-3">
-                                  <button type="submit" pButton (click)="changePasswordFunc()" >Save</button>
-                                  <button pButton type="button" class="p-button-danger ml-3" (click)="changePassword=false">Hủy</button>
-                              </div>
-                          </form>
-                      </p-dialog>
+              <div class="col-md-9 border-right py-5">
+                <div class="form-left">
+                  <div>
+                    <div class="form__input">
+                      <p>Họ và tên đệm</p>
+                      <input pInputText type="text" [(ngModel)]="updateForm.firstname" label="" name="firstname" />
+                    </div>
                   </div>
+                  <div>
+                    <div class="form__input">
+                      <p>Tên</p>
+                      <input pInputText type="text" [(ngModel)]="updateForm.lastname" name="lastname" />
+                    </div>
+                  </div>
+                  <div>
+                    <div class="form__input">
+                      <p>Số điện thoại</p>
+                      <input pInputText type="text" [(ngModel)]="updateForm.phone" name="phone" />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-right">
+                  <div>
+                    <div class="form__input">
+                      <p>Địa chỉ email</p>
+                      <input pInputText type="text" [(ngModel)]="updateForm.email" name="email" />
+                    </div>
+                  </div>
+                  <div class="form__input">
+                    <p>Tỉnh/ Thành phố</p>
+                    <input pInputText type="text" [(ngModel)]="updateForm.country" name="country" />
+                  </div>
+                  <div class="form__input">
+                    <p>Địa chỉ giao hàng</p>
+                    <input pInputText type="text" [(ngModel)]="updateForm.address" name="address" />
+                  </div>
+                </div>
+                <div>
+                  <button class="btn btn-primary profile-button" type="button" (click)="updateProfile()">
+                    Lưu hồ sơ cá nhân
+                  </button>
+                </div>
               </div>
-          </div> -->
+              <div class="col-md-12">
+                <div class="p-3 py-5">
+                  <div>
+                    <a pButton pRipple type="button" label="Đổi mật khẩu" class="primary-btn cart-btn"
+                      *ngIf="!changePassword" (click)="showChangePassword()"></a>
+                    <form action="" *ngIf="changePassword" class="formgrid grid">
+                      <div class="p-field form__input field col">
+                        <p for="username">Mật khẩu cũ:</p>
+                        <p-password class="p-2" type="password" [(ngModel)]="changePasswordForm.oldPassword"
+                          name="oldPassword" [toggleMask]="true" />
+                      </div>
+                      <div class="p-field form__input field col">
+                        <p for="username">Mật khẩu mới:</p>
+                        <p-password class="p-2" type="password" [(ngModel)]="changePasswordForm.newPassword"
+                          name="newPassword" [toggleMask]="true" />
+                      </div>
+                      <div class="p-field form__input field col">
+                        <p for="username">Xác nhận lại mật khẩu mới:</p>
+                        <p-password class="p-2" type="password" [(ngModel)]="changePasswordForm.confirmPassword"
+                          name="confirmPassword" [toggleMask]="true" />
+                      </div>
+                      <div class="p-field form__input" style="margin-top: 2.4rem">
+                        <button type="submit" pButton class="border-round" (click)="changePasswordFunc()">
+                          Lưu
+                        </button>
+                        <button pButton type="button" class="border-round ml-3" (click)="changePassword = false">
+                          Hủy
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div>
+                    <a pButton pRipple type="button" label="Cài lại mật khẩu" class="primary-btn cart-btn"
+                      *ngIf="!resetPassword" (click)="showResetPassword()"></a>
+                    <form action="" *ngIf="resetPassword" class="formgrid grid">
+                      <p>
+                        Mật khẩu của bạn đã được tạo lại như sau: {{ code }}
+                      </p>
+                      <button pButton type="button" class="border-round p-button-danger ml-3"
+                        (click)="resetPassword = false">
+                        Ok
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+      <app-my-order *ngIf="showOrder"></app-my-order>
+    </div>
   </div>
-</section>
-<!-- <div class="container rounded bg-white mt-5 mb-5">
-  <div class="row">
-
-  </div>
-</div> -->
+</div>

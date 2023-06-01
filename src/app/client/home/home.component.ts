@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { faHeart, faShoppingBag, faInfo } from '@fortawesome/free-solid-svg-icons';
 import { MessageService } from 'primeng/api';
-import { Category } from 'src/app/_models/category';
 import { CartService } from 'src/app/_services/cart.service';
 import { CategoryService } from 'src/app/_services/category.service';
 import { PhotoService } from 'src/app/_services/photo.service';
 import { ProductService } from 'src/app/_services/product.service';
 import { StorageService } from 'src/app/_services/storage.service';
-import { WishlistService } from 'src/app/_services/wishlist.service';
 
 @Component({
   selector: 'app-home',
@@ -17,36 +15,35 @@ import { WishlistService } from 'src/app/_services/wishlist.service';
 
 })
 export class HomeComponent implements OnInit {
-  ratingValue: number;
   images: any[];
 
   responsiveOptions: any[];
 
   feature = [
-      {
-        image: '../../../assets/img/features/f1.png',
-        name: 'Free Shipping'
-      },
-      {
-        image: '../../../assets/img/features/f2.png',
-        name: 'Online Order'
-      },
-      {
-        image: '../../../assets/img/features/f3.png',
-        name: 'Save Money'
-      },
-      {
-        image: '../../../assets/img/features/f4.png',
-        name: 'Promotions'
-      },
-      {
-        image: '../../../assets/img/features/f5.png',
-        name: 'Happy Sell'
-      },
-      {
-        image: '../../../assets/img/features/f6.png',
-        name: 'F24/7 Support'
-      }
+    {
+      image: '../../../assets/img/features/f1.png',
+      name: 'Free Shipping'
+    },
+    {
+      image: '../../../assets/img/features/f2.png',
+      name: 'Online Order'
+    },
+    {
+      image: '../../../assets/img/features/f3.png',
+      name: 'Save Money'
+    },
+    {
+      image: '../../../assets/img/features/f4.png',
+      name: 'Promotions'
+    },
+    {
+      image: '../../../assets/img/features/f5.png',
+      name: 'Happy Sell'
+    },
+    {
+      image: '../../../assets/img/features/f6.png',
+      name: 'F24/7 Support'
+    }
   ]
 
   heart = faHeart;
@@ -54,194 +51,147 @@ export class HomeComponent implements OnInit {
   retweet = faInfo;
 
   username: string;
-  listProductNewest : any;
-  listProductPrice: any;
+  listProductNewest: any;
   id: number = 0;
-  listProduct : any;
-  listCategory : any;
-  check: boolean = true;
+  listProduct: any;
+  listCategory: any;
   listProductHeart = [];
-  items: any[] =[];
-
+  items: any[] = [];
+  addOrChange: boolean;
   showDepartment = true;
 
-  category_items_response= [
-    {
+  constructor(private productService: ProductService,
+    private categoryService: CategoryService,
+    private cartService: CartService,
+    private storageService: StorageService,
+    private messageService: MessageService,
+    private photoService: PhotoService) { }
+
+  ngOnInit(): void {
+    this.responsiveOptions = [
+      {
         breakpoint: '1024px',
-        numVisible: 3,
-        numScroll: 3
-    },
-    {
+        numVisible: 5
+      },
+      {
         breakpoint: '768px',
-        numVisible: 2,
-        numScroll: 2
-    },
-    {
+        numVisible: 3
+      },
+      {
         breakpoint: '560px',
-        numVisible: 1,
-        numScroll: 1
-    }
-]
-
-constructor(private productService:ProductService,
-            private categoryService:CategoryService,
-            private cartService: CartService,
-            private wishlistService: WishlistService,
-            public storageService:StorageService,
-            private messageService: MessageService,
-            private photoService: PhotoService){}
-
-ngOnInit(): void {
-  this.responsiveOptions = [
-      {
-          breakpoint: '1199px',
-          numVisible: 1,
-          numScroll: 1
-      },
-      {
-          breakpoint: '991px',
-          numVisible: 2,
-          numScroll: 1
-      },
-      {
-          breakpoint: '767px',
-          numVisible: 1,
-          numScroll: 1
+        numVisible: 1
       }
-  ];
-  this.getListProduct();
-  this.photoService.getImages().then((images) => {
-    this.images = images;
-  });
-  // this.storageService.currentUser.subscribe(username => this.username = username);
-  this.username = this.storageService.loadUsername();
-  // console.log(this.username);
-  this.getListProductNewest();
-  this.getListCategoryEnabled();
-}
-
-getListProductByCategory(id: number){
-  this.productService.getListProductByCategory(id).subscribe({
-    next: res =>{
-      this.listProduct = res;
-    },error: err =>{
-      console.log(err);
-    }
-  })
-}
-
-addRedHeart(id: number){
-  this.check = true;
-  let index = 0;
-  //delete heart
-  while(this.listProductHeart[index] <= this.listProductHeart.length){
-    if (this.listProductHeart[index] == id) {
-      this.id = id - 1;
-      document.getElementsByClassName('heart')[this.id].classList.remove('active');
-      this.listProductHeart.splice(index,1);
-      this.check = false;
-      break;
-    }
-    index++;
+    ];
+    this.photoService.getImages().then((images) => {
+      this.images = images;
+    });
+    this.username = this.storageService.loadUsername();
+    this.getItems();
+    this.getListProductForUser();
+    this.getListProductNewest();
+    this.getListCategoryEnabled();
   }
-  //add heart
-  if (this.check) {
-    this.id = id - 1;
-    document.getElementsByClassName('heart')[this.id].classList.add('active');
-    this.listProductHeart.push(id);
-    this.check = true;
+
+  getListCategoryEnabled() {
+    this.categoryService.getListCategoryEnabled().subscribe({
+      next: res => {
+        this.listCategory = res;
+      }, error: err => {
+        console.log(err);
+      }
+    })
   }
-}
 
-addActive(id: number){
-  if(id == 0){
-    this.getListProduct();
-  } else {
-    this.getListProductByCategory(id);
+  getListProductNewest() {
+    this.productService.getListProductNewest(8).subscribe({
+      next: res => {
+        this.listProductNewest = res;
+      }, error: err => {
+        console.log(err);
+      }
+    })
   }
-  document.querySelector('.active')?.classList.remove('active');
-  document.getElementsByClassName('categoryId')[id].classList.add('active');
-}
 
-getListCategoryEnabled(){
-  this.categoryService.getListCategoryEnabled().subscribe({
-    next: res =>{
-      this.listCategory = res;
-    },error: err=>{
-      console.log(err);
-    }
-  })
-}
-
-getListProductNewest(){
-  this.productService.getListProductNewest(8).subscribe({
-    next: res =>{
-      this.listProductNewest = res;
-    },error: err =>{
-      console.log(err);
-    }
-  })
-}
-
-getListProduct() {
-  this.productService.getListProduct().subscribe({
-    next: res =>{
-      this.listProduct = res;
-    },error: err =>{
-      console.log(err);
-    }
-  })
-}
-
-getListProductByPrice(){
-  this.productService.getListProductByPrice().subscribe({
-    next:res =>{
-      this.listProductPrice =res;
-    },error: err=>{
-      console.log(err);
-    }
-  })
-}
-
-addToCart(item: any){
-  console.log(item.productname);
-  this.cartService.addToCart(this.username, item.productname, 1).subscribe({
-    next: res =>{
-      this.getItems();
-      // this.showForm = false;
-      this.showSuccess("Thêm mới thành công");
-    },error: err =>{
-      this.showError(err.message);
-    }
-  })
-}
-
-getItems(){
-  this.cartService.getItems(this.username).subscribe({
-    next: res =>{
-      this.items = res;
-      console.log(this.items);
-    },error: err =>{
-      console.log(err);
-    }
-  })
-}
-
-addToWishList(item: any){
-  if(!this.wishlistService.productInWishList(item)){
-    this.showSuccess("Add To Wishlist Successfully!")
-    this.wishlistService.addToWishList(item);
+  getListProductForUser() {
+    this.productService.getListProductForUser().subscribe({
+      next: res => {
+        this.listProduct = res;
+      }, error: err => {
+        console.log(err);
+      }
+    })
   }
-}
 
-showSuccess(text: string) {
-  this.messageService.add({severity:'success', summary: 'Success', detail: text});
-}
-showError(text: string) {
-  this.messageService.add({severity:'error', summary: 'Error', detail: text});
-}
+  getListProduct() {
+    this.productService.getListProduct().subscribe({
+      next: res => {
+        this.listProduct = res;
+      }, error: err => {
+        console.log(err);
+      }
+    })
+  }
 
-showWarn(text: string) {
-  this.messageService.add({severity:'warn', summary: 'Warn', detail: text});
-}
+  addToCart(item: any){
+    this.addOrChange = true;//true -> add, false -> change
+    if(this.items != null){
+      for (let i = 0; i < this.items.length; i++) {
+        if (this.items[i].name === item.productname) {
+          this.addOrChange = false;
+          var quantity = Number(this.items[i].quantity) + 1;
+          console.log("cập nhật");
+          if(quantity <= item.quantity) {
+            this.cartService.productAvailableOnCart(this.username, item.productname, this.items[i].quantity, 1).subscribe({
+              next: res =>{
+                this.getItems();
+                this.showSuccess("Cập nhật thành công");
+              },error: err =>{
+                this.showError(err.message);
+              }
+            })
+          } else{
+            this.showError("Lỗi số lượng! Yêu cầu bạn không nhập giá trị lớn hơn lượng tồn kho.");
+          }
+        }
+      }
+      if (this.addOrChange) {
+        console.log("thêm mới");
+        this.cartService.addToCart(this.username, item.productname, 1).subscribe({
+          next: res =>{
+            this.getItems();
+            this.showSuccess("Thêm mới thành công");
+          },error: err =>{
+            this.showError(err.message);
+          }
+        })
+      }
+      window.location.reload();
+    }else{
+      this.showWarn("Mời bạn đăng nhập để thêm sản phẩm vào giở hàng");
+    }
+  }
+
+  getItems() {
+    if( this.username != null){
+      this.cartService.getItems(this.username).subscribe({
+        next: res =>{
+          this.items = res;
+        },error: err =>{
+          console.log(err);
+        }
+      })
+    }
+  }
+
+  showSuccess(text: string) {
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: text });
+  }
+
+  showError(text: string) {
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: text });
+  }
+
+  showWarn(text: string) {
+    this.messageService.add({ severity: 'warn', summary: 'Warn', detail: text });
+  }
 }

@@ -40,7 +40,7 @@ import { SplitterModule } from 'primeng/splitter';
 import { SidebarModule } from 'primeng/sidebar';
 import { ImportGoodComponent } from './admin/import-good/import-good.component';
 import { PromotionComponent } from './admin/promotion/promotion.component';
-import { CommentComponent } from './admin/comment/comment.component';
+// import { CommentComponent } from './admin/comment/comment.component';
 import { OrderComponent } from './admin/order/order.component';
 import { HomeComponent } from './client/home/home.component';
 import { CartComponent } from './client/cart/cart.component';
@@ -60,6 +60,11 @@ import { IndexComponent } from './client/index/index.component';
 import { ShopComponent } from './client/shop/shop.component';
 import { TabMenuModule } from "primeng/tabmenu";
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ImageModule } from 'primeng/image';
+import { TimelineModule } from 'primeng/timeline';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { ChartModule } from 'primeng/chart';
+import { WarehouseComponent } from './admin/warehouse/warehouse.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +77,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     CategoryComponent,
     ImportGoodComponent,
     PromotionComponent,
-    CommentComponent,
+    // CommentComponent,
     OrderComponent,
     HomeComponent,
     CartComponent,
@@ -84,7 +89,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     OrderDetailComponent,
     ImportDetailComponent,
     IndexComponent,
-    ShopComponent
+    ShopComponent,
+    WarehouseComponent
   ],
   imports: [
     BrowserModule,
@@ -126,6 +132,10 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     CheckboxModule,
     TabMenuModule,
     AutoCompleteModule,
+    ImageModule,
+    TimelineModule,
+    ToggleButtonModule,
+    ChartModule,
     BrowserAnimationsModule
   ],
   providers: [DataViewLayoutOptions],

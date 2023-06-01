@@ -29,10 +29,7 @@ export class AccountComponent implements OnInit {
     firstname: "string",
     lastname: "string",
     country: "string",
-    bank: "string",
-    bankAccount: "string",
     phone:  "string",
-    state:  "string",
     enabled: false
   }
 
@@ -46,7 +43,7 @@ export class AccountComponent implements OnInit {
     this.userService.getListUser().subscribe({
       next: res =>{
         this.listUser = res;
-        console.log(res);
+        // console.log(res);
       },error: err =>{
         console.log(err);
       }
@@ -63,10 +60,7 @@ export class AccountComponent implements OnInit {
       firstname: "string",
       lastname: "string",
       country: "string",
-      bank: "string",
-      bankAccount: "string",
       phone:  "string",
-      state:  "string",
       enabled: false
     }
     this.displayForm = true;
@@ -83,10 +77,7 @@ export class AccountComponent implements OnInit {
       this.userForm.firstname = data.firstname;
       this.userForm.lastname = data.lastname;
       this.userForm.country = data.country;
-      this.userForm.bank = data.bank;
-      this.userForm.bankAccount = data.bankAccount;
       this.userForm.phone = data.phone;
-      this.userForm.state = data.state;
       this.userForm.enabled = data.enabled;
   }
 
@@ -96,36 +87,11 @@ export class AccountComponent implements OnInit {
   }
 
   updateUser(){
-    const {id,username,firstname,lastname,email,country,state,address,phone} = this.userForm;
-    this.userService.updateUser(id,username,firstname,lastname,email,country,state,address,phone).subscribe({
+    const {id,username,firstname,lastname,email,country,address,phone} = this.userForm;
+    this.userService.updateUser(id,username,firstname,lastname,email,country,address,phone).subscribe({
       next: res =>{
         this.getListUser();
         this.showSuccess("Cập nhật thành công!");
-        this.displayForm = false;
-      },error: err =>{
-        this.showError(err.message);
-      }
-    })
-  }
-
-  changePassword(id: number, password: string, newPassword: string){
-    // const {id, password} = this.userForm;
-    this.userService.changePassword(id,password,newPassword).subscribe({
-      next: res =>{
-        this.getListUser();
-        this.showSuccess("Đổi mật khẩu thành công!");
-        this.displayForm = false;
-      },error: err =>{
-        this.showError(err.message);
-      }
-    })
-  }
-
-  resetPassword(id: number){
-    this.userService.resetPassword(id).subscribe({
-      next: res =>{
-        this.getListUser();
-        this.showSuccess("Đổi mật khẩu thành công!");
         this.displayForm = false;
       },error: err =>{
         this.showError(err.message);
@@ -144,7 +110,6 @@ export class AccountComponent implements OnInit {
     })
   }
 
-
   deleteUser(){
     const {id} = this.userForm;
     this.userService.deleteUser(id).subscribe({
@@ -161,6 +126,7 @@ export class AccountComponent implements OnInit {
   showSuccess(text: string) {
     this.messageService.add({severity:'success', summary: 'Success', detail: text});
   }
+
   showError(text: string) {
     this.messageService.add({severity:'error', summary: 'Error', detail: text});
   }

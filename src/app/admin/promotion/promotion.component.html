@@ -50,9 +50,9 @@
                 </div>
             </div>
             <div class="p-field mt-3">
-                <button type="submit" pButton (click)="createPromotion()" *ngIf="!onUpdate" >Tạo mới</button>
-                <button type="submit" pButton (click)="updatePromotion()" *ngIf="onUpdate" >Cập nhật</button>
-                <button pButton type="button" class="p-button-danger ml-3" (click)="displayForm=false">Hủy</button>
+                <button type="submit" pButton class="border-round" (click)="createPromotion()" *ngIf="!onUpdate" >Tạo mới</button>
+                <button type="submit" pButton class="border-round" (click)="updatePromotion()" *ngIf="onUpdate" >Cập nhật</button>
+                <button pButton type="button" class="border-round p-button-danger ml-3" (click)="displayForm=false">Hủy</button>
             </div>
         </ng-template>
     </p-dialog>
@@ -84,8 +84,8 @@
                 <td>{{promotion.quantity}}</td>
                 <td>{{promotion.percent}}%</td>
                 <td>
-                    <button pButton type="button" class="border-round p-button-info" (click)="enablePromotion(promotion.id)" *ngIf="promotion.enabled">Enabled</button>
-                    <button pButton type="button" class="border-round p-button-warning" (click)="enablePromotion(promotion.id)" *ngIf="!promotion.enabled">Disabled</button>
+                    <button pButton type="button" class="border-round p-button-info" (click)="enablePromotion(promotion.id)" *ngIf="promotion.enabled">Đã xác nhận</button>
+                    <button pButton type="button" class="border-round p-button-warning" (click)="enablePromotion(promotion.id)" *ngIf="!promotion.enabled">Chưa xác nhận</button>
                 </td>
                 <td>
                     <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button-success" (click)="onUpdateForm(promotion.id,promotion.name,promotion.detail,promotion.code,promotion.quantity,promotion.percent)"></button>

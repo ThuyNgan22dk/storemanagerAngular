@@ -51,7 +51,7 @@
               <td>
                 <p-cellEditor>
                   <ng-template pTemplate="output">
-                    {{item.price + " đ"}}
+                    {{item.price | currency: 'VND'}}
                   </ng-template>
                 </p-cellEditor>
               </td>
@@ -83,7 +83,7 @@
               <td>
                 <p-cellEditor>
                   <ng-template pTemplate="output">
-                    {{item.total + " đ"}}
+                    {{item.total | currency:'VND'}}
                   </ng-template>
                 </p-cellEditor>
               </td>
@@ -103,7 +103,7 @@
             <div>
               <div class="col-lg-12">
                 <div class="shoping__cart__btns">
-                  <a href="javascript:void(0)" routerLink="/" class="primary-btn cart-btn">TIẾP TỤC XEM CỬA HÀNG</a>
+                  <a href="javascript:void(0)" routerLink="/category/0" class="primary-btn cart-btn">TIẾP TỤC XEM CỬA HÀNG</a>
                 </div>
               </div>
               <div class="cart__address">
@@ -127,8 +127,8 @@
                   <div class="shopping__discount">
                     <h5>MÃ GIẢM GIÁ</h5>
                     <form action="#">
-                      <input pInputText type="text" placeholder="THÊM MÃ GIẢM GIÁ">
-                      <button type="submit" class="site-btn">THÊM</button>
+                      <input pInputText type="text" [(ngModel)]="promotionCode" name="promotionCode" required placeholder="THÊM MÃ GIẢM GIÁ">
+                      <button type="submit" class="site-btn" (click)="checkCode(promotionCode)">THÊM</button>
                     </form>
                   </div>
               </div>
@@ -136,9 +136,10 @@
             <div class="shopping__checkout">
               <h5>Đơn hàng</h5>
               <ul>
-                <li>Tổng tiền <span class="text-red-500">{{cartService.totalPrice + " đ"}}</span></li>
-                <li>Giảm giá <span class="text-red-500">- 0%</span></li>
-                <li>Thành tiền <span class="text-red-500">{{cartService.total + " đ"}}</span></li>
+                <li>Tổng tiền <span class="text-red-500">{{price.totalPrice | currency:'VND'}}</span></li>
+                <li *ngIf="!showDiscount">Giảm giá <span class="text-red-500">- 0%</span></li>
+                <li *ngIf="showDiscount">Giảm giá <span class="text-red-500">- {{promotionForm.percent}}%</span></li>
+                <li>Thành tiền <span class="text-red-500">{{price.total | currency:'VND'}}</span></li>
               </ul>
               <a href="javascript:void(0)" routerLink="/checkout" class="btn-primary">TIẾN HÀNH KIỂM TRA</a>
             </div>

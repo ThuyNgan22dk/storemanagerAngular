@@ -1,11 +1,21 @@
 <div class="form__template">
   <div class="form__template-box">
     <div class="form__info">
-      <div class="form__info-detail">
+      <!-- <div class="form__info-detail">
         <h6>Nổi bật</h6>
         <a class="form__info-a" href="#">Giá rẻ mỗi ngày</a>
         <a class="form__info-a" href="#">Chương trình khuyến mãi</a>
         <a class="form__info-a" href="#">Tips mua hàng tiết kiệm</a>
+      </div> -->
+      <div class="form__info-detail">
+        <h6>Danh mục</h6>
+        <ul>
+          <li><a class="form__info-a" href="javascript:void(0)" routerLink="/category/0">Tất cả</a></li>
+          <li *ngFor="let category of listCategory">
+            <a class="form__info-a" href="javascript:void(0)"
+              routerLink="/category/{{category.id}}">{{category.name}}</a>
+          </li>
+        </ul>
       </div>
       <div class="form__info-detail">
         <h6>Tính năng</h6>
@@ -24,16 +34,6 @@
             </ng-template>
           </p-galleria>
         </div>
-      </div>
-      <div class="form__info-detail">
-        <h6>Danh mục</h6>
-        <ul>
-          <li><a class="form__info-a" href="javascript:void(0)" routerLink="/category/0">Tất cả</a></li>
-          <li *ngFor="let category of listCategory">
-            <a class="form__info-a" href="javascript:void(0)"
-              routerLink="/category/{{category.id}}">{{category.name}}</a>
-          </li>
-        </ul>
       </div>
     </div>
     <div class="form__detail">
@@ -55,41 +55,47 @@
             <h2>Sản phẩm nổi bật</h2>
             <p-carousel [value]="listProduct" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
               <ng-template let-product pTemplate="item">
-                <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}" class="product-item">
+                <a href="javascript:void(0)" class="product-item">
                   <div class="product-item-content">
                     <div class="pro-container">
                       <div class="pro">
-                        <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
-                        <div class="des">
-                          <span>{{product.category.name}}</span>
-                          <h5>{{product.productname}}</h5>
-                          <div style="display: flex; align-items: center; min-height: 18px;">
-                            <div class="total" style="display: flex; align-items: center;">
-                              <span
-                                style="font-weight: 400; font-size: 12px; line-height: 150%; color: rgb(128, 128, 137);">
-                                4.95
-                              </span>
-                              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
-                                size="14" color="#fdd836" height="14" width="14" xmlns="http://www.w3.org/2000/svg"
-                                style="color: rgb(253, 216, 54);">
-                                <path
-                                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z">
-                                </path>
-                              </svg>
-                            </div>
-                            <div
-                              style="display: flex; align-items: center; color: rgb(128, 128, 137); line-height: 150%; font-size: 12px; padding-left: 4px;">
-                              <div style="width: 1px; height: 9px; background-color: rgb(199, 199, 199);"></div>
-                              <div data-view-id="pdp_quantity_sold" style="padding-left: 6px;">Đã bán 1000+</div>
-                            </div>
+                        <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}">
+                          <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
+                          <div class="des">
+                            <span>{{product.category.name}}</span>
+                            <h5>{{product.productname}}</h5>
+                            <!-- <div style="display: flex; align-items: center; min-height: 18px;">
+                              <div class="total" style="display: flex; align-items: center;">
+                                <span
+                                  style="font-weight: 400; font-size: 12px; line-height: 150%; color: rgb(128, 128, 137);">
+                                  4.95
+                                </span>
+                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                  size="14" color="#fdd836" height="14" width="14" xmlns="http://www.w3.org/2000/svg"
+                                  style="color: rgb(253, 216, 54);">
+                                  <path
+                                    d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z">
+                                  </path>
+                                </svg>
+                              </div>
+                              <div
+                                style="display: flex; align-items: center; color: rgb(128, 128, 137); line-height: 150%; font-size: 12px; padding-left: 4px;">
+                                <div style="width: 1px; height: 9px; background-color: rgb(199, 199, 199);"></div>
+                                <div data-view-id="pdp_quantity_sold" style="padding-left: 6px;">Đã bán 1000+</div>
+                              </div>
+                            </div> -->
+                            <!-- <h4>{{product.price | currency:'VND'}}</h4> -->
                           </div>
-                          <h4>{{product.price}} đ</h4>
-                        </div>
+                        </a>
                         <!-- <a href="javascript:void(0)" (click)="addToWishList(product)"><fa-icon (click)="addRedHeartNew(product.id)" class="heart" [icon]="heart"></fa-icon></a> -->
                         <!-- <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}"><fa-icon class="retweet"
                             [icon]="retweet"></fa-icon></a>-->
-                        <a href="javascript:void(0)" (click)="addToCart(product)"><fa-icon class="cart"
-                            [icon]="bag"></fa-icon></a> 
+                        <div class="flex align-items-center justify-content-between">
+                          <span class="text-base font-semibold text-red-500">{{ product.price | currency:'VND'}}</span>
+                          <button pButton icon="pi pi-shopping-cart" class="p-button-rounded"
+                            (click)="addToCart(product)"
+                            [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -105,45 +111,51 @@
             <p-carousel [value]="listProductNewest" [numVisible]="5" [numScroll]="1"
               [responsiveOptions]="responsiveOptions">
               <ng-template let-product pTemplate="item">
-                <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}" class="product-item">
+                <div class="product-item">
                   <div class="product-item-content">
                     <div class="pro-container">
                       <div class="pro">
-                        <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
-                        <div class="des">
-                          <span>{{product.category.name}}</span>
-                          <h5>{{product.productname}}</h5>
-                          <div style="display: flex; align-items: center; min-height: 18px;">
-                            <div class="total" style="display: flex; align-items: center;">
-                              <span
-                                style="font-weight: 400; font-size: 12px; line-height: 150%; color: rgb(128, 128, 137);">
-                                4.95
-                              </span>
-                              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
-                                size="14" color="#fdd836" height="14" width="14" xmlns="http://www.w3.org/2000/svg"
-                                style="color: rgb(253, 216, 54);">
-                                <path
-                                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z">
-                                </path>
-                              </svg>
-                            </div>
-                            <div
-                              style="display: flex; align-items: center; color: rgb(128, 128, 137); line-height: 150%; font-size: 12px; padding-left: 4px;">
-                              <div style="width: 1px; height: 9px; background-color: rgb(199, 199, 199);"></div>
-                              <div data-view-id="pdp_quantity_sold" style="padding-left: 6px;">Đã bán 1000+</div>
-                            </div>
+                        <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}">
+                          <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
+                          <div class="des">
+                            <span>{{product.category.name}}</span>
+                            <h5>{{product.productname}}</h5>
+                            <!-- <div style="display: flex; align-items: center; min-height: 18px;">
+                              <div class="total" style="display: flex; align-items: center;">
+                                <span
+                                  style="font-weight: 400; font-size: 12px; line-height: 150%; color: rgb(128, 128, 137);">
+                                  4.95
+                                </span>
+                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                  size="14" color="#fdd836" height="14" width="14" xmlns="http://www.w3.org/2000/svg"
+                                  style="color: rgb(253, 216, 54);">
+                                  <path
+                                    d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z">
+                                  </path>
+                                </svg>
+                              </div>
+                              <div
+                                style="display: flex; align-items: center; color: rgb(128, 128, 137); line-height: 150%; font-size: 12px; padding-left: 4px;">
+                                <div style="width: 1px; height: 9px; background-color: rgb(199, 199, 199);"></div>
+                                <div data-view-id="pdp_quantity_sold" style="padding-left: 6px;">Đã bán 1000+</div>
+                              </div>
+                            </div> -->
+                            <!-- <h4>{{product.price}} đ</h4> -->
                           </div>
-                          <h4>{{product.price}} đ</h4>
-                        </div>
+                        </a>
                         <!-- <a href="javascript:void(0)" (click)="addToWishList(product)"><fa-icon (click)="addRedHeartNew(product.id)" class="heart" [icon]="heart"></fa-icon></a> -->
                         <!-- <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}"><fa-icon class="retweet"
-                            [icon]="retweet"></fa-icon></a>
-                        <a href="javascript:void(0)" (click)="addToCart(product)"><fa-icon class="cart"
-                            [icon]="bag"></fa-icon></a> -->
+                            [icon]="retweet"></fa-icon></a> -->
+                        <div class="flex align-items-center justify-content-between">
+                          <span class="text-base font-semibold text-red-500">{{ product.price | currency:'VND'}}</span>
+                          <button pButton icon="pi pi-shopping-cart" class="p-button-rounded"
+                            (click)="addToCart(product)"
+                            [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </a>
+                </div>
               </ng-template>
             </p-carousel>
           </section>

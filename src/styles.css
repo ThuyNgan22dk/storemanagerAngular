@@ -25,6 +25,15 @@ body{
   overflow-x: hidden;
 }
 
+a{
+  text-decoration: none;
+  color: #212A3E;
+}
+
+a:hover{
+  color: #212A3E;
+}
+
 @keyframes show {
 	0%, 49.99% {
 		opacity: 0;

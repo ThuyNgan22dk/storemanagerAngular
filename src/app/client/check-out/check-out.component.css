@@ -61,7 +61,7 @@ h4{
   border: 1px solid #ebebeb;
   padding-left: 20px;
   font-size: 16px;
-  color: #b2b2b2;
+  color: #343a40;
   border-radius: 8px;
 }
 
@@ -71,7 +71,7 @@ h4{
   border: 1px solid #ebebeb;
   padding-left: 20px;
   font-size: 16px;
-  color: #b2b2b2;
+  color: #343a40;
   border-radius: 8px;
 }
 
@@ -85,12 +85,21 @@ h4{
 }
 
 .btn-primary{
-  font-size: 14px;
-  padding: 10px;
+  width: 240px;
+  font-size: 18px;
+  padding: 12px;
   color: #F1F6F9;
   text-transform: uppercase;
   font-weight: 700;
   background: #394867;
   letter-spacing: 1px;
   border-radius: 8px;
+  text-align: center;
+}
+
+.checkout__order ul li {
+  font-size: 15px;
+  color: #6f6f6f;
+  line-height: 40px;
+  list-style: none;
 }

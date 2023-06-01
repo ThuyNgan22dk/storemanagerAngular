@@ -20,7 +20,7 @@
           <p-slider [(ngModel)]="rangeValues" [range]="true" [min]="0" [max]="500" [style]="{'background': 'var(--bs-gray-200)', 'margin-left': '16px'}"
             (onChange)="getListProductByPriceRange()"></p-slider>
           <div class="price-input mt-3">
-            {{rangeValues[0] + "000 đ"}} - {{rangeValues[1] + "000 đ"}}
+            {{rangeValues[0] + "000" | currency:'VND'}} - {{rangeValues[1] + "000" | currency:'VND'}}
           </div>
         </div>
         <div class="form__info-detail">
@@ -28,13 +28,13 @@
             <h6>Sản phẩm mới</h6>
             <div class="latest-product__slider">
               <div class="latest-prdouct__slider__item">
-                <a href="#" class="latest-product__item" *ngFor="let product of listProductNewest">
+                <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}" class="latest-product__item" *ngFor="let product of listProductNewest">
                   <div class="latest-product__item__pic">
                     <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
                   </div>
                   <div class="latest-product__item__text">
                     <h6>{{product.name}}</h6>
-                    <span>{{product.price + " đ"}}</span>
+                    <span>{{product.price | currency:'VND'}}</span>
                   </div>
                 </a>
               </div>
@@ -51,23 +51,25 @@
               <ng-template let-product pTemplate="gridItem">
                 <div class="col-12 sm:col-6 lg:col-12 xl:col-3 p-3">
                   <div class="p-3 border-1 surface-border surface-card border-round">
-                    <div class="flex flex-wrap align-items-center justify-content-between gap-2">
-                      <span class="flex align-items-center gap-2">
-                        <i class="pi pi-tag"></i>
-                        <span class="font-semibold">{{ product.category.name }}</span>
-                      </span>
-                      <p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product)"></p-tag>
-                    </div>
-                    <div class="flex flex-column align-items-center gap-3 py-3">
-                      <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
-                      src="{{'data:image/jpg;base64,' + product.images[0].data}}"
-                      style="height: 160px;"
-                      [alt]="product.productname" />
-                      <div class="text-base font-bold">{{ product.productname }}</div>
-                      <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
-                    </div>
+                    <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}">
+                      <div class="flex flex-wrap align-items-center justify-content-between gap-2">
+                        <span class="flex align-items-center gap-2">
+                          <i class="pi pi-tag"></i>
+                          <span class="font-semibold">{{ product.category.name }}</span>
+                        </span>
+                        <p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product)"></p-tag>
+                      </div>
+                      <div class="flex flex-column align-items-center gap-3 py-3">
+                        <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
+                        src="{{'data:image/jpg;base64,' + product.images[0].data}}"
+                        style="height: 160px;"
+                        [alt]="product.productname" />
+                        <div class="text-base font-bold" style="height: 76px;">{{ product.productname }}</div>
+                        <!-- <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating> -->
+                      </div>
+                    </a>
                     <div class="flex align-items-center justify-content-between">
-                      <span class="text-base font-semibold text-red-500">{{ product.price + " đ" }}</span>
+                      <span class="text-base font-semibold text-red-500">{{ product.price | currency:'VND'}}</span>
                       <button pButton icon="pi pi-shopping-cart" class="p-button-rounded"
                         (click)="addToCart(product)"
                         [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>

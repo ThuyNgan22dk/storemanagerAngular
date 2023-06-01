@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, AfterContentChecked } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {faBars, faHeart, faRightFromBracket, faUser, faSearch} from '@fortawesome/free-solid-svg-icons'
 import {faShoppingBag} from '@fortawesome/free-solid-svg-icons'
@@ -8,7 +8,6 @@ import { AuthService } from 'src/app/_services/auth.service';
 import { CartService } from 'src/app/_services/cart.service';
 import { CategoryService } from 'src/app/_services/category.service';
 import { StorageService } from 'src/app/_services/storage.service';
-import { WishlistService } from 'src/app/_services/wishlist.service';
 
 
 @Component({
@@ -20,7 +19,7 @@ import { WishlistService } from 'src/app/_services/wishlist.service';
 })
 export class IndexComponent implements OnInit {
 
-  listItemInCart: any[] = [];
+  // listItemInCart: any[] = [];
   totalPrice = 0;
   search = faSearch;
   heart = faHeart;
@@ -45,6 +44,11 @@ export class IndexComponent implements OnInit {
     password: null
   }
 
+  price = {
+    total: 0,
+    totalPrice: 0
+  }
+
   isSuccessful = false;
   isSignUpFailed = false;
   isLoggedIn = false;
@@ -59,7 +63,6 @@ export class IndexComponent implements OnInit {
 
   constructor(
     public cartService:CartService,
-    public wishlistService: WishlistService,
     private authService: AuthService,
     private storageService: StorageService,
     private messageService:MessageService,
@@ -69,19 +72,14 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoggedIn = false;
     this.storageService.currentUser.subscribe(username => this.username = username);
     this.username = this.storageService.loadUsername();
-    console.log(this.username);
     this.getCategoryEnbled();
     this.isLoggedIn = this.storageService.isLoggedIn();
-    this.wishlistService.loadWishList();
     this.getItems();
-    // this.cartService.loadCart();
   }
 
-  // showDepartmentClick(){
-  //   this.showDepartment = !this.showDepartment;
-  // }
   showAuthForm(){
     if(!this.isLoggedIn){
       this.authModal = true;
@@ -101,21 +99,15 @@ export class IndexComponent implements OnInit {
   }
 
   removeFromCart(item:any){
-    console.log(item.id);
-    this.cartService.deleteProduct(item.id).subscribe({
+    // console.log(item.id);
+    this.cartService.deleteProduct(item.id, this.username).subscribe({
       next: res =>{
         this.getItems();
         this.showWarn("Xóa thành công");
-        // this.showDelete = false;
       },error: err =>{
         this.showError(err.message);
       }
     })
-    // this.getItems();
-  }
-
-  removeWishList(item: any){
-    this.wishlistService.remove(item);
   }
 
   showAuthFormClick(){
@@ -129,49 +121,42 @@ export class IndexComponent implements OnInit {
         this.isLoggedIn = false;
         this.authModal = false;
         this.showSuccess("Bạn đã đăng xuất!!");
+        this.username = this.storageService.loadUsername();
+        // console.log(this.username);
       },error: err=>{
         this.showError(err.message);
       }
     })
+    window.location.reload();
   }
 
-  addToCart(item: any){
-    // this.cartService.getItems(this.username);
-    // this.showSuccess("Add To Cart Successfully!")
-    console.log(item.productname);
-    this.cartService.addToCart(this.username, item.productname, 1).subscribe({
-      next: res =>{
-        this.getItems();
-        // this.showForm = false;
-        this.showSuccess("Thêm mới thành công");
-      },error: err =>{
-        this.showError(err.message);
-      }
-    });
+  getTotalPrice(items: any[]){
+    this.price.totalPrice = 0;
+    this.price.total = 0;
+    items.forEach(res =>{
+      this.price.totalPrice += res.total;
+      this.price.total = this.price.totalPrice;
+    })
+    return this.price;
   }
 
   getItems(){
-    this.cartService.getItems(this.username).subscribe({
-      next: res =>{
-        this.items = res;
-        console.log(this.items);
-      },error: err =>{
-        console.log(err);
-      }
-    })
-  }
-
-  addToWishList(item: any){
-    if(!this.wishlistService.productInWishList(item)){
-      this.showSuccess("Add To Wishlist Successfully!")
-      this.wishlistService.addToWishList(item);
+    if( this.username != null){
+      this.cartService.getItems(this.username).subscribe({
+        next: res =>{
+          this.items = res;
+          this.getTotalPrice(this.items);
+        },error: err =>{
+          console.log(err);
+        }
+      })
     }
   }
-
 
   showSuccess(text: string) {
     this.messageService.add({severity:'success', summary: 'Success', detail: text});
   }
+
   showError(text: string) {
     this.messageService.add({severity:'error', summary: 'Error', detail: text});
   }
@@ -179,6 +164,4 @@ export class IndexComponent implements OnInit {
   showWarn(text: string) {
     this.messageService.add({severity:'warn', summary: 'Warn', detail: text});
   }
-
-
 }

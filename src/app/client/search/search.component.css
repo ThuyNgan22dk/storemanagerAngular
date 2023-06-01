@@ -20,3 +20,9 @@
 :host ::ng-deep .p-dataview.p-dataview-list .p-dataview-content > .p-grid > div{
   border: none;
 }
+
+a:hover, a:focus{
+  text-decoration: none;
+  outline: none;
+  color: #212A3E;
+}

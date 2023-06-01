@@ -66,10 +66,10 @@ export class ProductComponent implements OnInit {
     this.listImageChoosen = [];
     this.productForm ={
       id: 0,
-      productname : "null",
-      description : "null",
-      origin : "null",
-      unit : "null",
+      productname : "",
+      description : "",
+      origin : "Việt Nam",
+      unit : "Thùng",
       price: 0,
       rate: 5,
       inventoryStatus: "INSTOCK",
@@ -125,7 +125,7 @@ export class ProductComponent implements OnInit {
     this.productService.getListProduct().subscribe({
       next: res =>{
         this.listProduct =res;
-        console.log(this.listProduct)
+        // console.log(this.listProduct);
       },error: err=>{
         console.log(err);
       }
@@ -143,7 +143,7 @@ export class ProductComponent implements OnInit {
   }
 
   getListImage(){
-    this.imageService.getList().subscribe({
+    this.imageService.getListByUsername("admin").subscribe({
       next:res=>{
         this.listImage =res;
       },error: err=>{
@@ -176,7 +176,7 @@ export class ProductComponent implements OnInit {
       this.productForm.imageIds.push(res.id);
     })
     const {productname,description,origin,unit,price,categoryId,imageIds} = this.productForm;
-    console.log(this.productForm);
+    // console.log(this.productForm);
     this.productService.createProduct(productname,description,origin,unit,price,categoryId,imageIds).subscribe({
       next: res =>{
         this.getListProduct();
@@ -193,10 +193,10 @@ export class ProductComponent implements OnInit {
     let data = this.listImageChoosen;
     data.forEach((res: any)=>{
       this.productForm.imageIds.push(res.id);
-      console.log(res.id);
+      // console.log(res.id);
     })
     const {id,productname,description,origin,unit,price,categoryId,imageIds} = this.productForm;
-    console.log(this.productForm);
+    // console.log(this.productForm);
     this.productService.updateProduct(id,productname,description,origin,unit,price,categoryId,imageIds).subscribe({
       next: res =>{
         this.getListProduct();

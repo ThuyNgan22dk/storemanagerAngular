@@ -1,92 +1,11 @@
 @import "../../../assets/css/style.css";
 @import "../../../assets/css/responsive.css";
-/*
-.form__template{
-  width: 1440px;
-  padding-left: 24px;
-  padding-right: 24px;
-  margin-right: auto;
-  margin-left: auto;
-}
 
-.form__template-box{
-  display: flex;
-  padding-top: 16px;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-}
-
-.form__info{
-  width: 230px;
-  //max-height: 100vh;
-  position: sticky;
-  //overflow-y: scroll;
-  top: 16px;
-  background-color: transparent;
-  display: flex;
-  padding-bottom: 117px;
-  flex-direction: column;
-  color: rgb(56, 56, 61);
-  font-size: 14px;
-  line-height: 20px;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-
-.form__info-detail{
-  width: 100%;
-  position: relative;
-  display: flex;
-  margin-bottom: 16px;
-  padding: 12px 8px;
-  flex-direction: column;
-  background-color: rgb(255, 255, 255);
-  border-radius: 8px;
-}
-
-.form__info-detail a{
-  display: flex;
+a:hover, a:focus{
   text-decoration: none;
-  padding: 7px 16px;
-  -webkit-box-align: center;
-  align-items: center;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease 0s;
+  outline: none;
+  color: #212A3E;
 }
-
-.form__info-detail a:hover{
-  background: rgba(39, 39, 42, 0.12);
-  color: rgb(39, 39, 42);
-}
-
-.form__info-detail ul li{
-  list-style: none;
-}
-
-.form__info-detail h6 {
-  margin-bottom: 8px;
-  //padding-left: 16px;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 150%;
-  color: rgb(39, 39, 42);
-  padding: 0 16px;
-}
-
-.form__info-a{
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 150%;
-  color: rgb(39, 39, 42);
-}
-
-.form__detail{
-  width: calc(100% - 254px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-} */
 
 .galleria__form {
   width: 100%;
@@ -387,7 +306,8 @@
 }
 
 #product1 .pro .des h5{
-  padding: 7px 0;
+  margin: 7px 0;
+  height: 70px;
   color: #1a1a1a;
   font-size: 14px;
 }
@@ -451,6 +371,8 @@
   color: #ef3636;
 }
 
+/* NewLetter */
+
 #newsletter{
   margin-top: 10px;
   height: 120px;
@@ -504,3 +426,4 @@
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+

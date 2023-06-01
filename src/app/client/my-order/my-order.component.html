@@ -1,45 +1,282 @@
-<p>my-order works!</p>
+<!-- <p>my-order works!</p> -->
 
-<div class="card">
-  <p-table #dt [value]="listOrder" [rows]="10" [paginator]="true" [globalFilterFields]="['firstname','lastname','address']" [tableStyle]="{'min-width': '75rem'}"
-      [rowHover]="true" dataKey="id"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+<div class="account__info">
+  <p>Quản lý đơn hàng</p>
+  <div class="card">
+    <p-table
+      #dt
+      [value]="listOrder"
+      [rows]="10"
+      [paginator]="true"
+      [rowHover]="true"
+      dataKey="id"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [showCurrentPageReport]="true"
+    >
       <ng-template pTemplate="caption">
-          <div class="flex align-items-center justify-content-between">
-              <h5 class="m-0">Manage Order</h5>
-              <span class="p-input-icon-left">
-                  <i class="pi pi-search"></i>
-                  <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Tìm kiếm" />`
-              </span>
-          </div>
+        <div class="flex align-items-center justify-content-between">
+          <h5 class="m-0">Manage Order</h5>
+        </div>
       </ng-template>
       <ng-template pTemplate="header">
-          <tr>
-              <th style="width: 4rem">
-                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-              </th>
-              <th pSortableColumn="name">Customer <p-sortIcon field="name"></p-sortIcon></th>
-              <th pSortableColumn="address">Address <p-sortIcon field="address"></p-sortIcon></th>
-              <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon></th>
-              <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
-              <th pSortableColumn="price">Total <p-sortIcon field="price"></p-sortIcon></th>
-              <th style="min-width:10rem">Status</th>
-              <th></th>
-          </tr>
+        <tr>
+          <th style="width: 5rem"></th>
+          <th pSortableColumn="name">
+            Customer <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="address">
+            Address <p-sortIcon field="address"></p-sortIcon>
+          </th>
+          <th pSortableColumn="phone">
+            Phone <p-sortIcon field="phone"></p-sortIcon>
+          </th>
+          <th pSortableColumn="email">
+            Email <p-sortIcon field="email"></p-sortIcon>
+          </th>
+          <th pSortableColumn="price">
+            Total <p-sortIcon field="price"></p-sortIcon>
+          </th>
+          <th style="min-width: 10rem">Status</th>
+          <th></th>
+        </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-order>
-          <tr>
-              <td style="width: 4rem">
-                  <p-tableCheckbox [value]="order"></p-tableCheckbox>
-              </td>
-              <td>{{order.firstname}} {{order.lastname}}</td>
-              <td>{{order.address}}</td>
-              <td>{{order.phone}}</td>
-              <td>{{order.email}}</td>
-              <td>{{order.totalPrice}}</td>
-              <td><button pButton type="button" label="Waiting For Delivery" class="p-button-success"></button></td>
-          </tr>
+      <ng-template pTemplate="body" let-order let-expanded="expanded">
+        <tr>
+          <td>
+            <button
+              type="button"
+              pButton
+              pRipple
+              [pRowToggler]="order"
+              class="p-button-text p-button-rounded p-button-plain"
+              [icon]="
+                expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
+              "
+              (click)="getListProductOrder(order.id)"
+            ></button>
+          </td>
+          <td>{{ order.firstname }} {{ order.lastname }}</td>
+          <td>{{ order.address }}</td>
+          <td>{{ order.phone }}</td>
+          <td>{{ order.email }}</td>
+          <td>{{ order.totalPrice | currency : "VND" }}</td>
+          <td>
+            <button
+              pButton
+              type="button"
+              label="{{ order.stating }}"
+              class="p-button-success"
+            ></button>
+          </td>
+        </tr>
       </ng-template>
-  </p-table>
+      <ng-template pTemplate="rowexpansion">
+        <tr>
+          <td colspan="7">
+            <div class="p-3">
+              <p-table
+                #dt
+                [value]="listProductOrder"
+                [rows]="5"
+                [paginator]="true"
+                [rowHover]="true"
+                dataKey="name"
+              >
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th pSortableColumn="name" style="min-width: 4rem">
+                      Tên sản phẩm <p-sortIcon field="name"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="price">
+                      Giá<p-sortIcon field="price"></p-sortIcon>
+                    </th>
+                    <th>Số lượng</th>
+                    <th style="min-width: 4rem">Hạn sử dụng</th>
+                    <th style="min-width: 4rem">Tổng tiền</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-orderDetails>
+                  <tr>
+                    <td>{{ orderDetails.name }}</td>
+                    <td>{{ orderDetails.price | currency : "VND" }}</td>
+                    <td>{{ orderDetails.quantity }}</td>
+                    <td>{{ orderDetails.expiry }}</td>
+                    <td>{{ orderDetails.subTotal }}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </div>
 
+<!-- <div class="form__template" *ngIf="user != null">
+  <div class="form__template-box">
+    <div class="account">
+      <div class="account__sidebar">
+        <div class="account__sidebar-user">
+          <img
+            src="https://lh3.googleusercontent.com/a-/AAuE7mB5t9O0fBoOVDIG15OEN2Jey3Hv8FKW_EIHh1iO"
+            alt="avatar"
+          />
+          <div class="info">
+            Tài khoản của<strong>{{user.firstname}} {{user.lastname}}</strong>
+          </div>
+        </div>
+        <ul class="account__sidebar-detail">
+          <li>
+            <a class="" href="/userDetail">
+              <svg
+                stroke="currentColor"
+                fill="currentColor"
+                stroke-width="0"
+                viewBox="0 0 24 24"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                ></path>
+              </svg>
+              <span>Hồ sơ cá nhân</span>
+            </a>
+          </li>
+          <li>
+            <a class="" href="/myOrder">
+              <svg
+                stroke="currentColor"
+                fill="currentColor"
+                stroke-width="0"
+                viewBox="0 0 24 24"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M13 12h7v1.5h-7zm0-2.5h7V11h-7zm0 5h7V16h-7zM21 4H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 15h-9V6h9v13z"
+                ></path>
+              </svg>
+              <span>Quản lý đơn hàng</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="account__info">
+        <p>Quản lý đơn hàng</p>
+        <div class="card">
+          <p-table
+            #dt
+            [value]="listOrder"
+            [rows]="10"
+            [paginator]="true"
+            [rowHover]="true"
+            dataKey="id"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true"
+          >
+            <ng-template pTemplate="caption">
+              <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Manage Order</h5>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 5rem"></th>
+                <th pSortableColumn="name">
+                  Customer <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="address">
+                  Address <p-sortIcon field="address"></p-sortIcon>
+                </th>
+                <th pSortableColumn="phone">
+                  Phone <p-sortIcon field="phone"></p-sortIcon>
+                </th>
+                <th pSortableColumn="email">
+                  Email <p-sortIcon field="email"></p-sortIcon>
+                </th>
+                <th pSortableColumn="price">
+                  Total <p-sortIcon field="price"></p-sortIcon>
+                </th>
+                <th style="min-width: 10rem">Status</th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-order let-expanded="expanded">
+              <tr>
+                <td>
+                  <button
+                    type="button"
+                    pButton
+                    pRipple
+                    [pRowToggler]="order"
+                    class="p-button-text p-button-rounded p-button-plain"
+                    [icon]="
+                      expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
+                    "
+                    (click)="getListProductOrder(order.id)"
+                  ></button>
+                </td>
+                <td>{{ order.firstname }} {{ order.lastname }}</td>
+                <td>{{ order.address }}</td>
+                <td>{{ order.phone }}</td>
+                <td>{{ order.email }}</td>
+                <td>{{ order.totalPrice | currency : "VND" }}</td>
+                <td>
+                  <button
+                    pButton
+                    type="button"
+                    label="{{ order.stating }}"
+                    class="p-button-success"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion">
+              <tr>
+                <td colspan="7">
+                  <div class="p-3">
+                    <p-table
+                      #dt
+                      [value]="listProductOrder"
+                      [rows]="5"
+                      [paginator]="true"
+                      [rowHover]="true"
+                      dataKey="name"
+                    >
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th pSortableColumn="name" style="min-width: 4rem">
+                            Tên sản phẩm <p-sortIcon field="name"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="price">
+                            Giá<p-sortIcon field="price"></p-sortIcon>
+                          </th>
+                          <th>Số lượng</th>
+                          <th style="min-width: 4rem">Hạn sử dụng</th>
+                          <th style="min-width: 4rem">Tổng tiền</th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-orderDetails>
+                        <tr>
+                          <td>{{ orderDetails.name }}</td>
+                          <td>{{ orderDetails.price | currency : "VND" }}</td>
+                          <td>{{ orderDetails.quantity }}</td>
+                          <td>{{ orderDetails.expiry }}</td>
+                          <td>{{ orderDetails.subTotal }}</td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

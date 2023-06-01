@@ -10,9 +10,6 @@
       </ng-template>
       <ng-template pTemplate="header">
           <tr>
-              <!-- <th style="width: 4rem">
-                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-              </th> -->
               <th pSortableColumn="name">Khách hàng<p-sortIcon field="name"></p-sortIcon></th>
               <th>Địa chỉ</th>
               <th>Số điện thoại</th>
@@ -25,9 +22,6 @@
       </ng-template>
       <ng-template pTemplate="body" let-order>
           <tr>
-              <!-- <td style="width: 4rem">
-                  <p-tableCheckbox [value]="order"></p-tableCheckbox>
-              </td> -->
               <td>{{order.user.username}}</td>
               <!-- <td>{{order.firstname}} {{order.lastname}}</td> -->
               <td>{{order.address}}</td>
@@ -35,19 +29,41 @@
               <td>{{order.promotionCode}}</td>
               <!-- <td>{{order.email}}</td> -->
               <td>{{order.totalPrice}}</td>
-              <td><button pButton type="button" label="Waiting For Delivery" class="border-round p-button-success"></button></td>
+              <!-- <td><button pButton type="button" label="{{order.state}}" class="border-round p-button-success"></button></td> -->
+              <td><p-tag [value]="order.stating" [severity]="getSeverity(order)"></p-tag></td>
               <td>
                 <button class="nav-link collapsed" routerLink="/admin/order/orderDetail/{{order.id}}" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities" pButton pRipple
                     icon="pi pi-info" class="p-button-rounded p-button-info mr-2">
                 </button>
-                <!-- <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="openUpdate(order)"></button>
-                <a class="nav-link collapsed" routerLink="/admin/order/orderDetail" data-toggle="collapse" data-target="#collapseUtilities"
+                <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="showStates(order)"
+                  [disabled]="order.stating == 'Không thành công'"></button>
+                <!-- <a class="nav-link collapsed" routerLink="/admin/order/orderDetail" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities" pButton pRipple
-                    icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"> -->
-                <!-- </a> -->
+                    icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"> </a> -->
               </td>
           </tr>
       </ng-template>
   </p-table>
 </div>
+<p-dialog header="Tình trạng đơn hàng" [(visible)]="showState" [style]="{width: '50vw'}" [modal]="true" [draggable]="false" [resizable]="false">
+  <button pButton label="Update" class="p-button-text" (click)="update()"></button>
+  <p-timeline [value]="listStates" align="alternate" styleClass="customized-timeline">
+    <ng-template pTemplate="marker" let-state>
+        <span class="custom-marker shadow-2 p-button p-button-rounded" [style.backgroundColor]="state.color" style="border: none;">
+            <i [ngClass]="state.icon"></i>
+        </span>
+    </ng-template>
+      <ng-template pTemplate="content" let-state>
+          <!-- {{ event }} -->
+          <p-card [header]="state.state" [subheader]="state.datetime">
+              <p-toggleButton [ngModel]="state.checked"
+                onLabel="Đã xác nhận" offLabel="Chưa xác nhận"
+                onIcon="pi pi-check" offIcon="pi pi-times"
+                [style]="{ width: '10em' }" (click)="setState(state.id)"
+                >
+              </p-toggleButton>
+          </p-card>
+      </ng-template>
+  </p-timeline>
+</p-dialog>

@@ -12,7 +12,6 @@
         [value]="listProductOrder"
         [rows]="5"
         [paginator]="true"
-        [globalFilterFields]="['name','price']"
         [tableStyle]="{'min-width': '50rem'}"
         [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -31,10 +30,10 @@
         </ng-template>
         <ng-template pTemplate="body" let-product>
             <tr>
-                <td>{{product.cart.name}}</td>
-                <td>{{product.cart.price | currency:'VND'}}</td>
-                <td>{{product.cart.quantity}}</td>
-                <td>{{product.cart.product.expiry}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.price | currency:'VND'}}</td>
+                <td>{{product.quantity}}</td>
+                <td>{{product.expiry}}</td>
                 <td>{{product.subTotal}}</td>
                 <!-- <td>{{product.category.name}}</td> -->
                 <!-- <td>
@@ -44,13 +43,13 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
-          <div class="flex align-items-center justify-content-between">
-            <!-- Total amount of the order {{total}}. -->
-          </div>
-      </ng-template>
+            <div class="flex align-items-center justify-content-between">
+              <!-- Total amount of the order {{total}}. -->
+            </div>
+        </ng-template>
     </p-table>
 </div>
-<!-- 
+<!--
 <p-dialog [(visible)]="showForm" [style]="{width: '40vw'}" header="Product Details" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content" p-scroller>
         <div class="field grid" style="margin-left: 6px;">

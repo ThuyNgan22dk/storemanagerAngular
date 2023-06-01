@@ -5,8 +5,8 @@
   <div class="form__cart">
 
     <div class="cart__main">
-      <div style="flex: 1 1 910px;background: #fff;padding: 0 38px 38px 38px;border-radius: 8px;">
-        <!-- <div class="col-lg-8 col-md-6"> -->
+      <!-- flex: 1 1 910px; -->
+      <div style="background: #fff;padding: 0 38px 38px 38px;border-radius: 8px;">
             <div class="cart__title">
               <div>Thông tin giao hàng</div>
             </div>
@@ -29,12 +29,6 @@
                         <input type="text" [(ngModel)]="orderForm.phone" name="phone">
                     </div>
                 </div>
-                <!-- <div>
-                    <div class="checkout__input">
-                        <p>Email<span>*</span></p>
-                        <input type="text" [(ngModel)]="orderForm.email" name="email">
-                    </div>
-                </div> -->
             </div>
             <div class="form__address-right">
                 <div>
@@ -51,25 +45,12 @@
                   <p>Địa chỉ giao hàng<span>*</span></p>
                   <input type="text" [(ngModel)]="orderForm.address" name="address">
               </div>
-              <!-- <div class="checkout__input">
-                  <p>Town/City<span>*</span></p>
-                  <input type="text" [(ngModel)]="orderForm.town" name="town">
-              </div>
-              <div class="checkout__input">
-                  <p>Country/State<span>*</span></p>
-                  <input type="text" [(ngModel)]="orderForm.state" name="state">
-              </div> -->
             </div>
-            <!-- <div class="checkout__input__checkbox">
-                <p-checkbox inputId="diff-acc"></p-checkbox>
-                <label for="diff-acc">Ship to a different address?</label>
-            </div> -->
             <div class="checkout__input">
                 <p>Ghi chú</p>
                 <textarea type="text" rows="3" pInputTextarea class="w-full"
                     placeholder="Ghi chú về đơn đặt hàng của bạn" [(ngModel)]="orderForm.note" name="note"></textarea>
             </div>
-        <!-- </div> -->
       </div>
       <div style="flex: 1 1 calc(100% - 925px); margin-left: 20px; display: block;">
         <div class="right-inner" style="top: -346px;">
@@ -78,12 +59,13 @@
                   <h4>Thông tin đơn hàng</h4>
                   <div class="checkout__order__products">Sản phẩm <span>Tổng cộng</span></div>
                   <ul>
-                      <li class="checkout__order__products" *ngFor="let item of items">{{item.name}} <span>{{item.total + " đ"}}</span></li>
+                      <li class="checkout__order__products" *ngFor="let item of items">{{item.name}} <span>{{item.total | currency:'VND'}}</span></li>
                   </ul>
-                  <div class="checkout__order__subtotal">Tổng tiền <span>{{cartService.totalPrice + " đ"}}</span></div>
-                  <div class="checkout__order__sale">Giảm giá <span>0%</span></div>
-                  <div class="checkout__order__total">Thành tiền <span>{{cartService.total + " đ" }}</span></div>
-                  <button type="submit" class="btn-primary" (click)="placeOrder()">ĐẶT HÀNG</button>
+                  <div class="checkout__order__subtotal">Tổng tiền <span>{{price.totalPrice | currency:'VND'}}</span></div>
+                  <div class="checkout__order__sale" *ngIf="!showDiscount">Giảm giá <span>0%</span></div>
+                  <div class="checkout__order__sale" *ngIf="showDiscount">Giảm giá <span>{{promotionForm.percent}}%</span></div>
+                  <div class="checkout__order__total">Thành tiền <span>{{price.total | currency:'VND'}}</span></div>
+                  <a href="javascript:void(0)" routerLink="/" type="submit" class="btn-primary" (click)="placeOrder()">ĐẶT HÀNG</a>
               </div>
           <!-- </div> -->
         </div>

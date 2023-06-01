@@ -21,6 +21,11 @@ export class PromotionService {
     return this.http.get(PROMOTION_API + 'enabled',httpOptions);
   }
 
+  getPromotionByCode(code: string){
+    console.log(PROMOTION_API + 'findCode/' + code);
+    return this.http.get(PROMOTION_API + 'findCode/' + code,httpOptions);
+  }
+
   createPromotion(name: string,detail: string,quantity: number,percent: number){
     return this.http.post(PROMOTION_API + 'create',{name,detail,quantity,percent},httpOptions);
   }
@@ -36,6 +41,4 @@ export class PromotionService {
   deletePromotion(id:number){
     return this.http.delete(PROMOTION_API + 'delete/'+ id,httpOptions);
   }
-
-
 }

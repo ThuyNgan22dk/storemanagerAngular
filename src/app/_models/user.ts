@@ -6,9 +6,6 @@ export interface User {
   firstname: string;
   lastname: string;
   country: string;
-  bank: string;
-  bankAccount: string;
   phone:  string;
-  state:  string;
   enabled: boolean;
 }

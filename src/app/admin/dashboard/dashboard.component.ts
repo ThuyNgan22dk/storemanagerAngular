@@ -7,6 +7,7 @@ import {faComment} from '@fortawesome/free-solid-svg-icons';
 import {faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {faTachometerAlt} from '@fortawesome/free-solid-svg-icons';
 import {faBookmark} from '@fortawesome/free-solid-svg-icons';
+import {faWarehouse} from '@fortawesome/free-solid-svg-icons';
 import {faReceipt} from '@fortawesome/free-solid-svg-icons';
 import {faCartShopping} from '@fortawesome/free-solid-svg-icons';
 import {faRocket} from '@fortawesome/free-solid-svg-icons';
@@ -42,6 +43,7 @@ export class DashboardComponent implements OnInit{
   paperPlane = faPaperPlane;
   bars = faBars;
   gear = faGear;
+  warehouse = faWarehouse;
   logoutIcon = faRightFromBracket;
   tag = faTag;
 

@@ -9,7 +9,7 @@
 
     <p-dialog header="User" [(visible)]="displayForm" [style]="{width: '40vw'}" [modal]="true" [transitionOptions]="'.3s'">
         <form action="">
-            <div class="p-field">
+            <!-- <div class="p-field">
                 <label for="username">Tên tài khoản: </label>
                 <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.username" name="username">
             </div>
@@ -33,26 +33,55 @@
                 <label for="country">Tỉnh/ Thành phố: </label>
                 <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.country" name="country">
             </div>
-            <!-- <div class="p-field">
-                <label for="state">State: </label>
-                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.state" name="state">
-            </div> -->
-            <!-- <div class="p-field">
-                <label for="bank">Bank: </label>
-                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.bank" name="bank">
-            </div>
-            <div class="p-field">
-                <label for="bankAccount">BankAccount: </label>
-                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.bankAccount" name="bankAccount"> -->
-            <!-- </div> -->
             <div class="p-field">
                 <label for="phone">Số điện thoại: </label>
                 <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.phone" name="phone">
             </div>
             <div class="p-field mt-3">
-                <!-- <button type="submit" pButton (click)="createUser()" *ngIf="!onUpdate" >Tạo mới</button> -->
                 <button type="submit" pButton class="border-round" (click)="updateUser()" *ngIf="onUpdate" >Cập nhật</button>
                 <button pButton type="button" class="border-round p-button-danger ml-3" (click)="displayForm=false">Hủy</button>
+            </div> -->
+            <div>
+              <div class="form-left">
+                <div>
+                  <div class="form__input">
+                    <p>Họ và tên đệm</p>
+                    <input pInputText type="text" [(ngModel)]="userForm.firstname" label="" name="firstname">
+                  </div>
+                </div>
+                <div>
+                  <div class="form__input">
+                    <p>Tên</p>
+                    <input pInputText type="text" [(ngModel)]="userForm.lastname" name="lastname">
+                  </div>
+                </div>
+                <div>
+                  <div class="form__input">
+                    <p>Số điện thoại</p>
+                    <input pInputText type="text" [(ngModel)]="userForm.phone" name="phone">
+                  </div>
+                </div>
+              </div>
+              <div class="form-right">
+                <div>
+                  <div class="form__input">
+                    <p>Địa chỉ email</p>
+                    <input pInputText type="text" [(ngModel)]="userForm.email" name="email">
+                  </div>
+                </div>
+                <div class="form__input">
+                  <p>Tỉnh/ Thành phố</p>
+                  <input pInputText type="text" [(ngModel)]="userForm.country" name="country">
+                </div>
+                <div class="form__input">
+                  <p>Địa chỉ giao hàng</p>
+                  <input pInputText type="text" [(ngModel)]="userForm.address" name="address">
+                </div>
+              </div>
+              <div>
+                <button type="submit" pButton class="border-round" (click)="updateUser()" *ngIf="onUpdate" >Cập nhật</button>
+                <button pButton type="button" class="border-round p-button-danger ml-3" (click)="displayForm=false">Hủy</button>
+              </div>
             </div>
         </form>
     </p-dialog>

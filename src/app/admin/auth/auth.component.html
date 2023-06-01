@@ -4,7 +4,7 @@
 		<form action="#" [formGroup]="form">
 			<h1>Tạo tài khoản mới</h1>
       <!-- ngModelOptions]="{standalone: true}" -->
-			<input pInputText class="m-2" type="text" formControlName="username" placeholder="username" [(ngModel)]="registerForm.username" name="username"/>
+			<input pInputText class="m-2" type="text" formControlName="username" placeholder="Tên người dùng" [(ngModel)]="registerForm.username" name="username"/>
         <div class="error-messages">
           <ng-container *ngFor="let error of error_messages.username">
             <div class="error-message" *ngIf="form.get('username').hasError(error.type) && (form.get('username').dirty || form.get('username').touched)">
@@ -12,7 +12,7 @@
             </div>
           </ng-container>
         </div>
-			<input pInputText class="m-2" type="email" formControlName="email" placeholder="email" [(ngModel)]="registerForm.email" name="email"/>
+			<input pInputText class="m-2" type="email" formControlName="email" placeholder="Email" [(ngModel)]="registerForm.email" name="email"/>
         <div class="error-messages">
           <ng-container *ngFor="let error of error_messages.email">
             <div class="error-message" *ngIf="form.get('email').hasError(error.type) && (form.get('email').dirty || form.get('email').touched)">
@@ -20,7 +20,7 @@
             </div>
           </ng-container>
         </div>
-			<p-password class="p-2" type="password" formControlName="password" placeholder="password" [(ngModel)]="registerForm.password" name="password" [toggleMask]="true">
+			<p-password class="p-2" type="password" formControlName="password" placeholder="Mật khẩu" [(ngModel)]="registerForm.password" name="password" [toggleMask]="true">
 				<ng-template pTemplate="header">
 					<h6>Nhập mật khẩu</h6>
 				</ng-template>
@@ -32,7 +32,7 @@
           </ng-container>
         </div>
 			</p-password>
-			<p-password class="p-2" type="password" formControlName="confirmPassword" placeholder="confirm password" [(ngModel)]="registerForm.confirmPassword" name="confirmPassword" [toggleMask]="true">
+			<p-password class="p-2" type="password" formControlName="confirmPassword" placeholder="Xác nhận mật khẩu" [(ngModel)]="registerForm.confirmPassword" name="confirmPassword" [toggleMask]="true">
 				<ng-template pTemplate="header">
 					<h6>Nhập lại mật khẩu</h6>
 				</ng-template>
@@ -50,8 +50,8 @@
 	<div class="form-container sign-in-container">
 		<form action="#">
 			<h1>Đăng nhập</h1>
-			<input pInputText class="m-1" type="text" placeholder="Username" [(ngModel)]="loginForm.username" name="username" />
-			<p-password class="p-2" type="password" placeholder="Password" [(ngModel)]="loginForm.password" name="password" [toggleMask]="true"/>
+			<input pInputText class="m-1" type="text" placeholder="Tên người dùng" [(ngModel)]="loginForm.username" name="username" />
+			<p-password class="p-2" type="password" placeholder="Mật khẩu" [(ngModel)]="loginForm.password" name="password" [toggleMask]="true"/>
 			<a href="javascript:void(0)">Quên mật khẩu?</a>
 			<button (click)="login()">Đăng nhập</button>
 		</form>

@@ -6,7 +6,6 @@ import { CartService } from 'src/app/_services/cart.service';
 import { StorageService } from "src/app/_services/storage.service";
 import { CategoryService } from 'src/app/_services/category.service';
 import { ProductService } from 'src/app/_services/product.service';
-import { WishlistService } from 'src/app/_services/wishlist.service';
 
 
 @Component({
@@ -30,40 +29,37 @@ export class ShopComponent implements OnInit {
   listCategory : any;
   listProductNewest : any[] = [];
   items: any[] = [];
+  addOrChange: boolean;
   showSearch: boolean = false;
 
   rangeValues = [0,100];
 
   constructor(
-    private categoryService:CategoryService,
-    private productService: ProductService,
-    private router: Router,
-    private route: ActivatedRoute,
-    public cartService:CartService,
-    public storageService:StorageService,
-    public messageService: MessageService,
-    public wishlistService:WishlistService){
+      private categoryService:CategoryService,
+      private productService: ProductService,
+      private router: Router,
+      private route: ActivatedRoute,
+      public cartService:CartService,
+      public storageService:StorageService,
+      public messageService: MessageService)
+    {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-
   }
 
   ngOnInit(): void {
-    // this.storageService.currentUser.subscribe(username => this.username = username);
     this.username = this.storageService.loadUsername();
-    // console.log(this.username);
+    // this.items = this.cartService.loadCartLocal();
     this.showSearch = false;
     this.getListCategoryEnabled();
     this.getNewestProduct();
-    console.log(this.route.snapshot.params);
+    this.getItems();
     if(this.route.snapshot.params['id'] != undefined){
       this.id = this.route.snapshot.params['id'];
       this.getListProductByCategory();
     } else{
-      // console.log(this.route.snapshot.params);
       this.keywords = this.route.snapshot.params['keyword'];
       this.showSearch = true;
     }
-
   }
 
   getSeverity (product) {
@@ -149,7 +145,6 @@ export class ShopComponent implements OnInit {
     this.productService.getListByPriceRange(this.id,this.rangeValues[0],this.rangeValues[1]).subscribe({
       next: res =>{
         this.listProduct = res;
-        console.log(this.listProduct);
       },error: err =>{
         console.log(err);
       }
@@ -157,39 +152,62 @@ export class ShopComponent implements OnInit {
   }
 
   addToCart(item: any){
-    // this.cartService.getItems(this.username);
-    // this.showSuccess("Add To Cart Successfully!")
-    console.log(item.productname);
-    this.cartService.addToCart(this.username, item.productname, 1).subscribe({
-      next: res =>{
-        this.getItems();
-        // this.showForm = false;
-        this.showSuccess("Thêm mới thành công");
-      },error: err =>{
-        this.showError(err.message);
+    this.addOrChange = true;//true -> add, false -> change
+    if(this.items != null){
+      for (let i = 0; i < this.items.length; i++) {
+        if (this.items[i].name === item.productname) {
+          this.addOrChange = false;
+          var quantity = Number(this.items[i].quantity) + 1;
+          console.log("cập nhật");
+          if(quantity <= item.quantity) {
+            this.cartService.productAvailableOnCart(this.username, item.productname, this.items[i].quantity, 1).subscribe({
+              next: res =>{
+                this.getItems();
+                this.showSuccess("Cập nhật thành công");
+              },error: err =>{
+                this.showError(err.message);
+              }
+            })
+          } else{
+            this.showError("Lỗi số lượng! Yêu cầu bạn không nhập giá trị lớn hơn lượng tồn kho.");
+          }
+        }
       }
-    });
+      if (this.addOrChange) {
+        console.log("thêm mới");
+        this.cartService.addToCart(this.username, item.productname, 1).subscribe({
+          next: res =>{
+            this.getItems();
+            this.showSuccess("Thêm mới thành công");
+          },error: err =>{
+            this.showError(err.message);
+          }
+        })
+      }
+      window.location.reload();
+    }else{
+      this.showWarn("Mời bạn đăng nhập để thêm sản phẩm vào giở hàng");
+    }
   }
 
   getItems(){
-    this.cartService.getItems(this.username).subscribe({
-      next: res =>{
-        this.items = res;
-        console.log(this.items);
-      },error: err =>{
-        console.log(err);
-      }
-    })
-  }
-
-  addToWishList(item: any){
-    if(!this.wishlistService.productInWishList(item)){
-      this.wishlistService.addToWishList(item);
+    if( this.username != null){
+      this.cartService.getItems(this.username).subscribe({
+        next: res =>{
+          this.items = res;
+          // this.cartService.getTotalPrice(this.items);
+          // this.cartService.saveCartLocal(this.items);
+        },error: err =>{
+          console.log(err);
+        }
+      })
     }
   }
+
   showSuccess(text: string) {
     this.messageService.add({severity:'success', summary: 'Success', detail: text});
   }
+
   showError(text: string) {
     this.messageService.add({severity:'error', summary: 'Error', detail: text});
   }

@@ -19,7 +19,14 @@ export class ImageService {
     return this.http.post<any>(IMAGE_API+'upload-file',formData);
   }
 
-  getList(){
-    return this.http.get(IMAGE_API,httpOptions);
+  uploadForUser(username: string, file:File){
+    const formData: FormData = new FormData();
+    formData.append('file',file);
+    return this.http.post<any>(IMAGE_API+'upload-file/' + username,formData);
   }
+
+  getListByUsername(username: string){
+    return this.http.get(IMAGE_API + 'user/' + username,httpOptions);
+  }
+
 }

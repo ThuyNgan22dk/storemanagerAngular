@@ -39,7 +39,7 @@ export class PromotionComponent {
     this.promotionService.getListPromotion().subscribe({
       next: res =>{
         this.listPromotion = res;
-        console.log(res);
+        // console.log(res);
       },error: err =>{
         console.log(err);
       }
@@ -90,7 +90,6 @@ export class PromotionComponent {
     })
   }
 
-
   updatePromotion(){
     const {id,name,detail,code,quantity,percent} = this.promotionForm;
     this.promotionService.updatePromotion(id,name,detail,code,quantity,percent).subscribe({
@@ -116,7 +115,6 @@ export class PromotionComponent {
     })
   }
 
-
   deletePromotion(){
     const {id} = this.promotionForm;
     this.promotionService.deletePromotion(id).subscribe({
@@ -133,6 +131,7 @@ export class PromotionComponent {
   showSuccess(text: string) {
     this.messageService.add({severity:'success', summary: 'Success', detail: text});
   }
+
   showError(text: string) {
     this.messageService.add({severity:'error', summary: 'Error', detail: text});
   }

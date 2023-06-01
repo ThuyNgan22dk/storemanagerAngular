@@ -18,6 +18,10 @@ export class ProductService {
     return this.http.get(PRODUCT_API,httpOptions);
   }
 
+  getListProductForUser():Observable<any>{
+    return this.http.get(PRODUCT_API + 'foruser',httpOptions);
+  }
+
   getListProductNewest(num: number):Observable<any>{
     return this.http.get(PRODUCT_API + 'newest/' + num,httpOptions);
   }
@@ -52,7 +56,7 @@ export class ProductService {
     return this.http.get(PRODUCT_API + 'range',{params: params})
   }
 
-  getProdct(id: number):Observable<any>{
+  getProduct(id: number):Observable<any>{
     return this.http.get(PRODUCT_API + id,httpOptions);
   }
 

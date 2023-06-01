@@ -125,34 +125,46 @@ export class ImportDetailComponent implements OnInit {
     })
   }
 
-  // getListCategoryEnabled(){
-  //   this.categoryService.getListCategoryEnabled().subscribe({
-  //     next: res =>{
-  //       this.listCategory = res;
-  //     },error : err=>{
-  //       console.log(err);
-  //     }
-  //   })
-  // }
-
   createProduct(){
     const {price,quantity,expiry,importGoodId} = this.importDetailForm;
     const name = this.selectedProductname.productname;
-    console.log(this.importDetailForm);
-    this.importService.createImportDetail(name,price,quantity,expiry,importGoodId).subscribe({
-      next: res =>{
-        this.getListProductImport();
-        this.showForm = false;
-        this.showSuccess("Thêm mới thành công");
-      },error: err =>{
-        this.showError(err.message);
+    var update: boolean = false;
+    // console.log(this.listProductImport);
+    for(let i = 0; i < this.listProductImport.length; i++) {
+      if(this.listProductImport[i].name === name){
+        var tempQuantity = this.listProductImport[i].quantity + quantity;
+        // console.log(tempQuantity);
+        // console.log(this.importDetailForm);
+        this.importService.updateImportDetail(this.listProductImport[i].id,name,price,tempQuantity,expiry,importGoodId).subscribe({
+          next: res =>{
+            this.getListProductImport();
+            this.showForm = false;
+            this.showSuccess("Cập nhật thành công");
+          },error: err =>{
+            this.showError(err.message);
+          }
+        })
+        update = true;
+      }else{
+        update = false;
       }
-    })
+    }
+    if(!update){
+      this.importService.createImportDetail(name,price,quantity,expiry,importGoodId).subscribe({
+        next: res =>{
+          this.getListProductImport();
+          this.showForm = false;
+          this.showSuccess("Thêm mới thành công");
+        },error: err =>{
+          this.showError(err.message);
+        }
+      })
+    }
   }
 
   updateProduct(){
     const {id,name,price,quantity,expiry,importGoodId} = this.importDetailForm;
-    console.log(this.importDetailForm);
+    // console.log(this.importDetailForm);
     this.importService.updateImportDetail(id,name,price,quantity,expiry,importGoodId).subscribe({
       next: res =>{
         this.getListProductImport();
@@ -172,6 +184,7 @@ export class ImportDetailComponent implements OnInit {
   }
 
   deleteProduct(){
+    console.log(this.importDetailForm.id);
     this.importService.deleteImportDetail(this.importDetailForm.id).subscribe({
       next: res =>{
         this.getListProductImport();

@@ -33,7 +33,7 @@
           <tr>
               <td>{{import.nameShipper}}</td>
               <td>{{import.phoneShipper}}</td>
-              <td>{{import.totalPrice}}</td>
+              <td>{{import.totalPrice | currency:'VND'}}</td>
               <td>
                   <button class="nav-link collapsed" routerLink="/admin/import/importDetail/{{import.id}}" data-toggle="collapse" data-target="#collapseUtilities"
                       aria-expanded="true" aria-controls="collapseUtilities" pButton pRipple
