@@ -71,7 +71,7 @@ export class HomeComponent implements OnInit {
     this.responsiveOptions = [
       {
         breakpoint: '1024px',
-        numVisible: 5
+        numVisible: 4
       },
       {
         breakpoint: '768px',

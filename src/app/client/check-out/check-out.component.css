@@ -2,7 +2,7 @@
 @import "../../../assets/css/responsive.css";
 
 .form__cart{
-  width: 1270px;
+  width: 1200px;
   padding-left: 15px;
   padding-right: 15px;
   margin-right: auto;
@@ -99,7 +99,12 @@ h4{
 
 .checkout__order ul li {
   font-size: 15px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   color: #6f6f6f;
   line-height: 40px;
   list-style: none;
 }
+
+

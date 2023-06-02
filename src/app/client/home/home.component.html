@@ -53,7 +53,7 @@
         <div class="form__detail-product">
           <section id="product1">
             <h2>Sản phẩm nổi bật</h2>
-            <p-carousel [value]="listProduct" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+            <p-carousel [value]="listProduct" [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions">
               <ng-template let-product pTemplate="item">
                 <a href="javascript:void(0)" class="product-item">
                   <div class="product-item-content">
@@ -93,8 +93,7 @@
                         <div class="flex align-items-center justify-content-between">
                           <span class="text-base font-semibold text-red-500">{{ product.price | currency:'VND'}}</span>
                           <button pButton icon="pi pi-shopping-cart" class="p-button-rounded"
-                            (click)="addToCart(product)"
-                            [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>
+                            (click)="addToCart(product)" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>
                         </div>
                       </div>
                     </div>
@@ -108,7 +107,7 @@
         <div class="form__detail-product">
           <section id="product1">
             <h2>Sản phẩm mới</h2>
-            <p-carousel [value]="listProductNewest" [numVisible]="5" [numScroll]="1"
+            <p-carousel [value]="listProductNewest" [numVisible]="4" [numScroll]="1"
               [responsiveOptions]="responsiveOptions">
               <ng-template let-product pTemplate="item">
                 <div class="product-item">
@@ -149,8 +148,7 @@
                         <div class="flex align-items-center justify-content-between">
                           <span class="text-base font-semibold text-red-500">{{ product.price | currency:'VND'}}</span>
                           <button pButton icon="pi pi-shopping-cart" class="p-button-rounded"
-                            (click)="addToCart(product)"
-                            [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>
+                            (click)="addToCart(product)" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>
                         </div>
                       </div>
                     </div>

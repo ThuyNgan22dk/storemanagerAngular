@@ -86,16 +86,7 @@ button.white{
 }
 
 .form__template{
-  width: 1440px;
-  padding-left: 24px;
-  padding-right: 24px;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-
-.form__template{
-  width: 1440px;
+  width: 1200px;
   padding-left: 24px;
   padding-right: 24px;
   margin-right: auto;

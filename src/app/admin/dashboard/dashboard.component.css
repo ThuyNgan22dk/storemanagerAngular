@@ -1,7 +1,13 @@
+@import "../../../assets/css/sb-admin-2.css";
 #accordionSidebar{
   position: fixed;
 }
 #wrapper #content-wrapper{
-  margin-left: 256px;
+  margin-left: 15rem;
 }
-@import "../../../assets/css/sb-admin-2.css";
+
+@media (max-width: 768px){
+  #wrapper #content-wrapper{
+    margin-left: 6.5rem;
+  }
+}
