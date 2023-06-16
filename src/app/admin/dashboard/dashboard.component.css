@@ -1,13 +1,15 @@
 @import "../../../assets/css/sb-admin-2.css";
-#accordionSidebar{
+
+#accordionSidebar {
   position: fixed;
 }
-#wrapper #content-wrapper{
+
+#wrapper #content-wrapper {
   margin-left: 15rem;
 }
 
-@media (max-width: 768px){
-  #wrapper #content-wrapper{
+@media (max-width: 768px) {
+  #wrapper #content-wrapper {
     margin-left: 6.5rem;
   }
 }

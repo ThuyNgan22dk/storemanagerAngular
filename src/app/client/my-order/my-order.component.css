@@ -1,7 +1,7 @@
 @import "../../../assets/css/style.css";
 @import "../../../assets/css/responsive.css";
 
-.account{
+.account {
   display: flex;
   width: 100%;
   margin: 0px auto 20px;
@@ -13,7 +13,7 @@
   margin-right: 17px;
 }
 
-.account__sidebar-user{
+.account__sidebar-user {
   display: flex;
   -webkit-box-align: center;
   align-items: center;
@@ -21,13 +21,13 @@
   margin: 0px 0px 12px;
 }
 
-.account__sidebar-user img{
+.account__sidebar-user img {
   width: 45px;
   margin: 0px 12px 0px 0px;
   border-radius: 50%;
 }
 
-.account__sidebar-user .info{
+.account__sidebar-user .info {
   flex: 1 1 0%;
   font-size: 13px;
   line-height: 15px;
@@ -35,7 +35,7 @@
   font-weight: 300;
 }
 
-.account__sidebar-user .info strong{
+.account__sidebar-user .info strong {
   font-size: 16px;
   line-height: 19px;
   font-weight: 400;
@@ -50,7 +50,7 @@
   font-size: 13px;
 }
 
-.account__sidebar-detail a{
+.account__sidebar-detail a {
   display: flex;
   -webkit-box-align: center;
   align-items: center;
@@ -58,13 +58,16 @@
   color: rgb(74, 74, 74);
 }
 
-.account__sidebar-detail a:hover, .account__sidebar-detail a:active,
-.account__sidebar-detail a:focus, .account__sidebar-detail a.is-active {
+.account__sidebar-detail a:hover,
+.account__sidebar-detail a:active,
+.account__sidebar-detail a:focus,
+.account__sidebar-detail a.is-active {
   background-color: rgb(235, 235, 240);
   color: rgb(0, 0, 0);
 }
 
-.account__sidebar-detail a svg, .account__sidebar-detail a .icon {
+.account__sidebar-detail a svg,
+.account__sidebar-detail a .icon {
   width: 24px;
   height: 24px;
   margin: 0px 22px 0px 0px;
@@ -72,7 +75,7 @@
   color: rgb(155, 155, 155);
 }
 
-.account__info{
+.account__info {
   flex: 1 1 0%;
 }
 
@@ -83,7 +86,7 @@
   margin: 4px 0px 12px;
 }
 
-.account__info .info{
+.account__info .info {
   display: flex;
   flex-wrap: nowrap;
   -webkit-box-pack: justify;
@@ -92,7 +95,7 @@
   border-radius: 8px;
 }
 
-button{
+button {
   margin-bottom: 10px;
   padding: 12px 20px;
   text-decoration: none;

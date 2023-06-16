@@ -8,25 +8,27 @@
     </ng-template>
   </p-toolbar>
 
-  <p-table #dt [value]="listProduct" [rows]="5" [paginator]="true" [globalFilterFields]="['name','price']"
-    [tableStyle]="{'min-width': '50rem'}" [rowHover]="true" dataKey="id"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+  <p-table #dt [value]="listProduct" [rows]="5" [paginator]="true"
+    [globalFilterFields]="['productname','category.name']" [tableStyle]="{'min-width': '50rem'}" [rowHover]="true"
+    dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true">
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between flex-wrap">
-        <h5 class="m-0 flex align-items-center justify-content-center">Quản lý sản phẩm</h5>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+            placeholder="Search" />`
+        </span>
       </div>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <!-- <th style="min-width: 4rem">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-        </th> -->
-        <th pSortableColumn="productname" style="min-width:4rem">Tên <p-sortIcon field="productname"></p-sortIcon></th>
+        <th pSortableColumn="productname" style="min-width:4rem;width: 16rem;">Tên <p-sortIcon
+            field="productname"></p-sortIcon></th>
         <th>Image</th>
         <th pSortableColumn="price">Giá <p-sortIcon field="price"></p-sortIcon></th>
         <th pSortableColumn="category.name">Danh mục <p-sortIcon field="category.name"></p-sortIcon></th>
-        <!-- <th pSortableColumn="rating">Đánh giá <p-sortIcon field="rating"></p-sortIcon></th> -->
-        <th pSortableColumn="inventoryStatus" style="min-width:10rem">Tình trạng <p-sortIcon
+        <th pSortableColumn="inventoryStatus" style="min-width:8rem">Tình trạng <p-sortIcon
             field="inventoryStatus"></p-sortIcon></th>
         <th>Số lượng</th>
         <th>Hoạt động</th>
@@ -34,9 +36,6 @@
     </ng-template>
     <ng-template pTemplate="body" let-product>
       <tr>
-        <!-- <td>
-          <p-tableCheckbox [value]="product"></p-tableCheckbox>
-        </td> -->
         <td>{{product.productname}}</td>
         <td>
           <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" [alt]="product.productname" width="100"
@@ -44,7 +43,6 @@
         </td>
         <td>{{product.price | currency:'VND'}}</td>
         <td>{{product.category.name}}</td>
-        <!-- <td><p-rating [ngModel]="product.rate" [readonly]="true" [cancel]="false"></p-rating></td> -->
         <td><p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product)"></p-tag></td>
         <td>{{product.quantity}}</td>
         <td>
@@ -103,14 +101,6 @@
           pInputText [(ngModel)]="productForm.productname" required autofocus>
       </div>
     </div>
-    <div class="field grid">
-      <label for="description" class="col-12 mb-2 md:col-2 md:mb-0">Mô tả</label>
-      <div class="col-12 md:col-10">
-        <textarea id="description" type="text"
-          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-          pInputTextarea [(ngModel)]="productForm.description" required rows="3" cols="20"></textarea>
-      </div>
-    </div>
 
     <div class="formgrid grid">
       <div class="field col">
@@ -120,7 +110,7 @@
           pInputText [(ngModel)]="productForm.origin" required autofocus>
       </div>
       <div class="field col">
-        <label for="unit">Đơn vị tính</label>
+        <label for="unit">Đơn vị tính <span style="font-size: 11px; color: #dd5656;">Không viết hoa chữ đầu</span></label>
         <input id="unit" type="text" placeholder="Thung/Lon/Loc/Hop"
           class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
           pInputText [(ngModel)]="productForm.unit" required autofocus>
@@ -138,6 +128,14 @@
       </div>
     </div>
 
+    <div class="field grid">
+      <label for="description" class="col-12 mb-2 md:col-2 md:mb-0">Mô tả</label>
+      <div class="col-12 md:col-10">
+        <textarea id="description" type="text"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          pInputTextarea [(ngModel)]="productForm.description" required rows="3" cols="20"></textarea>
+      </div>
+    </div>
   </ng-template>
   <ng-template pTemplate="footer">
     <button type="submit" pButton *ngIf="!onUpdate" class="border-round" (click)="createProduct()">Tạo mới</button>

@@ -1,75 +1,121 @@
-import { Component } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { Chart } from 'chart.js';
+import { Component, OnInit } from '@angular/core';
 import { WarehouseService } from 'src/app/_services/warehouse.service';
+import { OrderService } from 'src/app/_services/order.service';
+import { ImportService } from 'src/app/_services/import.service';
 
 @Component({
   selector: 'app-warehouse',
   templateUrl: './warehouse.component.html',
-  styleUrls: ['./warehouse.component.css']
+  styleUrls: ['./warehouse.component.css'],
 })
-export class WarehouseComponent {
+export class WarehouseComponent implements OnInit {
   listWarehouse: any;
+  listWarehouseImport: any;
+  listWarehouseOrder: any;
+  dataImportTotal: number = 10;
+  dataOrderTotal: number = 10;
+  listDate1 = [
+    '2023-06-05',    '2023-06-06',    '2023-06-07',    '2023-06-08',
+    '2023-06-09',    '2023-06-10',    '2023-06-11',    
+  ];
+  listDate2 = [
+    '2023-06-12',    '2023-06-13',    '2023-06-14',    '2023-06-15',
+    '2023-06-16',    '2023-06-17',    '2023-06-18',    
+  ];
+  listDate3 = [
+    '2023-06-19',    '2023-06-20',    '2023-06-21',    '2023-06-22',
+    '2023-06-23',    '2023-06-24',    '2023-06-25',    
+  ];
+  selectlistDate: any;
+  optionlistDate: any = [
+    {name: this.listDate1},
+    {name: this.listDate2},
+    {name: this.listDate3}
+  ];
+
+  dataImportDay: any[];
+  dataOrderDay: any[];
   data: any;
   options: any;
   data1: any;
   options1: any;
 
-  constructor(private warehouseComponent: WarehouseService) { }
+  constructor(
+    private warehouseService: WarehouseService,
+    private orderService: OrderService,
+    private importService: ImportService
+  ) {}
 
   ngOnInit(): void {
-    this.getLists();
-    this.getChartDoughnut();
-    this.getChartBars();
+    this.getListImport();
+    this.getListOrder();
+    this.getChartDoughnut(0);
+    this.getPriceTotal();
+    this.getChartBars(0, 0,0);
+    this.getImportAndOrderTotalDay(this.listDate1);
   }
 
-  getChartDoughnut() {
+  changelistDate(){
+
+  }
+
+  getChartDoughnut(listdata: any) {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
+
     this.data = {
-      labels: ['A', 'B'],
+      labels: ['Nhập hàng', 'Xuất hàng'],
       datasets: [
         {
-          data: [300, 50],
-          backgroundColor: [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500')],
-          hoverBackgroundColor: [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--green-400')]
-        }
-      ]
+          data: listdata,
+          backgroundColor: [
+            documentStyle.getPropertyValue('--blue-500'),
+            documentStyle.getPropertyValue('--pink-500'),
+          ],
+          hoverBackgroundColor: [
+            documentStyle.getPropertyValue('--blue-400'),
+            documentStyle.getPropertyValue('--pink-400'),
+          ],
+        },
+      ],
     };
+
     this.options = {
       cutout: '60%',
       plugins: {
         legend: {
           labels: {
-            color: textColor
-          }
-        }
-      }
+            color: textColor,
+          },
+        },
+      },
     };
   }
 
-  getChartBars() {
+  getChartBars(listdataimport: any, listdataorder: any, listDate:any) {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
-    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const textColorSecondary = documentStyle.getPropertyValue(
+      '--text-color-secondary'
+    );
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
     this.data1 = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: listDate,
       datasets: [
         {
-          label: 'My First dataset',
+          label: 'Nhập hàng',
           backgroundColor: documentStyle.getPropertyValue('--blue-500'),
           borderColor: documentStyle.getPropertyValue('--blue-500'),
-          data: [65, 59, 80, 81, 56, 55, 40]
+          data: listdataimport,
         },
         {
-          label: 'My Second dataset',
+          label: 'Xuất hàng',
           backgroundColor: documentStyle.getPropertyValue('--pink-500'),
           borderColor: documentStyle.getPropertyValue('--pink-500'),
-          data: [28, 48, 40, 19, 86, 27, 90]
-        }
-      ]
+          data: listdataorder,
+        },
+      ],
     };
 
     this.options1 = {
@@ -78,46 +124,130 @@ export class WarehouseComponent {
       plugins: {
         legend: {
           labels: {
-            color: textColor
-          }
-        }
+            color: textColor,
+          },
+        },
       },
       scales: {
         x: {
           ticks: {
             color: textColorSecondary,
             font: {
-              weight: 500
-            }
+              weight: 500,
+            },
           },
           grid: {
             color: surfaceBorder,
-            drawBorder: false
-          }
+            drawBorder: false,
+          },
         },
         y: {
           ticks: {
-            color: textColorSecondary
+            color: textColorSecondary,
           },
           grid: {
             color: surfaceBorder,
-            drawBorder: false
-          }
-        }
-
-      }
+            drawBorder: false,
+          },
+        },
+      },
     };
   }
 
   getLists() {
-    this.warehouseComponent.getLists().subscribe({
-      next: res => {
+    this.warehouseService.getList().subscribe({
+      next: (res) => {
         this.listWarehouse = res;
-        // console.log(res);
-      }, error: err => {
+      },
+      error: (err) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 
+  getListImport() {
+    this.warehouseService.getListType('import').subscribe({
+      next: (res) => {
+        this.listWarehouseImport = res;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  getListOrder() {
+    this.warehouseService.getListType('order').subscribe({
+      next: (res) => {
+        this.listWarehouseOrder = res;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  getPriceTotal() {
+    this.importService.getTotalImport().subscribe({
+      next: (res) => {
+        this.dataImportTotal = res;
+        this.data.datasets[0].data.push(this.dataImportTotal);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+    this.orderService.getTotalOrder().subscribe({
+      next: (res) => {
+        this.dataOrderTotal = res;
+        this.data.datasets[0].data.push(this.dataOrderTotal);
+        this.getChartDoughnut(this.data.datasets[0].data);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  resetData(){
+    this.data1.datasets[0].data = [];
+    this.data1.datasets[1].data = [];
+  }
+
+  getImportAndOrderTotalDay(listDate: any) {
+    this.resetData();
+    listDate.forEach((date) => {
+      this.importService.getTotalDayImport(date).subscribe({
+        next: (res) => {
+          this.dataImportDay = res;
+          this.data1.datasets[0].data.push(this.dataImportDay);
+        },
+        error: (err) => {
+          this.data1.datasets[0].data.push(0);
+        },
+      });
+    });
+    
+    listDate.forEach((date) => {
+      this.orderService.getTotalDayOrder(date).subscribe({
+        next: (res) => {
+          this.dataOrderDay = res;
+          this.data1.datasets[1].data.push(this.dataOrderDay);
+          this.getChartBars(
+            this.data1.datasets[0].data,
+            this.data1.datasets[1].data,
+            listDate
+          );
+        },
+        error: (err) => {
+          this.data1.datasets[1].data.push(0);
+          this.getChartBars(
+            this.data1.datasets[0].data,
+            this.data1.datasets[1].data,
+            listDate
+          );
+        },
+      });
+    });
+  }
 }

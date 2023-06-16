@@ -1,6 +1,6 @@
 <!-- <p>search works!</p> -->
 
-<p-dataView #dv [value]="listProduct" [layout]="layout">
+<p-dataView #dv [value]="listProduct" [rows]="12" [paginator]="true" [layout]="layout">
   <ng-template let-product pTemplate="gridItem">
     <div class="col-12 sm:col-6 lg:col-12 xl:col-3 p-3">
       <div class="p-3 border-1 surface-border surface-card border-round">
@@ -14,18 +14,15 @@
           </div>
           <div class="flex flex-column align-items-center gap-3 py-3">
             <img class="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
-            src="{{'data:image/jpg;base64,' + product.images[0].data}}"
-            style="height: 160px;"
-            [alt]="product.productname" />
-            <div class="text-base font-bold">{{ product.productname }}</div>
-            <!-- <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating> -->
+              src="{{'data:image/jpg;base64,' + product.images[0].data}}" style="height: 160px;"
+              [alt]="product.productname" />
+            <div class="text-base font-bold" style="height: 76px;">{{ product.productname }}</div>
           </div>
         </a>
         <div class="flex align-items-center justify-content-between">
           <span class="text-base font-semibold text-red-500">{{ product.price | currency:'VND'}}</span>
-          <button pButton icon="pi pi-shopping-cart" class="p-button-rounded"
-            (click)="addToCart(product)"
-            [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>
+          <button pButton icon="pi pi-shopping-cart" class="p-button-rounded" (click)="addToCart(product)"
+            [disabled]="product.inventoryStatus === 'Hết hàng'"></button>
         </div>
       </div>
     </div>

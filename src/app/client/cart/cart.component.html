@@ -8,36 +8,25 @@
     </div>
 
     <div class="cart__main">
-      <div style="flex: 1 1 910px;">
-
-        <p-table [value]="items" [(selection)]="selectedProducts" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}">
-          <!-- <ng-template pTemplate="caption">
-              <div class="flex align-items-center justify-content-between">
-                  Products
-              </div>
-          </ng-template> -->
+      <div class="cart__main-table">
+        <p-table [value]="items" [(selection)]="selectedProducts" dataKey="id" editMode="row"
+          [tableStyle]="{'min-width': '40rem'}">
           <ng-template pTemplate="header">
             <tr>
-              <!-- <th style="width: 4rem">
-                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-              </th> -->
               <th class="shoping__product" style="width:15%">Hình ảnh</th>
               <th style="width:40%">Tên sản phẩm</th>
               <th style="width:10%">Giá</th>
-              <th style="width:15%">Số lượng</th>
-              <th style="width:15%">Tổng cộng</th>
+              <th style="width:10%">Số lượng</th>
+              <th style="width:10%">Tổng cộng</th>
               <th style="width:5%"></th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-item let-editing="editing" let-ri="rowIndex">
             <tr [pEditableRow]="item">
-              <!-- <td>
-                  <p-tableCheckbox [value]="items"></p-tableCheckbox>
-              </td> -->
               <td>
                 <p-cellEditor>
                   <ng-template pTemplate="output">
-                    <img src="{{'data:image/jpg;base64,' + item.product.images[0].data}}" alt="" width="100px">
+                    <img src="{{'data:image/jpg;base64,' + item.product.images[0].data}}" alt="" style="width: 100px;">
                   </ng-template>
                 </p-cellEditor>
               </td>
@@ -61,21 +50,23 @@
                     <div class="quantity">
                       <div class="product-qty">
                         <div>
-                          <span data-view-id="cart_main_quantity.decrease" data-view-index="ca27fd15-2dfc-11ed-8cc1-ee1ce7624425" class="qty-decrease " (click)="subtractQuantity(item)">
-                            <img src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/decrease.svg" alt="decrease">
+                          <span data-view-id="cart_main_quantity.decrease"
+                            data-view-index="ca27fd15-2dfc-11ed-8cc1-ee1ce7624425" class="qty-decrease "
+                            (click)="subtractQuantity(item)">
+                            <img src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/decrease.svg"
+                              alt="decrease">
                           </span>
-                          <input type="tel" class="qty-input" value="1" [ngModel]="item.quantity" (change)="updateQuantity(item,$event)" min="1">
-                          <span data-view-id="cart_main_quantity.increase" data-view-index="ca27fd15-2dfc-11ed-8cc1-ee1ce7624425" class="qty-increase " (click)="plusQuantity(item)">
-                            <img src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/increase.svg" alt="increase">
+                          <input type="tel" class="qty-input" value="1" [ngModel]="item.quantity"
+                            (change)="updateQuantity(item,$event)" min="1">
+                          <span data-view-id="cart_main_quantity.increase"
+                            data-view-index="ca27fd15-2dfc-11ed-8cc1-ee1ce7624425" class="qty-increase "
+                            (click)="plusQuantity(item)">
+                            <img src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/increase.svg"
+                              alt="increase">
                           </span>
                         </div>
                       </div>
-                      <!-- <div class="pro-qty">
-                        <span class="dec qtybtn" (click)="subtractQuantity(product)">-</span>
-                        <input type="text" [ngModel]="product.quantity" (change)="updateQuantity(product,$event)"
-                          min="1">
-                        <span class="inc qtybtn" (click)="plusQuantity(product)">+</span>
-                      </div> -->
+                      <div style="position: absolute; bottom: 6px;">Còn {{item.product.quantity}} {{item.product.unit}}</div>
                     </div>
                   </ng-template>
                 </p-cellEditor>
@@ -98,53 +89,39 @@
         </p-table>
 
       </div>
-      <div style="flex: 1 1 calc(100% - 925px); margin-left: 20px; display: block;">
-          <div class="right-inner" style="top: -346px;">
-            <div>
-              <div class="col-lg-12">
-                <div class="shoping__cart__btns">
-                  <a href="javascript:void(0)" routerLink="/category/0" class="primary-btn cart-btn">TIẾP TỤC XEM CỬA HÀNG</a>
-                </div>
-              </div>
-              <div class="cart__address">
-                <!-- <div class="Section__Container-sc-r6ysni-0 styles__StyledAddressBlock-sc-vgfrvy-0 bVA-DDf cTGPxG">
-                  <div class="block-header">
-                    <h3 class="block-header__title">Giao tới</h3>
-                    <a class="block-header__nav" href="/checkout/shipping?isIntendedCart=1">Thay đổi</a>
-                  </div>
-                  <div class="customer_info">
-                    <p class="customer_info__name">Đào Thị Thúy Ngân</p><i></i>
-                    <p class="customer_info__phone">0763157582</p>
-                  </div>
-                  <div class="address"><span class="address__type address__type--home">Nhà</span>35 đường Đồng Trí 6,
-                    Phường Hòa Khánh Nam, Quận Liên Chiểu, Đà Nẵng<p class="warning-message"></p>
-                  </div>
-                </div> -->
+      <div class="cart__main-detail">
+        <div class="right-inner">
+          <div>
+            <div class="col-lg-12">
+              <div class="shoping__cart__btns">
+                <a href="javascript:void(0)" routerLink="/category/0" class="primary-btn cart-btn">TIẾP TỤC XEM CỬA
+                  HÀNG</a>
               </div>
             </div>
-            <div class="row">
-              <div class="">
-                  <div class="shopping__discount">
-                    <h5>MÃ GIẢM GIÁ</h5>
-                    <form action="#">
-                      <input pInputText type="text" [(ngModel)]="promotionCode" name="promotionCode" required placeholder="THÊM MÃ GIẢM GIÁ">
-                      <button type="submit" class="site-btn" (click)="checkCode(promotionCode)">THÊM</button>
-                    </form>
-                  </div>
+          </div>
+          <div class="row">
+            <div class="">
+              <div class="shopping__discount">
+                <h5>MÃ GIẢM GIÁ</h5>
+                <form action="#">
+                  <input pInputText type="text" [(ngModel)]="promotionCode" name="promotionCode" required
+                    placeholder="THÊM MÃ GIẢM GIÁ">
+                  <button type="submit" class="site-btn" (click)="checkCode(promotionCode)">THÊM</button>
+                </form>
               </div>
             </div>
-            <div class="shopping__checkout">
-              <h5>Đơn hàng</h5>
-              <ul>
-                <li>Tổng tiền <span class="text-red-500">{{price.totalPrice | currency:'VND'}}</span></li>
-                <li *ngIf="!showDiscount">Giảm giá <span class="text-red-500">- 0%</span></li>
-                <li *ngIf="showDiscount">Giảm giá <span class="text-red-500">- {{promotionForm.percent}}%</span></li>
-                <li>Thành tiền <span class="text-red-500">{{price.total | currency:'VND'}}</span></li>
-              </ul>
-              <a href="javascript:void(0)" routerLink="/checkout" class="btn-primary">TIẾN HÀNH KIỂM TRA</a>
-            </div>
+          </div>
+          <div class="shopping__checkout">
+            <h5>Đơn hàng</h5>
+            <ul>
+              <li>Tổng tiền <span class="text-red-500">{{price.totalPrice | currency:'VND'}}</span></li>
+              <li *ngIf="!showDiscount">Giảm giá <span class="text-red-500">- 0%</span></li>
+              <li *ngIf="showDiscount">Giảm giá <span class="text-red-500">- {{promotionForm.percent}}%</span></li>
+              <li>Thành tiền <span class="text-red-500">{{price.total | currency:'VND'}}</span></li>
+            </ul>
+            <a href="javascript:void(0)" routerLink="/checkout" class="btn-primary">TIẾN HÀNH KIỂM TRA</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-

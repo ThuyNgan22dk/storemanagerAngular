@@ -5,232 +5,272 @@ import { CategoryService } from 'src/app/_services/category.service';
 import { ImageService } from 'src/app/_services/image.service';
 import { ProductService } from 'src/app/_services/product.service';
 
-interface Unit{
+interface Unit {
   name: string;
 }
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css'],
-  providers: [MessageService, ConfirmationService]
-
+  providers: [MessageService, ConfirmationService],
 })
 export class ProductComponent implements OnInit {
-
   listProduct: any;
   listCategory: any;
   listImage: any;
-
-  disabled : boolean = true;
-
-  selectedFiles ?: FileList;
-  currentFile ?: File;
-
-  listImageChoosen : any = [];
-  imageChoosen : any;
-
-  onUpdate : boolean =false;
-  showForm : boolean = false;
+  disabled: boolean = true;
+  selectedFiles?: FileList;
+  currentFile?: File;
+  listImageChoosen: any = [];
+  imageChoosen: any;
+  onUpdate: boolean = false;
+  showForm: boolean = false;
   showImage: boolean = false;
   showDelete: boolean = false;
-
-  productForm: Product ={
+  productForm: Product = {
     id: 0,
-    productname : "null",
-    description : "null",
-    origin : "null",
-    unit : "null",
+    productname: 'null',
+    description: 'null',
+    origin: 'null',
+    unit: 'null',
     price: 0,
     rate: 5,
-    inventoryStatus: "INSTOCK",
+    inventoryStatus: 'INSTOCK',
     quantity: 1,
     categoryId: 1,
     imageIds: [],
-    commentIds: []
+    commentIds: [],
   };
 
-  constructor(private messageService: MessageService,private productService: ProductService,private imageService: ImageService,private categoryService:CategoryService){
-
-  }
+  constructor(
+    private messageService: MessageService,
+    private productService: ProductService,
+    private imageService: ImageService,
+    private categoryService: CategoryService
+  ) { }
 
   ngOnInit(): void {
     this.getListProduct();
     this.getListCategoryEnabled();
     this.getListImage();
-
   }
 
   openNew() {
     this.onUpdate = false;
     this.showForm = true;
     this.listImageChoosen = [];
-    this.productForm ={
+    this.productForm = {
       id: 0,
-      productname : "",
-      description : "",
-      origin : "Việt Nam",
-      unit : "Thùng",
+      productname: '',
+      description: '',
+      origin: 'Việt Nam',
+      unit: 'Thùng',
       price: 0,
       rate: 5,
-      inventoryStatus: "INSTOCK",
+      inventoryStatus: '',
       quantity: 1,
       categoryId: 1,
       imageIds: [],
-      commentIds: []
-    }
+      commentIds: [],
+    };
   }
 
-  getSeverity (product: any) {
+  getSeverity(product: any) {
     switch (product.inventoryStatus) {
-        case 'INSTOCK':
-            return 'success';
-        case 'LOWSTOCK':
-            return 'warning';
-        case 'OUTOFSTOCK':
-            return 'danger';
-        default:
-            return 'info';
+      case 'Sẵn có':
+        return 'success';
+      case 'Còn ít':
+        return 'warning';
+      case 'Hết hàng':
+        return 'danger';
+      default:
+        return 'info';
     }
-  };
-
-  openUpdate(data : any){
-      this.listImageChoosen = [];
-      this.onUpdate = true;
-      this.showForm =true;
-      this.productForm.id = data.id;
-      this.productForm.productname = data.productname;
-      this.productForm.description = data.description;
-      this.productForm.origin = data.origin;
-      this.productForm.unit = data.unit;
-      this.productForm.price = data.price;
-      this.productForm.rate = data.rate;
-      this.productForm.inventoryStatus = data.inventoryStatus;
-      this.productForm.quantity = data.quantity;
-      this.productForm.categoryId = data.category.id;
-      data.images.forEach((res : any) =>{
-        this.listImageChoosen.push(res);
-      })
   }
 
-  onChooseImage(){
-    this.showImage =true;
+  openUpdate(data: any) {
+    this.listImageChoosen = [];
+    this.onUpdate = true;
+    this.showForm = true;
+    this.productForm.id = data.id;
+    this.productForm.productname = data.productname;
+    this.productForm.description = data.description;
+    this.productForm.origin = data.origin;
+    this.productForm.unit = data.unit;
+    this.productForm.price = data.price;
+    this.productForm.rate = data.rate;
+    this.productForm.inventoryStatus = data.inventoryStatus;
+    this.productForm.quantity = data.quantity;
+    this.productForm.categoryId = data.category.id;
+    data.images.forEach((res: any) => {
+      this.listImageChoosen.push(res);
+    });
+  }
+
+  onChooseImage() {
+    this.showImage = true;
     this.disabled = true;
     let data = document.querySelectorAll('.list-image img');
-      data.forEach(i =>{
-        i.classList.remove('choosen');
-    })
+    data.forEach((i) => {
+      i.classList.remove('choosen');
+    });
   }
 
-  getListProduct(){
+  getListProduct() {
     this.productService.getListProduct().subscribe({
-      next: res =>{
-        this.listProduct =res;
-        // console.log(this.listProduct);
-      },error: err=>{
+      next: (res) => {
+        this.listProduct = res;
+      },
+      error: (err) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 
-  getListCategoryEnabled(){
+  getListCategoryEnabled() {
     this.categoryService.getListCategoryEnabled().subscribe({
-      next: res =>{
+      next: (res) => {
         this.listCategory = res;
-      },error : err=>{
+      },
+      error: (err) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 
-  getListImage(){
-    this.imageService.getListByUsername("admin").subscribe({
-      next:res=>{
-        this.listImage =res;
-      },error: err=>{
+  getListImage() {
+    this.imageService.getListByUsername('admin').subscribe({
+      next: (res) => {
+        this.listImage = res;
+      },
+      error: (err) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 
-  uploadFile(event: any){
+  uploadFile(event: any) {
     this.selectedFiles = event.target.files;
-    if(this.selectedFiles){
+    if (this.selectedFiles) {
       const file: File | null = this.selectedFiles.item(0);
-      if(file){
+      if (file) {
         this.currentFile = file;
         this.imageService.upload(this.currentFile).subscribe({
-          next: res =>{
+          next: (res) => {
             this.currentFile = undefined;
             this.getListImage();
-          },error: err=>{
-          }
-        })
+          },
+          error: (err) => { },
+        });
       }
       this.currentFile = undefined;
     }
   }
 
-  createProduct(){
+  createProduct() {
     let data = this.listImageChoosen;
-    data.forEach((res: any)=>{
+    data.forEach((res: any) => {
       this.productForm.imageIds.push(res.id);
-    })
-    const {productname,description,origin,unit,price,categoryId,imageIds} = this.productForm;
-    // console.log(this.productForm);
-    this.productService.createProduct(productname,description,origin,unit,price,categoryId,imageIds).subscribe({
-      next: res =>{
-        this.getListProduct();
-        this.showForm = false;
-        this.showSuccess("Thêm mới thành công");
-
-      },error: err =>{
-        this.showError(err.message);
-      }
-    })
+    });
+    // console.log(this.productForm.imageIds.length);
+    const {
+      productname,
+      description,
+      origin,
+      unit,
+      price,
+      categoryId,
+      imageIds,
+    } = this.productForm;
+    if(productname != '' && description != '' && imageIds.length != 0 && categoryId != 1 && unit != null && price != null && origin != null && unit != null){
+      this.productService
+        .createProduct(
+          productname,
+          description,
+          origin,
+          unit,
+          price,
+          categoryId,
+          imageIds
+        )
+        .subscribe({
+          next: (res) => {
+            this.getListProduct();
+            this.showForm = false;
+            this.showSuccess('Thêm mới thành công');
+          },
+          error: (err) => {
+            this.showError('Thêm mới thất bại');
+          },
+        });
+    } else{
+      this.showError('Thông tin chưa đầy đủ, bạn cần nhập thêm');
+    }
   }
 
-  updateProduct(){
+  updateProduct() {
     let data = this.listImageChoosen;
-    data.forEach((res: any)=>{
+    data.forEach((res: any) => {
       this.productForm.imageIds.push(res.id);
-      // console.log(res.id);
-    })
-    const {id,productname,description,origin,unit,price,categoryId,imageIds} = this.productForm;
-    // console.log(this.productForm);
-    this.productService.updateProduct(id,productname,description,origin,unit,price,categoryId,imageIds).subscribe({
-      next: res =>{
-        this.getListProduct();
-        this.showForm = false;
-        this.showSuccess("Cập nhật thành công");
-      },error: err =>{
-        this.showError(err.message);
-      }
-    })
-
+    });
+    const {
+      id,
+      productname,
+      description,
+      origin,
+      unit,
+      price,
+      categoryId,
+      imageIds,
+    } = this.productForm;
+    if(productname != '' && description != '' && imageIds.length != 0 && categoryId != 1 && unit != null && price != null && origin != null && unit != null){
+      this.productService
+        .updateProduct(
+          id,
+          productname,
+          description,
+          origin,
+          unit,
+          price,
+          categoryId,
+          imageIds
+        )
+        .subscribe({
+          next: (res) => {
+            this.getListProduct();
+            this.showForm = false;
+            this.showSuccess('Thêm mới thành công');
+          },
+          error: (err) => {
+            this.showError('Thêm mới thất bại');
+          },
+        });
+    } else{
+      this.showError('Thông tin chưa đầy đủ, bạn cần nhập thêm');
+    }
   }
 
-  onDelete(id: number,productname: string){
-    // this.productForm.id = null;
+  onDelete(id: number, productname: string) {
     this.showDelete = true;
     this.productForm.id = id;
     this.productForm.productname = productname;
   }
 
-  deleteProduct(){
+  deleteProduct() {
     this.productService.deleteProduct(this.productForm.id).subscribe({
-      next: res =>{
+      next: (res) => {
         this.getListProduct();
-        this.showWarn("Xóa thành công");
+        this.showWarn('Xóa thành công');
         this.showDelete = false;
-      },error: err =>{
-        this.showError(err.message);
-      }
-    })
+      },
+      error: (err) => {
+        this.showError('Thất bại');
+      },
+    });
   }
 
-  chooseImage(){
+  chooseImage() {
     this.listImageChoosen.push(this.imageChoosen);
-    // console.log(this.listImageChoosen);
     this.showImage = false;
   }
 
@@ -239,24 +279,35 @@ export class ProductComponent implements OnInit {
     this.productForm.imageIds.splice(i, 1);
   }
 
-  selectImage(event : any,res: any){
+  selectImage(event: any, res: any) {
     let data = document.querySelectorAll('.list-image img');
-    data.forEach(i =>{
+    data.forEach((i) => {
       i.classList.remove('choosen');
-    })
-    event.target.classList.toggle("choosen");
+    });
+    event.target.classList.toggle('choosen');
     this.imageChoosen = res;
     this.disabled = false;
   }
 
   showSuccess(text: string) {
-    this.messageService.add({severity:'success', summary: 'Success', detail: text});
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: text,
+    });
   }
   showError(text: string) {
-    this.messageService.add({severity:'error', summary: 'Error', detail: text});
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: text,
+    });
   }
-  showWarn(text : string) {
-    this.messageService.add({severity:'warn', summary: 'Warn', detail: text});
+  showWarn(text: string) {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Warn',
+      detail: text,
+    });
   }
-
 }

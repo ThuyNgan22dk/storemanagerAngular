@@ -3,68 +3,64 @@
 <p-card>
     <p-toolbar styleClass="mb-4 gap-2">
         <ng-template pTemplate="left">
-            <button pButton pRipple label="Thêm mã giảm giá" icon="pi pi-plus" class="border-round p-button-success mr-2" (click)="showForm()"></button>
+            <button pButton pRipple label="Thêm mã giảm giá" icon="pi pi-plus"
+                class="border-round p-button-success mr-2" (click)="showForm()"></button>
         </ng-template>
     </p-toolbar>
 
-    <p-dialog header="Mã giảm giá" [(visible)]="displayForm" [style]="{width: '30vw'}" [modal]="true" [transitionOptions]="'.3s'">
+    <p-dialog header="Mã giảm giá" [(visible)]="displayForm" [style]="{width: '30vw'}" [modal]="true"
+        [transitionOptions]="'.3s'">
         <ng-template pTemplate="content" p-scroller>
             <div class="field grid">
                 <label for="name" class="col-12 mb-2 md:col-2 md:mb-0">Tên:</label>
                 <div class="col-12 md:col-10">
                     <input id="name" type="text"
-                      class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                      pInputText [(ngModel)]="promotionForm.name" required autofocus
-                    >
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        pInputText [(ngModel)]="promotionForm.name" required autofocus>
                 </div>
             </div>
             <div class="field grid">
                 <label for="detail" class="col-12 mb-2 md:col-2 md:mb-0">Mô tả:</label>
                 <div class="col-12 md:col-10">
                     <input id="detail" type="text"
-                      class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                      pInputText [(ngModel)]="promotionForm.detail" required autofocus
-                    >
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        pInputText [(ngModel)]="promotionForm.detail" required autofocus>
                 </div>
             </div>
             <div class="field grid">
                 <label for="quantity" class="col-12 mb-2 md:col-2 md:mb-0">Số lượng áp dụng:</label>
                 <div class="col-12 md:col-10">
                     <input id="quantity" type="text"
-                      class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                      pInputText [(ngModel)]="promotionForm.quantity" required autofocus
-                    >
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        pInputText [(ngModel)]="promotionForm.quantity" required autofocus>
                 </div>
             </div>
             <div class="field grid">
 
                 <label for="percent" class="col-12 mb-2 md:col-2 md:mb-0">Phẩn trăm giảm giá:</label>
                 <div class="col-12 md:col-10 p-inputgroup">
-                  <input id="percent" type="text"
-                  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                  pInputText [(ngModel)]="promotionForm.percent" required autofocus
-                  >
-                  <span class="p-inputgroup-addon">
-                      <i class="pi pi-percentage"></i>
-                  </span>
+                    <input id="percent" type="text"
+                        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                        pInputText [(ngModel)]="promotionForm.percent" required autofocus>
+                    <span class="p-inputgroup-addon">
+                        <i class="pi pi-percentage"></i>
+                    </span>
                 </div>
             </div>
             <div class="p-field mt-3">
-                <button type="submit" pButton class="border-round" (click)="createPromotion()" *ngIf="!onUpdate" >Tạo mới</button>
-                <button type="submit" pButton class="border-round" (click)="updatePromotion()" *ngIf="onUpdate" >Cập nhật</button>
-                <button pButton type="button" class="border-round p-button-danger ml-3" (click)="displayForm=false">Hủy</button>
+                <button type="submit" pButton class="border-round" (click)="createPromotion()" *ngIf="!onUpdate">Tạo
+                    mới</button>
+                <button type="submit" pButton class="border-round" (click)="updatePromotion()" *ngIf="onUpdate">Cập
+                    nhật</button>
+                <button pButton type="button" class="border-round p-button-danger ml-3"
+                    (click)="displayForm=false">Hủy</button>
             </div>
         </ng-template>
     </p-dialog>
 
-    <p-table
-      [value]="listPromotion"
-      [rows]="5"
-      [paginator]="true"
-      [showCurrentPageReport]="true"
-      [tableStyle]="{ 'min-width': '50rem' }"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    >
+    <p-table [value]="listPromotion" [rows]="5" [paginator]="true" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
         <ng-template pTemplate="header">
             <tr>
                 <th>Tên</th>
@@ -84,20 +80,27 @@
                 <td>{{promotion.quantity}}</td>
                 <td>{{promotion.percent}}%</td>
                 <td>
-                    <button pButton type="button" class="border-round p-button-info" (click)="enablePromotion(promotion.id)" *ngIf="promotion.enabled">Đã xác nhận</button>
-                    <button pButton type="button" class="border-round p-button-warning" (click)="enablePromotion(promotion.id)" *ngIf="!promotion.enabled">Chưa xác nhận</button>
+                    <button pButton type="button" class="border-round p-button-info"
+                        (click)="enablePromotion(promotion.id)" *ngIf="promotion.enabled">Đã xác nhận</button>
+                    <button pButton type="button" class="border-round p-button-warning"
+                        (click)="enablePromotion(promotion.id)" *ngIf="!promotion.enabled">Chưa xác nhận</button>
                 </td>
                 <td>
-                    <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button-success" (click)="onUpdateForm(promotion.id,promotion.name,promotion.detail,promotion.code,promotion.quantity,promotion.percent)"></button>
-                    <button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2" (click)="onDelete(promotion.id)"></button>
-                    <p-dialog header="Xác nhận" [(visible)]="deleteForm" [style]="{width :'30vw'}" [modal]="true" [transitionOptions]="'.3s'">
+                    <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button-success"
+                        (click)="onUpdateForm(promotion.id,promotion.name,promotion.detail,promotion.code,promotion.quantity,promotion.percent)"></button>
+                    <button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2"
+                        (click)="onDelete(promotion.id)"></button>
+                    <p-dialog header="Xác nhận" [(visible)]="deleteForm" [style]="{width :'30vw'}" [modal]="true"
+                        [transitionOptions]="'.3s'">
                         <div>
                             <i class="pi pi pi-exclamation-triangle"></i>
                             <span class="ml-2">Bạn có chắc xóa <span>{{promotionForm.name}}</span> ?</span>
                         </div>
                         <div class="flex justify-content-end mt-3">
-                            <p-button label="Yes" icon="pi pi-check" class="border-round mr-2" (click)="deletePromotion()"></p-button>
-                            <p-button label="No" icon="pi pi-times" class="border-round" (click)="deleteForm=false"></p-button>
+                            <p-button label="Yes" icon="pi pi-check" class="border-round mr-2"
+                                (click)="deletePromotion()"></p-button>
+                            <p-button label="No" icon="pi pi-times" class="border-round"
+                                (click)="deleteForm=false"></p-button>
                         </div>
                     </p-dialog>
                 </td>

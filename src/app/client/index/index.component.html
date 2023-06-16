@@ -17,65 +17,86 @@
       </div>
     </div>
 
-    <ul id="navbar">
-      <li><a href="javascript:void(0)" routerLink="category/0">Cửa hàng</a></li>
-      <!-- <li><a href="javascript:void(0)" routerLink="/blog/0">Blog</a></li> -->
-      <!-- <li><a href="#" >Contact</a></li> -->
-      <li class="cart_add_hover">
-        <a href="javascript:void(0)" routerLink="/cart">
-          <fa-icon [icon]="bag"></fa-icon>
-          <span>{{items.length}}</span>
-          Giỏ hàng
-        </a>
-        <div class="cart__hover cart__toggled">
-          <div class="listItemInCart">
-            <ul>
-              <li *ngFor="let item of items" class="cart-box">
-                <div class="cart-box-image p-2">
-                  <a href="javascript:void(0)" class="block"><img
-                      src="{{'data:image/jpg;base64,' + item.product.images[0].data}}" alt="" width="50px"
-                      height="50px"></a>
-                </div>
-                <div class="cart-box-text">
-                  <a href="javascript:void(0)">{{item.name}}</a>
-                  <div><span>{{item.quantity}} x </span>{{item.price | currency: 'VND'}}</div>
-                </div>
-                <button pButton pRipple type="button" icon="pi pi-times"
-                  class="p-button-rounded p-button-danger p-button-text" (click)="removeFromCart(item)"></button>
-              </li>
-            </ul>
-            <p-divider></p-divider>
-            <div class="text-center">
-              <strong>Tổng: </strong><span class="ml-2">{{getTotalPrice(items).totalPrice | currency: 'VND'}}</span>
+    <div id="mobile-menu">
+      <div class="mobile-menu-btn">
+        <fa-icon [icon]="bars">Mở rộng</fa-icon>
+      </div>
+      <ul id="navbar" class="add_menu">
+        <li><a href="javascript:void(0)" routerLink="category/0">Cửa hàng</a></li>
+        <li class="cart_add_hover">
+          <a href="javascript:void(0)" routerLink="/cart">
+            <fa-icon [icon]="bag"></fa-icon>
+            <span>{{items.length}}</span>
+            Giỏ hàng
+          </a>
+          <div class="cart__hover cart__toggled">
+            <div class="listItemInCart">
+              <ul>
+                <li *ngFor="let item of items" class="cart-box">
+                  <div class="cart-box-image p-2">
+                    <a href="javascript:void(0)" class="block"><img
+                        src="{{'data:image/jpg;base64,' + item.product.images[0].data}}" alt="" width="50px"
+                        height="50px"></a>
+                  </div>
+                  <div class="cart-box-text">
+                    <a href="javascript:void(0)">{{item.name}}</a>
+                    <div><span>{{item.quantity}} x </span>{{item.price | currency: 'VND'}}</div>
+                  </div>
+                  <button pButton pRipple type="button" icon="pi pi-times"
+                    class="p-button-rounded p-button-danger p-button-text" (click)="removeFromCart(item)"></button>
+                </li>
+              </ul>
+              <p-divider></p-divider>
+              <div class="text-center">
+                <strong>Tổng: </strong><span class="ml-2">{{getTotalPrice(items).totalPrice | currency: 'VND'}}</span>
+              </div>
             </div>
           </div>
-        </div>
-      </li>
-      <li *ngIf="!isLoggedIn">
-        <a href="javascript:void(0)" routerLink="/auth" (click)="showAuthFormClick()"><fa-icon [icon]="userIcon"></fa-icon> Tài khoản</a>
-      </li>
-      <li class="user_add_hover" *ngIf="isLoggedIn">
-        <a href="javascript:void(0)" ><fa-icon [icon]="userIcon"></fa-icon> {{username}}</a>
-        <div class="user__hover user__toggled">
-          <div>
-            <a class="dropdown-item" href="javascript:void(0)" routerLink="/userDetail">
-              <fa-icon [icon]="userIcon"></fa-icon>
-              Hồ sơ cá nhân
-            </a>
-            <a class="dropdown-item" href="javascript:void(0)" routerLink="/myOrder">
-              <fa-icon [icon]="bag"></fa-icon>
-              Quản lý đơn hàng
-            </a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" (click)="logout()">
-              <fa-icon [icon]="logoutIcon"></fa-icon>
-              Đăng xuất
-            </a>
+        </li>
+        <li *ngIf="!isLoggedIn">
+          <a href="javascript:void(0)" routerLink="/auth" (click)="showAuthFormClick()"><fa-icon [icon]="userIcon"></fa-icon> Tài khoản</a>
+        </li>
+        <li class="user_add_hover" *ngIf="isLoggedIn">
+          <a href="javascript:void(0)" ><fa-icon [icon]="userIcon"></fa-icon> {{username}}</a>
+          <div class="user__hover user__toggled">
+            <div>
+              <a class="dropdown-item" href="javascript:void(0)" routerLink="/userDetail">
+                <fa-icon [icon]="userIcon"></fa-icon>
+                Hồ sơ cá nhân
+              </a>
+              <a class="dropdown-item" href="javascript:void(0)" routerLink="/myOrder">
+                <fa-icon [icon]="bag"></fa-icon>
+                Quản lý đơn hàng
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" (click)="logout()">
+                <fa-icon [icon]="logoutIcon"></fa-icon>
+                Đăng xuất
+              </a>
+            </div>
           </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+        <li class="category">
+          <a href="#">
+            Danh mục
+            <fa-icon [icon]="anlerDown"></fa-icon>
+          </a>
+          <ul class="subnav">
+            <li><a class="form__info-a" href="javascript:void(0)" routerLink="/category/0">Tất cả</a></li>
+            <li *ngFor="let category of listCategoryEnabled">
+              <a class="form__info-a" href="javascript:void(0)"
+                routerLink="/category/{{category.id}}">{{category.name}}</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
   </section>
+</div>
+<div class="animation-for-marquee" *ngIf="showPromo">
+  <marquee behavior="scroll" onmouseover="this.stop()" onmouseout="this.start()">{{promotion[0].name}} nhận ngay ưu đãi giảm giá lên đến <span>{{promotion[0].percent}}%</span> tổng giá trị đơn hàng, nhập ngay mã <span>{{promotion[0].code}}</span> để được hưởng ưu đãi.</marquee>
+  <!-- <marquee behavior="scroll" onmouseover="this.stop()" onmouseout="this.start()"></marquee> -->
 </div>
 
 <router-outlet></router-outlet>
@@ -89,38 +110,19 @@
     <p><strong>Thời gian hoạt động: </strong> 8:00 - 21:00, Mon - Sat</p>
   </div>
 
-  <div class="col">
+  <!-- <div class="col">
     <h4>Về Store Home</h4>
     <a href="#">Giới thiệu về Store Home</a>
     <a href="#">Giao hàng</a>
     <a href="#">Hướng Dẫn Mua Hàng</a>
-    <a href="#">Trung tâm trợ giúp</a>
-    <a href="#">Chính sách bảo mật</a>
-    <a href="#">Liên hệ và truyền thông</a>
-  </div>
+  </div> -->
 
   <div class="col">
     <h4>Tài khoản</h4>
     <a href="#">Đăng nhập</a>
     <a href="#">Xem giỏ hàng</a>
-    <a href="#">Danh sách yêu thích</a>
     <a href="#">Theo dõi đơn hàng</a>
-    <a href="#">Trợ giúp</a>
-  </div>
-
-  <div class="col">
-    <div class="follow">
-      <h4>Theo dõi chúng tôi tại</h4>
-      <div class="row">
-        <a href="#"><i class="pi pi-facebook" style="font-size: 1.5rem"></i> Facebook</a>
-        <a href="#"><i class="pi pi-twitter" style="font-size: 1.5rem"></i> Twitter</a>
-        <a href="#"><i class="pi pi-instagram" style="font-size: 1.5rem"></i> Instagram</a>
-        <a href="#"><i class="pi pi-youtube" style="font-size: 1.5rem"></i> Youtube</a>
-
-
-
-      </div>
-    </div>
+    <!-- <a href="#">Trợ giúp</a> -->
   </div>
 
   <div class="copyright">

@@ -10,7 +10,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AccountComponent } from './admin/account/account.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AccountDetailComponent } from './admin/account-detail/account-detail.component';
 import { ProductComponent } from './admin/product/product.component';
 import { CategoryComponent } from './admin/category/category.component';
 import { ToastModule } from 'primeng/toast';
@@ -40,7 +39,6 @@ import { SplitterModule } from 'primeng/splitter';
 import { SidebarModule } from 'primeng/sidebar';
 import { ImportGoodComponent } from './admin/import-good/import-good.component';
 import { PromotionComponent } from './admin/promotion/promotion.component';
-// import { CommentComponent } from './admin/comment/comment.component';
 import { OrderComponent } from './admin/order/order.component';
 import { HomeComponent } from './client/home/home.component';
 import { CartComponent } from './client/cart/cart.component';
@@ -72,12 +70,10 @@ import { WarehouseComponent } from './admin/warehouse/warehouse.component';
     AuthComponent,
     DashboardComponent,
     AccountComponent,
-    AccountDetailComponent,
     ProductComponent,
     CategoryComponent,
     ImportGoodComponent,
     PromotionComponent,
-    // CommentComponent,
     OrderComponent,
     HomeComponent,
     CartComponent,

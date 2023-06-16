@@ -1,57 +1,67 @@
 <!-- <p>auth works!</p> -->
+<p-toast></p-toast>
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
 		<form action="#" [formGroup]="form">
 			<h1>Tạo tài khoản mới</h1>
-      <!-- ngModelOptions]="{standalone: true}" -->
-			<input pInputText class="m-2" type="text" formControlName="username" placeholder="Tên người dùng" [(ngModel)]="registerForm.username" name="username"/>
-        <div class="error-messages">
-          <ng-container *ngFor="let error of error_messages.username">
-            <div class="error-message" *ngIf="form.get('username').hasError(error.type) && (form.get('username').dirty || form.get('username').touched)">
-              {{ error.message }}
-            </div>
-          </ng-container>
-        </div>
-			<input pInputText class="m-2" type="email" formControlName="email" placeholder="Email" [(ngModel)]="registerForm.email" name="email"/>
-        <div class="error-messages">
-          <ng-container *ngFor="let error of error_messages.email">
-            <div class="error-message" *ngIf="form.get('email').hasError(error.type) && (form.get('email').dirty || form.get('email').touched)">
-              {{ error.message }}
-            </div>
-          </ng-container>
-        </div>
-			<p-password class="p-2" type="password" formControlName="password" placeholder="Mật khẩu" [(ngModel)]="registerForm.password" name="password" [toggleMask]="true">
+			<input pInputText class="m-2" type="text" formControlName="username" placeholder="Tên người dùng"
+				[(ngModel)]="registerForm.username" name="username" />
+			<div class="error-messages">
+				<ng-container *ngFor="let error of error_messages.username">
+					<div class="error-message"
+						*ngIf="form.get('username').hasError(error.type) && (form.get('username').dirty || form.get('username').touched)">
+						{{ error.message }}
+					</div>
+				</ng-container>
+			</div>
+			<input pInputText class="m-2" type="email" formControlName="email" placeholder="Email"
+				[(ngModel)]="registerForm.email" name="email" />
+			<div class="error-messages">
+				<ng-container *ngFor="let error of error_messages.email">
+					<div class="error-message"
+						*ngIf="form.get('email').hasError(error.type) && (form.get('email').dirty || form.get('email').touched)">
+						{{ error.message }}
+					</div>
+				</ng-container>
+			</div>
+			<p-password class="p-2" type="password" formControlName="password" placeholder="Mật khẩu"
+				[(ngModel)]="registerForm.password" name="password" [toggleMask]="true">
 				<ng-template pTemplate="header">
 					<h6>Nhập mật khẩu</h6>
 				</ng-template>
-        <div class="error-messages">
-          <ng-container *ngFor="let error of error_messages.password">
-            <div class="error-message" *ngIf="form.get('password').hasError(error.type) && (form.get('password').dirty || form.get('password').touched)">
-              {{ error.message }}
-            </div>
-          </ng-container>
-        </div>
 			</p-password>
-			<p-password class="p-2" type="password" formControlName="confirmPassword" placeholder="Xác nhận mật khẩu" [(ngModel)]="registerForm.confirmPassword" name="confirmPassword" [toggleMask]="true">
+			<div class="error-messages">
+				<ng-container *ngFor="let error of error_messages.password">
+					<div class="error-message"
+						*ngIf="form.get('password').hasError(error.type) && (form.get('password').dirty || form.get('password').touched)">
+						{{ error.message }}
+					</div>
+				</ng-container>
+			</div>
+			<p-password class="p-2" type="password" formControlName="confirmPassword" placeholder="Xác nhận mật khẩu"
+				[(ngModel)]="registerForm.confirmPassword" name="confirmPassword" [toggleMask]="true">
 				<ng-template pTemplate="header">
-					<h6>Nhập lại mật khẩu</h6>
+					<h6>Nhập lại mật khẩu xác thực</h6>
 				</ng-template>
-        <div class="error-messages">
-          <ng-container *ngFor="let error of error_messages.confirmPassword">
-            <div class="error-message" *ngIf="form.get('confirmPassword').hasError(error.type) && (form.get('confirmPassword').dirty || form.get('confirmPassword').touched)">
-              {{ error.message }}
-            </div>
-          </ng-container>
-        </div>
 			</p-password>
-			<button (click)="register()">Đăng ký</button>
+			<div class="error-messages" >
+				<ng-container *ngFor="let error of error_messages.confirmPassword">
+					<div class="error-message"
+						*ngIf="form.get('confirmPassword').hasError(error.type) && (form.get('confirmPassword').dirty || form.get('confirmPassword').touched)">
+						{{ error.message }}
+					</div>
+				</ng-container>
+			</div>
+			<button (click)="register()" [disabled]="!form.valid">Đăng ký</button>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
 		<form action="#">
 			<h1>Đăng nhập</h1>
-			<input pInputText class="m-1" type="text" placeholder="Tên người dùng" [(ngModel)]="loginForm.username" name="username" />
-			<p-password class="p-2" type="password" placeholder="Mật khẩu" [(ngModel)]="loginForm.password" name="password" [toggleMask]="true"/>
+			<input pInputText class="m-1" type="text" placeholder="Tên người dùng" [(ngModel)]="loginForm.username"
+				name="username" />
+			<p-password class="p-2" type="password" placeholder="Mật khẩu" [(ngModel)]="loginForm.password"
+				name="password" [toggleMask]="true" />
 			<a href="javascript:void(0)">Quên mật khẩu?</a>
 			<button (click)="login()">Đăng nhập</button>
 		</form>
@@ -61,7 +71,6 @@
 			<div class="overlay-panel overlay-left">
 				<h1>Chào mừng trở lại!</h1>
 				<p>Để giữ kết nối với chúng tôi, vui lòng đăng nhập bằng thông tin cá nhân của bạn.</p>
-				<!-- <p>Nếu đã có tài khoản vui lòng đăng nhập</p> -->
 				<button class="ghost" id="signIn" (click)="loginFormChange()">Đăng nhập</button>
 			</div>
 			<div class="overlay-panel overlay-right">

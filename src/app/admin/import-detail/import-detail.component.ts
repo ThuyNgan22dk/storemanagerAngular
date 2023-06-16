@@ -7,59 +7,47 @@ import { CategoryService } from 'src/app/_services/category.service';
 import { ImportService } from 'src/app/_services/import.service';
 import { ProductService } from 'src/app/_services/product.service';
 
-interface Unit{
+interface Unit {
   name: string;
 }
 @Component({
   selector: 'app-import-detail',
   templateUrl: './import-detail.component.html',
   styleUrls: ['./import-detail.component.css'],
-  providers: [MessageService, ConfirmationService]
-
+  providers: [MessageService, ConfirmationService],
 })
 export class ImportDetailComponent implements OnInit {
-  // @Input() importGood: ImportGood;
-  // @Input('id') ig_id: number;
-  // @Input('subTotal') total: number;
-  // countries: any[];
-
   items: any[];
-
-  selectedProductname: any;
-
+  selectedProduct: any;
   filteredProducts: any[];
   listProduct: any[];
   listProductImport: any;
   listCategory: any;
-
-  disabled : boolean = true;
-
-  // selectedFiles ?: FileList;
-
-  onUpdate : boolean =false;
-  showForm : boolean = false;
+  disabled: boolean = true;
+  name: string;
+  onUpdate: boolean = false;
+  showForm: boolean = false;
   showImage: boolean = false;
   showDelete: boolean = false;
   importGId: number;
 
-
-  importDetailForm: ImportDetail ={
+  importDetailForm: ImportDetail = {
     id: 0,
-    name : "null",
+    name: 'null',
     price: 0,
     quantity: 0,
-    expiry: "2024-04-04",
+    expiry: '2024-04-04',
     subTotal: 0,
-    // categoryId: 0,
-    importGoodId: 0
+    importGoodId: 0,
   };
 
-  constructor(private messageService: MessageService,
+  constructor(
+    private messageService: MessageService,
     private importService: ImportService,
-    // private categoryService:CategoryService,
     private productService: ProductService,
     private router: Router,
-    private route:ActivatedRoute){
+    private route: ActivatedRoute
+  ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
@@ -69,154 +57,182 @@ export class ImportDetailComponent implements OnInit {
     this.getListProduct();
     this.items = [];
     for (let i = 0; i < 10000; i++) {
-        this.items.push({ value: 'Item ' + i });
+      this.items.push({ value: 'Item ' + i });
     }
-    // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    // this.getListCategoryEnabled();
   }
 
   openNew() {
+    this.getListProduct();
     this.onUpdate = false;
     this.showForm = true;
-    this.importDetailForm ={
+    this.importDetailForm = {
       id: 0,
-      name : "null",
+      name: 'null',
       price: 0,
       quantity: 0,
-      expiry: "2024-04-04",
+      expiry: '2024-04-04',
       subTotal: 0,
-      // categoryId: 1,
-      importGoodId: this.importGId
+      importGoodId: this.importGId,
+    };
+  }
+
+  openUpdate(data: any) {
+    this.onUpdate = true;
+    this.showForm = true;
+    this.importDetailForm.id = data.id;
+    this.importDetailForm.name = data.name;
+    this.importDetailForm.price = data.price;
+    this.importDetailForm.quantity = data.quantity;
+    this.importDetailForm.expiry = data.expiry;
+    this.importDetailForm.subTotal = data.subTotal;
+    this.importDetailForm.importGoodId = this.importGId;
+  }
+
+  getListProduct() {
+    this.productService.getListProduct().subscribe({
+      next: (res) => {
+        this.listProduct = res;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  getListProductImport() {
+    this.importService.getListImportDetail(this.importGId).subscribe({
+      next: (res) => {
+        this.listProductImport = res;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  createProduct() {
+    const { price, quantity, expiry, importGoodId } = this.importDetailForm;
+    if( price != 0 && quantity != 0){
+      this.name = this.selectedProduct.productname;
+      var update: boolean = false;
+      for (let i = 0; i < this.listProductImport.length; i++) {
+        if (this.listProductImport[i].name === this.name) {
+          var tempQuantity = this.listProductImport[i].quantity + quantity;
+          this.importService
+            .updateImportDetail(
+              this.listProductImport[i].id,
+              this.name,
+              price,
+              tempQuantity,
+              expiry,
+              importGoodId
+            )
+            .subscribe({
+              next: (res) => {
+                this.getListProductImport();
+                this.showForm = false;
+                this.showSuccess('Cập nhật thành công');
+              },
+              error: (err) => {
+                this.showError('Cập nhật thất bại');
+              },
+            });
+          update = true;
+        }
+      }
+      if (!update) {
+        this.importService
+          .createImportDetail(this.name, price, quantity, expiry, importGoodId)
+          .subscribe({
+            next: (res) => {
+              this.getListProductImport();
+              this.showForm = false;
+              this.showSuccess('Thêm mới thành công');
+            },
+            error: (err) => {
+              this.showError('Thêm mới thất bại');
+            },
+          });
+      
+    } else{
+      this.showError('Bạn cần nhập đủ thông tin');
+      }
     }
   }
 
-  openUpdate(data : any){
-      this.onUpdate = true;
-      this.showForm =true;
-      this.importDetailForm.id = data.id;
-      this.importDetailForm.name = data.name;
-      this.importDetailForm.price = data.price;
-      this.importDetailForm.quantity = data.quantity;
-      this.importDetailForm.expiry = data.expiry;
-      this.importDetailForm.subTotal = data.subTotal;
-      // this.importDetailForm.categoryId = data.category.id;
-      this.importDetailForm.importGoodId = this.importGId;
-  }
-
-  getListProduct(){
-    this.productService.getListProduct().subscribe({
-      next: res =>{
-        this.listProduct = res;
-        // console.log(this.listProduct);
-      },error: err=>{
-        console.log(err);
-      }
-    })
-  }
-
-  getListProductImport(){
-    this.importService.getListImportDetail(this.importGId).subscribe({
-      next: res =>{
-        this.listProductImport = res;
-        // console.log(this.listProductImport);
-      },error: err=>{
-        console.log(err);
-      }
-    })
-  }
-
-  createProduct(){
-    const {price,quantity,expiry,importGoodId} = this.importDetailForm;
-    const name = this.selectedProductname.productname;
-    var update: boolean = false;
-    // console.log(this.listProductImport);
-    for(let i = 0; i < this.listProductImport.length; i++) {
-      if(this.listProductImport[i].name === name){
-        var tempQuantity = this.listProductImport[i].quantity + quantity;
-        // console.log(tempQuantity);
-        // console.log(this.importDetailForm);
-        this.importService.updateImportDetail(this.listProductImport[i].id,name,price,tempQuantity,expiry,importGoodId).subscribe({
-          next: res =>{
+  updateProduct() {
+    const { id, name, price, quantity, expiry, importGoodId } = this.importDetailForm;
+    if(id != 0 && name != '' && price != 0 && quantity != 0){
+      this.importService
+        .updateImportDetail(id, name, price, quantity, expiry, importGoodId)
+        .subscribe({
+          next: (res) => {
             this.getListProductImport();
             this.showForm = false;
-            this.showSuccess("Cập nhật thành công");
-          },error: err =>{
-            this.showError(err.message);
-          }
-        })
-        update = true;
-      }else{
-        update = false;
-      }
-    }
-    if(!update){
-      this.importService.createImportDetail(name,price,quantity,expiry,importGoodId).subscribe({
-        next: res =>{
-          this.getListProductImport();
-          this.showForm = false;
-          this.showSuccess("Thêm mới thành công");
-        },error: err =>{
-          this.showError(err.message);
-        }
-      })
+            this.showSuccess('Cập nhật thành công');
+          },
+          error: (err) => {
+            this.showError('Cập nhật thất bại');
+          },
+        });
+    } else{
+      this.showError('Thông tin chưa đủ, bạn cần nhập đủ các mục');
     }
   }
 
-  updateProduct(){
-    const {id,name,price,quantity,expiry,importGoodId} = this.importDetailForm;
-    // console.log(this.importDetailForm);
-    this.importService.updateImportDetail(id,name,price,quantity,expiry,importGoodId).subscribe({
-      next: res =>{
-        this.getListProductImport();
-        this.showForm = false;
-        this.showSuccess("Cập nhật thành công");
-      },error: err =>{
-        this.showError(err.message);
-      }
-    })
-  }
-
-  onDelete(id: number,name: string){
-    // this.importDetailForm.id = null;
+  onDelete(id: number, name: string) {
     this.showDelete = true;
     this.importDetailForm.id = id;
     this.importDetailForm.name = name;
   }
 
-  deleteProduct(){
+  deleteProduct() {
     console.log(this.importDetailForm.id);
     this.importService.deleteImportDetail(this.importDetailForm.id).subscribe({
-      next: res =>{
+      next: (res) => {
         this.getListProductImport();
-        this.showWarn("Xóa thành công");
+        this.showWarn('Xóa thành công');
         this.showDelete = false;
-      },error: err =>{
-        this.showError(err.message);
-      }
-    })
+      },
+      error: (err) => {
+        this.showError('Thất bại');
+      },
+    });
   }
 
   filterProduct(event) {
-      let filtered: any[] = [];
-      let query = event.query;
-
-      for (let i = 0; i < this.listProduct.length; i++) {
-          let product = this.listProduct[i];
-          if (product.productname.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-              filtered.push(product);
-          }
+    // console.log(this.listProduct);
+    // this.getListProduct();
+    let filtered: any[] = [];
+    let query = event.query;
+    for (let i = 0; i < this.listProduct.length; i++) {
+      let product = this.listProduct[i];
+      if (product.productname.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtered.push(product);
       }
-      this.filteredProducts = filtered;
+    }
+    this.filteredProducts = filtered;
   }
 
   showSuccess(text: string) {
-    this.messageService.add({severity:'success', summary: 'Success', detail: text});
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: text,
+    });
   }
   showError(text: string) {
-    this.messageService.add({severity:'error', summary: 'Error', detail: text});
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: text,
+    });
   }
-  showWarn(text : string) {
-    this.messageService.add({severity:'warn', summary: 'Warn', detail: text});
+  showWarn(text: string) {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Warn',
+      detail: text,
+    });
   }
-
 }

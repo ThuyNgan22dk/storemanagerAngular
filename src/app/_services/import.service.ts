@@ -46,6 +46,15 @@ export class ImportService {
     }
   }
 
+  getTotalImport():Observable<any>{
+    return this.http.get(IMPORT_API + 'totalImport', httpOptions);
+  
+  }
+
+  getTotalDayImport(date: string):Observable<any>{
+    return this.http.get(IMPORT_API + 'totalDay/' + date, httpOptions);
+  }
+
   createImportDetail(name: string, price: number, quantity: number, expiry: string,importGoodId: number): Observable<any>{
     return this.http.post(IMPORT_API + 'importDetail/create', {name,price,quantity,expiry,importGoodId},httpOptions);
   }

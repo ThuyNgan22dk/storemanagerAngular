@@ -52,7 +52,7 @@ export class MyOrderComponent implements OnInit {
     this.orderService.getListOrderByUser(this.username).subscribe({
       next: res=>{
         this.listOrder = res;
-        // console.log(this.listOrder);
+        console.log(this.listOrder);
       },error: err =>{
         console.log(err);
       }
@@ -64,7 +64,6 @@ export class MyOrderComponent implements OnInit {
     this.orderService.getListOrderDetail(this.orderId).subscribe({
       next: res =>{
         this.listProductOrder = res;
-        // console.log(this.listProductOrder);
       },error: err=>{
         console.log(err);
       }

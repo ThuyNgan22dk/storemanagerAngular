@@ -4,23 +4,18 @@
 <div class="card flex">
     <p-toolbar styleClass="mb-4 gap-2">
         <ng-template pTemplate="left">
-            <button pButton pRipple label="Thêm sản phẩm" icon="pi pi-plus" class="border-round p-button-success mr-2" style="border-radius: 8px;" (click)="openNew()"></button>
+            <button pButton pRipple label="Thêm sản phẩm" icon="pi pi-plus" class="border-round p-button-success mr-2"
+                style="border-radius: 8px;" (click)="openNew()"></button>
         </ng-template>
     </p-toolbar>
 
-    <p-table #dt
-        [value]="listProductImport"
-        [rows]="5"
-        [paginator]="true"
-        [globalFilterFields]="['name','price']"
-        [tableStyle]="{'min-width': '50rem'}"
-        [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [showCurrentPageReport]="true"
-      >
+    <p-table #dt [value]="listProductImport" [rows]="5" [paginator]="true" [globalFilterFields]="['name','price']"
+        [tableStyle]="{'min-width': '50rem'}" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="name" style="min-width:4rem">Tên sản phẩm <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="name" style="min-width:4rem">Tên sản phẩm <p-sortIcon field="name"></p-sortIcon>
+                </th>
                 <th pSortableColumn="price">Giá<p-sortIcon field="price"></p-sortIcon></th>
                 <th>Số lượng</th>
                 <th style="min-width:4rem">Hạn sử dụng</th>
@@ -38,47 +33,64 @@
                 <td>{{product.subTotal | currency:'VND'}}</td>
                 <!-- <td>{{product.category.name}}</td> -->
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="openUpdate(product)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="onDelete(product.id,product.productname)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                        (click)="openUpdate(product)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                        (click)="onDelete(product.id,product.productname)"></button>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
-          <div class="flex align-items-center justify-content-between">
-            <!-- Total amount of the order {{total}}. -->
-          </div>
-      </ng-template>
+            <div class="flex align-items-center justify-content-between">
+                <!-- Total amount of the order {{total}}. -->
+            </div>
+        </ng-template>
     </p-table>
 </div>
 
-<p-dialog [(visible)]="showForm" [style]="{width: '40vw'}" header="Chi tiết sản phẩm" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="showForm" [style]="{width: '50vw'}" header="Chi tiết sản phẩm" [modal]="true"
+    styleClass="p-fluid">
     <ng-template pTemplate="content" p-scroller>
-        <div class="field grid" style="margin-left: 6px;">
-            <label for="name" class="col-12 mb-2 md:col-2 md:mb-0">Tên</label>
-            <p-autoComplete [(ngModel)]="selectedProductname" [suggestions]="filteredProducts" (completeMethod)="filterProduct($event)" field="productname" [dropdown]="true">
+        <div class="field grid" style="margin-left: 4px;" *ngIf="!onUpdate">
+            <label for="name" class="col-12 mb-2 md:col-2 md:mb-0">Tên</label><span style="color: red;">*</span>
+            <p-autoComplete [(ngModel)]="selectedProduct" [suggestions]="filteredProducts" style="width: 100%;"
+                (completeMethod)="filterProduct($event)" field="productname" [dropdown]="true">
                 <ng-template let-product pTemplate="item">
-                    <div class="flex align-items-center gap-2" >
-                        <div>{{ product.productname }}</div>
+                    <div class="flex align-items-center gap-2">
+                        <div>{{product.productname}}</div>
                     </div>
                 </ng-template>
             </p-autoComplete>
+            <div class="flex align-items-center gap-2 mr-2">
+                <label *ngIf="selectedProduct != null" (ngModel)="selectedProduct">Danh mục: {{selectedProduct.category.name}},</label>
+            </div>
+            <div class="flex align-items-center gap-2">
+                <label *ngIf="selectedProduct != null" (ngModel)="selectedProduct">Số lượng: {{selectedProduct.quantity}}</label>
+            </div>
         </div>
 
         <div class="field grid">
+            <label for="name" class="col-12 mb-2 md:col-2 md:mb-0" *ngIf="onUpdate">Tên sản phẩm</label><span style="color: red;">*</span>
+            <div class="col-12 md:col-10">
+                <!-- <p-calendar [(ngModel)]="importDetailForm.expiry" dateFormat="yy-mm-dd" p-scroller></p-calendar> -->
+                <input id="expiry" type="text" *ngIf="onUpdate"
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                    pInputText [(ngModel)]="importDetailForm.name" required autofocus>
+            </div>
             <label for="name" class="col-12 mb-2 md:col-2 md:mb-0">Hạn sử dụng</label>
             <div class="col-12 md:col-10">
                 <!-- <p-calendar [(ngModel)]="importDetailForm.expiry" dateFormat="yy-mm-dd" p-scroller></p-calendar> -->
                 <input id="expiry" type="text"
-                  class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-                  pInputText [(ngModel)]="importDetailForm.expiry" required autofocus
-                >
+                    class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                    pInputText [(ngModel)]="importDetailForm.expiry" required autofocus>
             </div>
         </div>
 
         <div class="formgrid grid">
             <div class="field col">
                 <label for="price">Giá</label>
-                <p-inputNumber id="price" [(ngModel)]="importDetailForm.price" mode="currency" currency="VND" locale="VN"></p-inputNumber>
+                <p-inputNumber id="price" [(ngModel)]="importDetailForm.price" mode="currency" currency="VND"
+                    locale="VN"></p-inputNumber>
             </div>
             <div class="field col">
                 <label for="quantity">Số lượng</label>
@@ -90,12 +102,13 @@
     </ng-template>
     <ng-template pTemplate="footer">
         <button type="submit" pButton class="border-round" *ngIf="!onUpdate" (click)="createProduct()">Tạo mới</button>
-        <button type="submit" pButton class="border-round" *ngIf="onUpdate" (click)="updateProduct()" >Cập nhật</button>
+        <button type="submit" pButton class="border-round" *ngIf="onUpdate" (click)="updateProduct()">Cập nhật</button>
         <button pButton type="button" class="border-round p-button-danger ml-3" (click)="showForm=false">Hủy</button>
     </ng-template>
 </p-dialog>
 
-<p-dialog header="Xác nhận" [(visible)]="showDelete" [style]="{width :'30vw'}" [modal]="true" [transitionOptions]="'.3s'">
+<p-dialog header="Xác nhận" [(visible)]="showDelete" [style]="{width :'30vw'}" [modal]="true"
+    [transitionOptions]="'.3s'">
     <div>
         <i class="pi pi pi-exclamation-triangle"></i>
         <span class="ml-2">Bạn có chắc xóa <span>{{importDetailForm.name}}</span> ?</span>

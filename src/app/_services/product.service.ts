@@ -22,6 +22,22 @@ export class ProductService {
     return this.http.get(PRODUCT_API + 'foruser',httpOptions);
   }
 
+  getListProductSuggest(username: string):Observable<any>{
+    return this.http.get(PRODUCT_API + 'suggest/' + username,httpOptions);
+  }
+
+  getListSuggest():Observable<any>{
+    return this.http.get(PRODUCT_API + 'suggest',httpOptions);
+  }
+
+  getListProductSortAsc():Observable<any>{
+    return this.http.get(PRODUCT_API + 'sortAsc',httpOptions);
+  }
+
+  getListProductSortDesc():Observable<any>{
+    return this.http.get(PRODUCT_API + 'sortDesc',httpOptions);
+  }
+
   getListProductNewest(num: number):Observable<any>{
     return this.http.get(PRODUCT_API + 'newest/' + num,httpOptions);
   }

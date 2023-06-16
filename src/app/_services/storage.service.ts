@@ -4,46 +4,57 @@ import { BehaviorSubject } from 'rxjs';
 const USER_KEY = 'auth-user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StorageService {
-  userSource = new BehaviorSubject<string>("user");
+  userSource = new BehaviorSubject<string>('user');
   currentUser = this.userSource.asObservable();
   username: string;
-
-  promotionCode: string = null;
+  promotion ={
+    percent: 0,
+    code: ''
+  };
+  // promotionPercent: number = null;
+  // promotionCode: string = null;
 
   constructor() { }
 
-  clean():void{
+  clean(): void {
     this.username = null;
     localStorage.removeItem('username');
     window.sessionStorage.clear();
     // window.localStorage.clear();
   }
 
-  // saveUsername():void{
-  //   localStorage.setItem('username',JSON.stringify(this.currentUser));
-  //   console.log(this.currentUser);
-  // }
-
-  changeUsername(username:string) {
+  changeUsername(username: string) {
     this.userSource.next(username);
     this.username = username;
-    localStorage.setItem('username',JSON.stringify(this.username));
-    // console.log(username);
+    localStorage.setItem('username', JSON.stringify(this.username));
   }
 
-  loadUsername(){
+  loadUsername() {
     this.username = JSON.parse(localStorage.getItem('username'));
-    // console.log(this.username);
     return this.username;
   }
+
+  // changePromotion(promotion: any) {
+  //   this.promotion.code = promotion.code;
+  //   this.promotion.percent = promotion.percent;
+  //   localStorage.setItem('promotion', JSON.stringify(this.promotion));
+  //   // localStorage.setItem('percent', JSON.stringify(this.promotion.percent));
+  //   // return this.promotion;
+  // }
+
+  // loadPromotion() {
+  //   this.promotion = JSON.parse(localStorage.getItem('promotion'));
+  //   return this.promotion;
+  // }
 
   saveUser(user: any): void {
     window.sessionStorage.removeItem(USER_KEY);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
   }
+
   getUser(): any {
     const user = window.sessionStorage.getItem(USER_KEY);
     if (user) {

@@ -1,146 +1,104 @@
 <!-- <p>account works!</p> -->
 <p-toast></p-toast>
 <p-card>
-    <!-- <p-toolbar styleClass="mb-4 gap-2">
-        <ng-template pTemplate="left">
-            <button pButton pRipple label="Add user" icon="pi pi-plus" class="p-button-success mr-2" (click)="showForm()"></button>
-        </ng-template>
-    </p-toolbar> -->
+  <p-dialog header="User" [(visible)]="displayForm" [style]="{width: '40vw'}" [modal]="true"
+    [transitionOptions]="'.3s'">
+    <form action="">
+      <div>
+        <div class="form-left">
+          <div>
+            <div class="form__input">
+              <p>Họ và tên đệm</p>
+              <input pInputText type="text" [disabled]="true" [(ngModel)]="userForm.firstname" label=""
+                name="firstname">
+            </div>
+          </div>
+          <div>
+            <div class="form__input">
+              <p>Tên</p>
+              <input pInputText type="text" [disabled]="true" [(ngModel)]="userForm.lastname" name="lastname">
+            </div>
+          </div>
+          <div>
+            <div class="form__input">
+              <p>Số điện thoại</p>
+              <input pInputText type="text" [disabled]="true" [(ngModel)]="userForm.phone" name="phone">
+            </div>
+          </div>
+        </div>
+        <div class="form-right">
+          <div>
+            <div class="form__input">
+              <p>Địa chỉ email</p>
+              <input pInputText type="text" [disabled]="true" [(ngModel)]="userForm.email" name="email">
+            </div>
+          </div>
+          <div class="form__input">
+            <p>Tỉnh/ Thành phố</p>
+            <input pInputText type="text" [disabled]="true" [(ngModel)]="userForm.country" name="country">
+          </div>
+          <div class="form__input">
+            <p>Địa chỉ giao hàng</p>
+            <input pInputText type="text" [disabled]="true" [(ngModel)]="userForm.address" name="address">
+          </div>
+        </div>
+        <div>
+          <button pButton type="button" class="border-round p-button-danger ml-3" (click)="displayForm=false">Trở
+            lại</button>
+        </div>
+      </div>
+    </form>
+  </p-dialog>
 
-    <p-dialog header="User" [(visible)]="displayForm" [style]="{width: '40vw'}" [modal]="true" [transitionOptions]="'.3s'">
-        <form action="">
-            <!-- <div class="p-field">
-                <label for="username">Tên tài khoản: </label>
-                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.username" name="username">
-            </div>
-            <div class="p-field">
-                <label for="address">Địa chỉ: </label>
-                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.address" name="address">
-            </div>
-            <div class="p-field">
-                <label for="email">Email: </label>
-                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.email" name="email">
-            </div>
-            <div class="p-field">
-                <label for="firstname">Họ và tên đệm: </label>
-                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.firstname" name="firstname">
-            </div>
-            <div class="p-field">
-                <label for="lastname">Tên: </label>
-                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.lastname" name="lastname">
-            </div>
-            <div class="p-field">
-                <label for="country">Tỉnh/ Thành phố: </label>
-                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.country" name="country">
-            </div>
-            <div class="p-field">
-                <label for="phone">Số điện thoại: </label>
-                <input type="text" pInputText class="w-full mt-1 mb-1" [(ngModel)]="userForm.phone" name="phone">
-            </div>
-            <div class="p-field mt-3">
-                <button type="submit" pButton class="border-round" (click)="updateUser()" *ngIf="onUpdate" >Cập nhật</button>
-                <button pButton type="button" class="border-round p-button-danger ml-3" (click)="displayForm=false">Hủy</button>
-            </div> -->
+  <p-table #dt [value]="listUser" [rows]="5" [paginator]="true" [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between flex-wrap">
+        <h5 class="m-0 flex align-items-center justify-content-center">Quản lý người dùng</h5>
+        <span class="p-input-icon-left flex align-items-center justify-content-center">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+            placeholder="Search" class="input_Search" />`
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Tên</th>
+        <th>Địa chỉ</th>
+        <th>Email</th>
+        <th>Tỉnh/Tp</th>
+        <th>Số điện thoại</th>
+        <th>Hoạt động</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>{{user.username}}</td>
+        <td>{{user.address}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.country}}</td>
+        <td>{{user.phone}}</td>
+        <td>
+          <button pButton type="button" icon="pi pi-info" class="p-button-rounded p-button-primary"
+            (click)="onUpdateForm(user)"></button>
+          <button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2"
+            (click)="onDelete(user.id)"></button>
+          <p-dialog header="Xác nhận" [(visible)]="deleteForm" [style]="{width :'30vw'}" [modal]="true"
+            [transitionOptions]="'.3s'">
             <div>
-              <div class="form-left">
-                <div>
-                  <div class="form__input">
-                    <p>Họ và tên đệm</p>
-                    <input pInputText type="text" [(ngModel)]="userForm.firstname" label="" name="firstname">
-                  </div>
-                </div>
-                <div>
-                  <div class="form__input">
-                    <p>Tên</p>
-                    <input pInputText type="text" [(ngModel)]="userForm.lastname" name="lastname">
-                  </div>
-                </div>
-                <div>
-                  <div class="form__input">
-                    <p>Số điện thoại</p>
-                    <input pInputText type="text" [(ngModel)]="userForm.phone" name="phone">
-                  </div>
-                </div>
-              </div>
-              <div class="form-right">
-                <div>
-                  <div class="form__input">
-                    <p>Địa chỉ email</p>
-                    <input pInputText type="text" [(ngModel)]="userForm.email" name="email">
-                  </div>
-                </div>
-                <div class="form__input">
-                  <p>Tỉnh/ Thành phố</p>
-                  <input pInputText type="text" [(ngModel)]="userForm.country" name="country">
-                </div>
-                <div class="form__input">
-                  <p>Địa chỉ giao hàng</p>
-                  <input pInputText type="text" [(ngModel)]="userForm.address" name="address">
-                </div>
-              </div>
-              <div>
-                <button type="submit" pButton class="border-round" (click)="updateUser()" *ngIf="onUpdate" >Cập nhật</button>
-                <button pButton type="button" class="border-round p-button-danger ml-3" (click)="displayForm=false">Hủy</button>
-              </div>
+              <i class="pi pi pi-exclamation-triangle"></i>
+              <span class="ml-2">Bạn có chắc xóa <span>{{userForm.id}}</span> ?</span>
             </div>
-        </form>
-    </p-dialog>
-
-    <p-table #dt
-      [value]="listUser"
-      [rows]="5"
-      [paginator]="true"
-      [showCurrentPageReport]="true"
-      [tableStyle]="{ 'min-width': '50rem' }"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    >
-        <ng-template pTemplate="caption">
-            <div class="flex align-items-center justify-content-between flex-wrap">
-                <h5 class="m-0 flex align-items-center justify-content-center">Quản lý người dùng</h5>
-                <!-- <span class="p-input-icon-left flex align-items-center justify-content-center">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search" class="input_Search"/>`
-                </span> -->
+            <div class="flex justify-content-end mt-3">
+              <p-button label="Yes" icon="pi pi-check" class="border-round mr-2" (click)="deleteUser()"></p-button>
+              <p-button label="No" icon="pi pi-times" class="border-round" (click)="deleteForm=false"></p-button>
             </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr>
-                <th>Tên</th>
-                <th>Địa chỉ</th>
-                <th>Email</th>
-                <th>Tỉnh/Tp</th>
-                <th>Số điện thoại</th>
-                <th>Xác nhận</th>
-                <th>Hoạt động</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-user>
-            <tr>
-                <td>{{user.username}}</td>
-                <td>{{user.address}}</td>
-                <td>{{user.email}}</td>
-                <td>{{user.country}}</td>
-                <td>{{user.phone}}</td>
-                <td>
-                    <button pButton type="button" class="p-button-info border-round" (click)="enableUser(user.id)" *ngIf="user.enabled">Đã xác nhận</button>
-                    <button pButton type="button" class="p-button-warning border-round" (click)="enableUser(user.id)" *ngIf="!user.enabled">Chưa xác nhận</button>
-                </td>
-                <td>
-                    <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button-success" (click)="onUpdateForm(user)"></button>
-                    <button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2" (click)="onDelete(user.id)"></button>
-                    <p-dialog header="Xác nhận" [(visible)]="deleteForm" [style]="{width :'30vw'}" [modal]="true" [transitionOptions]="'.3s'">
-                        <div>
-                            <i class="pi pi pi-exclamation-triangle"></i>
-                            <span class="ml-2">Bạn có chắc xóa <span>{{userForm.id}}</span> ?</span>
-                        </div>
-                        <div class="flex justify-content-end mt-3">
-                            <p-button label="Yes" icon="pi pi-check" class="border-round mr-2" (click)="deleteUser()"></p-button>
-                            <p-button label="No" icon="pi pi-times" class="border-round" (click)="deleteForm=false"></p-button>
-                        </div>
-                    </p-dialog>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+          </p-dialog>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 
 </p-card>

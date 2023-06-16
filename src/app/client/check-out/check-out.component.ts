@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { faBars, faHeart, faPhone, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBars,
+  faHeart,
+  faPhone,
+  faShoppingBag,
+} from '@fortawesome/free-solid-svg-icons';
 import { MessageService } from 'primeng/api';
 import { Order } from 'src/app/_models/order';
 import { OrderDetail } from 'src/app/_models/order-detail';
 
 import { CartService } from 'src/app/_services/cart.service';
 import { OrderService } from 'src/app/_services/order.service';
-import { PromotionService } from 'src/app/_services/promotion.service';
 import { StorageService } from 'src/app/_services/storage.service';
 import { UserService } from 'src/app/_services/user.service';
 
@@ -14,8 +18,7 @@ import { UserService } from 'src/app/_services/user.service';
   selector: 'app-check-out',
   templateUrl: './check-out.component.html',
   styleUrls: ['./check-out.component.css'],
-  providers: [MessageService]
-
+  providers: [MessageService],
 })
 export class CheckOutComponent implements OnInit {
   heart = faHeart;
@@ -25,122 +28,108 @@ export class CheckOutComponent implements OnInit {
   showDepartment = false;
   order = new Order();
   listOrderDetail: any[] = [];
-  username !: string;
+  username!: string;
   items: any[] = [];
   user: any;
   price = {
     total: 0,
-    totalPrice: 0
-  }
+    totalPrice: 0,
+  };
   showDiscount = false;
   promotionForm: any;
-  promotionCode: string = null;
-
+  checkouted: boolean = false;
   orderForm: any = {
     firstname: null,
     lastname: null,
     country: null,
     addrest: null,
-    town: null,
-    state: null,
-    postCode: null,
     email: null,
     phone: null,
-    note: null
-  }
+    note: null,
+  };
 
-  constructor(public cartService: CartService, private promotionService: PromotionService, private messageService: MessageService, private orderService: OrderService, private storageService: StorageService, private userService: UserService,) {
-
-  }
+  constructor(
+    public cartService: CartService,
+    private messageService: MessageService,
+    private orderService: OrderService,
+    private storageService: StorageService,
+    private userService: UserService
+  ) {}
   ngOnInit(): void {
     this.username = this.storageService.getUser().username;
-    console.log(this.username);
-    if (this.storageService.promotionCode != null) {
-      this.checkCode(this.storageService.promotionCode);
-      this.promotionCode = this.storageService.promotionCode;
-    }
+    // console.log(this.username);
     this.getItems();
+    // this.promotionForm = this.storageService.loadPromotion();
+    console.log(this.promotionForm);
+    if (this.storageService.promotion != null) {
+      this.showDiscount = true;
+      this.promotionForm = this.storageService.promotion;
+      this.addPromotion(this.promotionForm.percent);
+    }
     this.getUser();
   }
 
-  getTotalPrice(items: any[]){
+  getTotalPrice(items: any[]) {
     this.price.totalPrice = 0;
     this.price.total = 0;
-    items.forEach(res =>{
+    items.forEach((res) => {
       this.price.totalPrice += res.total;
       this.price.total = this.price.totalPrice;
-    })
+    });
   }
 
   getTotalPriceAndPromo(items: any[], promotionPercent: number) {
     this.price.totalPrice = 0;
     this.price.total = 0;
-    items.forEach(res =>{
+    items.forEach((res) => {
       this.price.totalPrice += res.total;
-      // this.total = this.totalPrice;
-    })
-    this.price.total = this.price.totalPrice * (100-promotionPercent) / 100;
-    // this.total = this.totalPrice;
-    return {totalPrice: this.price.totalPrice, total: this.price.total};
+    });
+    this.price.total = (this.price.totalPrice * (100 - promotionPercent)) / 100;
+    console.log({ totalPrice: this.price.totalPrice, total: this.price.total });
+    return { totalPrice: this.price.totalPrice, total: this.price.total };
   }
 
   getItems() {
-    if( this.username != null){
+    if (this.username != null) {
       this.cartService.getItems(this.username).subscribe({
-        next: res =>{
+        next: (res) => {
           this.items = res;
           this.getTotalPrice(this.items);
-          // console.log(this.items);
-        },error: err =>{
+        },
+        error: (err) => {
           console.log(err);
-        }
-      })
+        },
+      });
     }
-  }
-
-  checkCode(promotionCode: any) {
-    this.showDiscount = true;
-    this.promotionService.getPromotionByCode(promotionCode).subscribe({
-      next: res => {
-        this.promotionForm = res;
-        this.showSuccess("Thêm mã thành công");
-        this.storageService.promotionCode = promotionCode;
-        this.addPromotion(this.promotionForm.percent);
-      }, error: err => {
-        this.showError("Mã của bạn chưa đúng");
-        console.log(err);
-      }
-    })
   }
 
   addPromotion(percent: number) {
     this.cartService.getItems(this.username).subscribe({
-      next: res => {
+      next: (res) => {
         this.items = res;
         this.price = this.getTotalPriceAndPromo(this.items, percent);
-        // console.log(this.price.total);
-        // console.log(this.price.totalPrice);
-      }, error: err => {
+      },
+      error: (err) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 
   getUser() {
     this.userService.getUser(this.username).subscribe({
-      next: res => {
+      next: (res) => {
         this.user = res;
         this.orderForm.firstname = res.firstname;
         this.orderForm.lastname = res.lastname;
         this.orderForm.email = res.email;
         this.orderForm.country = res.country;
-        this.orderForm.state = res.state;
         this.orderForm.address = res.address;
         this.orderForm.phone = res.phone;
-      }, error: err => {
+      },
+      error: (err) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 
   showDepartmentClick() {
@@ -148,38 +137,67 @@ export class CheckOutComponent implements OnInit {
   }
 
   placeOrder() {
-    this.items.forEach(res => {
-      let orderDetail: OrderDetail = new OrderDetail;
+    this.items.forEach((res) => {
+      let orderDetail: OrderDetail = new OrderDetail();
       orderDetail.cartId = res.id;
-      if(this.promotionForm != undefined){
+      if (this.promotionForm != undefined) {
         orderDetail.promotionCode = this.promotionForm.code;
-      }
-      else{
+      } else {
         orderDetail.promotionCode = null;
       }
       this.listOrderDetail.push(orderDetail);
-    })
-    const { address, note } = this.orderForm;
-    this.orderService.placeOrder(this.username, address, this.promotionCode, note, this.listOrderDetail).subscribe({
-      next: res => {
-        this.getItems();
-        this.showSuccess("Đặt hàng thành công");
-      }, error: err => {
-        this.showError(err.message);
-      }
-    })
-    // window.location.reload();
+    });
+    const { firstname, lastname, phone, country, address, note } = this.orderForm;
+    if(firstname === null || lastname === null || phone === null || country === null || address === null ){
+      this.showWarn('Quý khách cần nhập đầy đủ thông tin');
+    } else{
+      this.orderService
+        .placeOrder(
+          this.username,
+          firstname,
+          lastname,
+          phone,
+          country,
+          address,
+          this.promotionForm.code,
+          note,
+          this.listOrderDetail
+        )
+        .subscribe({
+          next: (res) => {
+            this.getItems();
+            this.showSuccess('Đặt hàng thành công');
+            this.checkouted = true;
+          },
+          error: (err) => {
+            this.showError("Đặt hàng thất bại");
+          },
+        });
+        // setTimeout(function(){
+        //   window.location.reload();
+        // }, 10000);
+    }
   }
 
   showSuccess(text: string) {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: text });
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: text,
+    });
   }
-
   showError(text: string) {
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: text });
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: text,
+    });
   }
-
   showWarn(text: string) {
-    this.messageService.add({ severity: 'warn', summary: 'Warn', detail: text });
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Warn',
+      detail: text,
+    });
   }
 }

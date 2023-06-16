@@ -14,7 +14,11 @@ export class WarehouseService {
 
   constructor(private http: HttpClient) { }
 
-  getLists():Observable<any>{
+  getList():Observable<any>{
     return this.http.get(WAREHOUSE_API,httpOptions);
+  }
+
+  getListType(type: string):Observable<any>{
+    return this.http.get(WAREHOUSE_API + type,httpOptions);
   }
 }

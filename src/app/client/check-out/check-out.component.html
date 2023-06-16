@@ -2,74 +2,88 @@
 
 <p-toast></p-toast>
 <div style="min-height: calc(100vh - 100px); margin-top: 16px;">
-  <div class="form__cart">
-
-    <div class="cart__main">
-      <!-- flex: 1 1 910px; -->
-      <div style="background: #fff;padding: 0 38px 38px 38px;border-radius: 8px;">
-            <div class="cart__title">
-              <div>Thông tin giao hàng</div>
-            </div>
-            <div class="form__address-left">
-                <div>
-                    <div class="checkout__input">
-                        <p>Họ và tên đệm<span>*</span></p>
-                        <input type="text" [(ngModel)]="orderForm.firstname" name="firstname">
+    <div class="form__cart">
+        <div class="cart__main">
+            <a class="btn-primary" *ngIf="checkouted" href="javascript:void(0)" routerLink="/">Quay lại trang chủ</a>
+            <div *ngIf="!checkouted" style="background: #fff;padding: 0 38px 38px 38px;border-radius: 8px;">
+                <div class="cart__title">
+                    <div>Thông tin giao hàng</div>
+                </div>
+                <div class="form__address-left">
+                    <div>
+                        <div class="checkout__input">
+                            <p>Họ và tên đệm<span>*</span></p>
+                            <input type="text" [(ngModel)]="orderForm.firstname" name="firstname">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="checkout__input">
+                            <p>Tên<span>*</span></p>
+                            <input type="text" [(ngModel)]="orderForm.lastname" name="lastname">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="checkout__input">
+                            <p>Số điện thoại<span>*</span></p>
+                            <input type="text" [(ngModel)]="orderForm.phone" name="phone">
+                        </div>
                     </div>
                 </div>
-                <div>
+                <div class="form__address-right">
+                    <div>
+                        <div class="checkout__input">
+                            <p>Địa chỉ email<span>*</span></p>
+                            <input type="text" [(ngModel)]="orderForm.email" name="email">
+                        </div>
+                    </div>
                     <div class="checkout__input">
-                        <p>Tên<span>*</span></p>
-                        <input type="text" [(ngModel)]="orderForm.lastname" name="lastname">
+                        <p>Tỉnh/ Thành phố<span>*</span></p>
+                        <input type="text" [(ngModel)]="orderForm.country" name="country">
+                    </div>
+                    <div class="checkout__input">
+                        <p>Địa chỉ giao hàng<span>*</span></p>
+                        <input type="text" [(ngModel)]="orderForm.address" name="address">
                     </div>
                 </div>
-                <div>
-                    <div class="checkout__input">
-                        <p>Số điện thoại<span>*</span></p>
-                        <input type="text" [(ngModel)]="orderForm.phone" name="phone">
+                <div class="checkout__input">
+                    <p>Ghi chú</p>
+                    <textarea type="text" rows="3" pInputTextarea class="w-full"
+                        placeholder="Ghi chú về đơn đặt hàng của bạn" [(ngModel)]="orderForm.note"
+                        name="note"></textarea>
+                </div>
+            </div>
+            <div *ngIf="!checkouted"
+                style="flex: 1 1 calc(100% - 925px); margin-left: 20px; border-radius: 8px; display: block; padding: 32px; background-color: #fff;">
+                <div class="right-inner" style="top: -346px;">
+                    <div class="checkout__order">
+                        <h4>Thông tin đơn hàng</h4>
+                        <ul>
+                            <li>
+                                <div class="checkout__order__products" style="font-size: 1.4rem;">Sản phẩm</div> <span style="font-size: 1.4rem;">Tổng cộng</span>
+                            </li>
+                            <li class="checkout__order__products" *ngFor="let item of items">
+                                <div style="width: 420px;">{{item.name}}</div> <span>{{item.total | currency:'VND'}}</span>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="checkout__order__products">
+                                <div style="width: 420px; font-size: 1.4rem;">Tổng tiền</div> <span style="font-size: 1.4rem;">{{price.totalPrice | currency:'VND'}}</span>
+                            </li>
+                            <li class="checkout__order__products" *ngIf="!showDiscount" >
+                                <div style="width: 420px; font-size: 1.4rem;">Giảm giá</div> <span style="font-size: 1.4rem;">0%</span>
+                            </li>
+                            <li class="checkout__order__products" *ngIf="showDiscount">
+                                <div style="width: 420px; font-size: 1.4rem;">Giảm giá</div> <span style="font-size: 1.4rem;">{{promotionForm.percent}}%</span>
+                            </li>
+                            <li class="checkout__order__products">
+                                <div class="checkout__order__total" style="width: 420px; font-size: 1.4rem;">Thành tiền</div> <span style="font-size: 1.4rem;">{{price.total | currency:'VND'}}</span>
+                            </li>
+                        </ul>
+                        <p style="width: 83%;">Đơn hàng của bạn sẽ được thanh toán theo phương thức <span style="color: red;">COD</span> (thanh toán khi hàng giao tới bạn)</p>
+                        <a type="submit" class="btn-primary" (click)="placeOrder()">ĐẶT HÀNG</a>
                     </div>
                 </div>
             </div>
-            <div class="form__address-right">
-                <div>
-                    <div class="checkout__input">
-                        <p>Địa chỉ email<span>*</span></p>
-                        <input type="text" [(ngModel)]="orderForm.email" name="email">
-                    </div>
-                </div>
-              <div class="checkout__input">
-                  <p>Tỉnh/ Thành phố<span>*</span></p>
-                  <input type="text" [(ngModel)]="orderForm.country" name="country">
-              </div>
-              <div class="checkout__input">
-                  <p>Địa chỉ giao hàng<span>*</span></p>
-                  <input type="text" [(ngModel)]="orderForm.address" name="address">
-              </div>
-            </div>
-            <div class="checkout__input">
-                <p>Ghi chú</p>
-                <textarea type="text" rows="3" pInputTextarea class="w-full"
-                    placeholder="Ghi chú về đơn đặt hàng của bạn" [(ngModel)]="orderForm.note" name="note"></textarea>
-            </div>
-      </div>
-      <div style="flex: 1 1 calc(100% - 925px); margin-left: 20px; display: block;">
-        <div class="right-inner" style="top: -346px;">
-          <!-- <div class="col-lg-4 col-md-6"> -->
-              <div class="checkout__order">
-                  <h4>Thông tin đơn hàng</h4>
-                  <div class="checkout__order__products">Sản phẩm <span>Tổng cộng</span></div>
-                  <ul>
-                      <li class="checkout__order__products" *ngFor="let item of items"><div style="width: 420px;">{{item.name}}</div> <span>{{item.total | currency:'VND'}}</span></li>
-                  </ul>
-                  <div class="checkout__order__subtotal">Tổng tiền <span>{{price.totalPrice | currency:'VND'}}</span></div>
-                  <div class="checkout__order__sale" *ngIf="!showDiscount">Giảm giá <span>0%</span></div>
-                  <div class="checkout__order__sale" *ngIf="showDiscount">Giảm giá <span>{{promotionForm.percent}}%</span></div>
-                  <div class="checkout__order__total">Thành tiền <span>{{price.total | currency:'VND'}}</span></div>
-                  <a href="javascript:void(0)" routerLink="/" type="submit" class="btn-primary" (click)="placeOrder()">ĐẶT HÀNG</a>
-              </div>
-          <!-- </div> -->
         </div>
-      </div>
     </div>
-  </div>
 </div>

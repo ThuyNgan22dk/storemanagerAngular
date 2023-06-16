@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AccountDetailComponent } from './admin/account-detail/account-detail.component';
 import { AccountComponent } from './admin/account/account.component';
 import { AuthComponent } from './admin/auth/auth.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';

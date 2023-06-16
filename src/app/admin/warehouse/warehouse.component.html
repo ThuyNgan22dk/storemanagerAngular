@@ -1,45 +1,70 @@
 <!-- <p>warehouse works!</p> -->
-<div class="card">
-  <p-chart type="doughnut" [data]="data" [options]="options"></p-chart>
-</div>
-<div class="card">
-  <p-chart type="bar" [data]="data1" [options]="options1"></p-chart>
+<div class="row">
+  <div class="col-lg-4">
+    <p-chart type="doughnut" [data]="data" [options]="options"></p-chart>
+  </div>
+  <div class="col-lg-8">
+    <p-dropdown [options]="optionlistDate" [(ngModel)]="selectlistDate" optionLabel="name" (onChange)="getImportAndOrderTotalDay(selectlistDate.name)"></p-dropdown>
+    <p-chart type="bar" [data]="data1" [options]="options1"></p-chart>
+  </div>
 </div>
 
 <p-card>
-    <p-table
-      [value]="listWarehouse"
-      [rows]="10"
-      [paginator]="true"
-      [showCurrentPageReport]="true"
-      [tableStyle]="{ 'min-width': '50rem' }"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    >
-        <ng-template pTemplate="header">
-            <tr>
-              <!-- <th pSortableColumn="product.productname" style="min-width:4rem">Tên sản phẩm <p-sortIcon field="productname"></p-sortIcon></th> -->
-              <th>Image</th>
-              <th pSortableColumn="product.price">Giá<p-sortIcon field="price"></p-sortIcon></th>
-              <th pSortableColumn="product.category.name">Danh mục <p-sortIcon field="category.name"></p-sortIcon></th>
-              <th pSortableColumn="quantity">Số lượng <p-sortIcon field="quantity"></p-sortIcon></th>
-              <th>Loại nhập xuất hàng</th>
+  <p-table [value]="listWarehouseImport" [rows]="5" [paginator]="true" [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+    <ng-template pTemplate="caption"> Nhập hàng </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="product.productname" style="min-width:4rem">Tên sản phẩm <p-sortIcon
+            field="productname"></p-sortIcon></th>
+        <th>Image</th>
+        <th pSortableColumn="product.price">Giá<p-sortIcon field="price"></p-sortIcon></th>
+        <th pSortableColumn="product.category.name">Danh mục <p-sortIcon field="category.name"></p-sortIcon></th>
+        <th pSortableColumn="quantity">Số lượng <p-sortIcon field="quantity"></p-sortIcon></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-warehouse>
+      <tr>
+        <td>{{warehouse.product.productname}}</td>
+        <td>
+          <img src="{{'data:image/jpg;base64,' + warehouse.product.images[0].data}}"
+            [alt]="warehouse.product.productname" width="100" class="shadow-4" />
+        </td>
+        <td>{{warehouse.product.price | currency: 'VND'}}</td>
+        <td>{{warehouse.product.category.name}}</td>
+        <td>{{warehouse.quantity}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
 
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-warehouse>
-            <tr>
-                <!-- <td>{{warehouse.product.productname}}</td> -->
-                <td>
-                  <img src="{{'data:image/jpg;base64,' + warehouse.product.images[0].data}}" [alt]="warehouse.product.productname" width="100"
-                    class="shadow-4" />
-                </td>
-                <td>{{warehouse.product.price | currency: 'VND'}}</td>
-                <td>{{warehouse.product.category.name}}</td>
-                <td>{{warehouse.quantity}}</td>
-                <td>{{warehouse.typeWarehouse}}</td>
-                <!-- <td></td> -->
-            </tr>
-        </ng-template>
-    </p-table>
-
+<p-card>
+  <p-table [value]="listWarehouseOrder" [rows]="5" [paginator]="true" [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+    <ng-template pTemplate="caption"> Xuất hàng </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="product.productname" style="min-width:4rem">Tên sản phẩm <p-sortIcon
+            field="productname"></p-sortIcon></th>
+        <th>Image</th>
+        <th pSortableColumn="product.price">Giá<p-sortIcon field="price"></p-sortIcon></th>
+        <th pSortableColumn="product.category.name">Danh mục <p-sortIcon field="category.name"></p-sortIcon></th>
+        <th pSortableColumn="quantity">Số lượng <p-sortIcon field="quantity"></p-sortIcon></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-warehouse>
+      <tr>
+        <td>{{warehouse.product.productname}}</td>
+        <td>
+          <img src="{{'data:image/jpg;base64,' + warehouse.product.images[0].data}}"
+            [alt]="warehouse.product.productname" width="100" class="shadow-4" />
+        </td>
+        <td>{{warehouse.product.price | currency: 'VND'}}</td>
+        <td>{{warehouse.product.category.name}}</td>
+        <td>{{warehouse.quantity}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
 </p-card>

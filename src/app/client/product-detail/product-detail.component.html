@@ -8,52 +8,23 @@
         <div class="row">
           <div class="col-lg-5 col-md-5">
             <div class="product__details__pic">
-              <p-galleria [value]="product.images" [showThumbnailNavigators]="false" [responsiveOptions]="responsiveOptions" [numVisible]="5" >
-                  <ng-template pTemplate="item" let-item>
-                      <img class="product__details__pic__item--large" height= 330px
-                        src="{{'data:image/jpg;base64,' + item.data}}" alt="{{product.name}}"/>
-                  </ng-template>
-                  <ng-template pTemplate="thumbnail" let-item style="background : #fff !important">
-                      <div class="grid grid-nogutter justify-content-center">
-                          <img src="{{'data:image/jpg;base64,' + item.data}}"  height= 100px alt="" >
-                      </div>
-                  </ng-template>
+              <p-galleria [value]="product.images" [showThumbnailNavigators]="false"
+                [responsiveOptions]="responsiveOptions" [numVisible]="5">
+                <ng-template pTemplate="item" let-item>
+                  <img class="product__details__pic__item--large"
+                    src="{{'data:image/jpg;base64,' + item.data}}" alt="{{product.name}}" />
+                </ng-template>
+                <ng-template pTemplate="thumbnail" let-item style="background : #fff !important">
+                  <div class="grid grid-nogutter justify-content-center">
+                    <img src="{{'data:image/jpg;base64,' + item.data}}" height=100px alt="">
+                  </div>
+                </ng-template>
               </p-galleria>
-              <!-- <div class="product__details__pic__item">
-                <img class="product__details__pic__item--large"
-                  src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="{{product.name}}">
-              </div>
-              <div class="product__details__pic__slider">
-                <img src="{{'data:image/jpg;base64,' + image.data}}" alt="" *ngFor="let image of product.images"
-                  class="col-3">
-              </div> -->
             </div>
           </div>
           <div class="col-lg-7 col-md-7">
             <div class="product__details__text">
               <h3>{{product.productname}}</h3>
-              <div class="product__details__rating">
-                <div style="display: flex; align-items: center; min-height: 18px;">
-                  <div class="total" style="display: flex; align-items: center;">
-                    <span
-                      style="font-weight: 400; font-size: 15px; line-height: 150%; color: rgb(128, 128, 137);">
-                      4.95
-                    </span>
-                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
-                      size="15" color="#fdd836" height="16" width="16" xmlns="http://www.w3.org/2000/svg"
-                      style="color: rgb(253, 216, 54);">
-                      <path
-                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z">
-                      </path>
-                    </svg>
-                  </div>
-                  <div
-                    style="display: flex; align-items: center; color: rgb(128, 128, 137); line-height: 150%; font-size: 15px; padding-left: 4px;">
-                    <div style="width: 1px; height: 9px; background-color: rgb(199, 199, 199);"></div>
-                    <div data-view-id="pdp_quantity_sold" style="padding-left: 6px;">Đã bán 1000+</div>
-                  </div>
-                </div>
-              </div>
               <div class="product__details__price">Giá: {{product.price | currency: 'VND'}}</div>
               <p>Đơn vị tính: {{product.unit}}</p>
               <p>Xuất xứ: {{product.origin}}</p>
@@ -63,26 +34,13 @@
                 <div class="quantity">
                   <p style="font-weight: bold; margin-bottom: 4px;">Số lượng</p>
                   <div class="product-qty">
-                    <div>
-                      <span data-view-id="cart_main_quantity.decrease"
-                        data-view-index="ca27fd15-2dfc-11ed-8cc1-ee1ce7624425" class="qty-decrease "
-                        (click)="subtractQuantity()">
-                        <img src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/decrease.svg"
-                          alt="decrease">
-                      </span>
-                      <input pInputText pKeyFilter="num" class="qty-input" value="1" [ngModel]="quantity"
-                        (change)="updateQuantity(product,$event)" min="1">
-                      <span data-view-id="cart_main_quantity.increase"
-                        data-view-index="ca27fd15-2dfc-11ed-8cc1-ee1ce7624425" class="qty-increase "
-                        (click)="plusQuantity(product)">
-                        <img src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/increase.svg"
-                          alt="increase">
-                      </span>
-                    </div>
+                    <p-inputNumber [(ngModel)]="quantity" [showButtons]="true" buttonLayout="horizontal" [step]="1" decrementButtonClass="p-button-danger"
+                      incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus"
+                      decrementButtonIcon="pi pi-minus"></p-inputNumber>
                   </div>
                   <p>{{product.quantity}} sản phẩm có sẵn</p>
                 </div>
-                <button class="primary-btn cart-btn" (click)="addToCart(product)">Thêm vào giỏ</button>
+                <button class="primary-btn cart-btn" [disabled]="product.inventoryStatus === 'Hết hàng'" (click)="addToCart(product)">Thêm vào giỏ</button>
               </div>
             </div>
           </div>
@@ -96,22 +54,21 @@
       <div class="product__description">
         <h4>Mô tả sản phẩm</h4>
         <hr style="margin-bottom: 8px;">
-          <div class="tab-pane">
-            <div class="product__details__tab__desc">
-              <h6>Thông tin sản phẩm</h6>
-              <p>{{product.description}}</p>
-            </div>
+        <div class="tab-pane">
+          <div class="product__details__tab__desc">
+            <h6>Thông tin sản phẩm</h6>
+            <p>{{product.description}}</p>
           </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- <div class="form__template"> -->
   <div class="form__template-box">
     <div class="form__detail-product">
       <section id="product1">
         <h2>Sản phẩm liên quan</h2>
-        <p-carousel [value]="listRelatedProduct" [numVisible]="5" [numScroll]="1"
+        <p-carousel [value]="listRelatedProduct" [numVisible]="4" [numScroll]="4"
           [responsiveOptions]="responsiveOptions">
           <ng-template let-product pTemplate="item">
             <div class="product-item">
@@ -123,32 +80,8 @@
                       <div class="des">
                         <span>{{product.category.name}}</span>
                         <h5>{{product.productname}}</h5>
-                        <div style="display: flex; align-items: center; min-height: 18px;">
-                          <div class="total" style="display: flex; align-items: center;">
-                            <span
-                              style="font-weight: 400; font-size: 12px; line-height: 150%; color: rgb(128, 128, 137);">
-                              4.95
-                            </span>
-                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
-                              size="14" color="#fdd836" height="14" width="14" xmlns="http://www.w3.org/2000/svg"
-                              style="color: rgb(253, 216, 54);">
-                              <path
-                                d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z">
-                              </path>
-                            </svg>
-                          </div>
-                          <div
-                            style="display: flex; align-items: center; color: rgb(128, 128, 137); line-height: 150%; font-size: 12px; padding-left: 4px;">
-                            <div style="width: 1px; height: 9px; background-color: rgb(199, 199, 199);"></div>
-                            <div data-view-id="pdp_quantity_sold" style="padding-left: 6px;">Đã bán 1000+</div>
-                          </div>
-                        </div>
-                        <!-- <h4>{{product.price}} đ</h4> -->
                       </div>
                     </a>
-                    <!-- <a href="javascript:void(0)" (click)="addToWishList(product)"><fa-icon (click)="addRedHeartNew(product.id)" class="heart" [icon]="heart"></fa-icon></a> -->
-                    <!-- <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}"><fa-icon class="retweet"
-                        [icon]="retweet"></fa-icon></a> -->
                     <div class="flex align-items-center justify-content-between">
                       <span class="text-base font-semibold text-red-500">{{ product.price | currency:'VND'}}</span>
                       <button pButton icon="pi pi-shopping-cart" class="p-button-rounded" (click)="addToCart(product)"
@@ -163,4 +96,3 @@
       </section>
     </div>
   </div>
-  <!-- </div> -->

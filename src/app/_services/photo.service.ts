@@ -4,11 +4,11 @@ import { Injectable } from '@angular/core';
 export class PhotoService {
     getData() {
         return [
-            {
-                itemImageSrc: 'https://www.coca-cola.com/content/dam/onexp/vn/home-image/nutriboost/img-resized/hero-banner/VN_VI_Nutriboost%20VN_FB%20Cover%20without%20Logo%20copy-desktop.jpg',
-                alt: 'Description for Image 1',
-                title: 'NutriFood'
-            },
+            // {
+            //     itemImageSrc: 'https://www.coca-cola.com/content/dam/onexp/vn/home-image/nutriboost/img-resized/hero-banner/VN_VI_Nutriboost%20VN_FB%20Cover%20without%20Logo%20copy-desktop.jpg',
+            //     alt: 'Description for Image 1',
+            //     title: 'NutriFood'
+            // },
             {
                 itemImageSrc: 'https://i.ytimg.com/vi/ahnFy-Vorug/maxresdefault.jpg',
                 alt: 'Description for Image 2',

@@ -8,38 +8,38 @@ import { ImportService } from 'src/app/_services/import.service';
   selector: 'app-import-good',
   templateUrl: './import-good.component.html',
   styleUrls: ['./import-good.component.css'],
-  providers: [MessageService, ConfirmationService]
+  providers: [MessageService, ConfirmationService],
 })
 export class ImportGoodComponent {
   listImports: any;
   listImportDetails: ImportDetail = {
     id: 0,
-    name: "string",
+    name: 'string',
     price: 0,
     quantity: 0,
-    expiry: "1-1-1111",
+    expiry: '1-1-1111',
     subTotal: 0,
-    // categoryId: 0,
     importGoodId: 0,
   };
 
-  onUpdate : boolean = false;
-  showForm : boolean = false;
+  onUpdate: boolean = false;
+  showForm: boolean = false;
   showFormApp: boolean = false;
   showDelete: boolean = false;
 
   importForm: ImportGood = {
     id: 0,
-    nameShipper: "string",
-    phoneShipper: "string",
-    note: "string",
+    nameShipper: 'string',
+    phoneShipper: 'string',
+    note: 'string',
     totalPrice: 0,
-    importDetails: []
-  }
+    importDetails: [],
+  };
 
-  constructor(private importService: ImportService, private messageService : MessageService,){
-
-  }
+  constructor(
+    private importService: ImportService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.getListImport();
@@ -51,90 +51,119 @@ export class ImportGoodComponent {
     this.listImports = [];
     this.importForm = {
       id: 0,
-      nameShipper: "string",
-      phoneShipper: "string",
-      note: "string",
+      nameShipper: 'string',
+      phoneShipper: 'string',
+      note: 'string',
       totalPrice: 0,
-      importDetails: []
+      importDetails: [],
     };
   }
 
-  getListImport(){
+  getListImport() {
     this.importService.getListImport().subscribe({
-      next: res=>{
+      next: (res) => {
         this.listImports = res;
-        // console.log(this.listImports);
-      },error: err =>{
+      },
+      error: (err) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 
-  openUpdate(data : any){
-      this.onUpdate = true;
-      this.showForm =true;
-      this.importForm.id = data.id;
-      this.importForm.nameShipper = data.nameShipper;
-      this.importForm.phoneShipper = data.phoneShipper;
-      this.importForm.note = data.note;
-      this.importForm.totalPrice = data.totalPrice;
+  openUpdate(data: any) {
+    this.onUpdate = true;
+    this.showForm = true;
+    this.importForm.id = data.id;
+    this.importForm.nameShipper = data.nameShipper;
+    this.importForm.phoneShipper = data.phoneShipper;
+    this.importForm.note = data.note;
+    this.importForm.totalPrice = data.totalPrice;
   }
 
-  createImport(){
-    const {nameShipper,phoneShipper,note,totalPrice,importDetails} = this.importForm;
-    // console.log(this.importForm);
-    this.importService.placeImport(nameShipper,phoneShipper,note,totalPrice,importDetails).subscribe({
-      next: res =>{
-        this.getListImport();
-        this.showForm = false;
-        this.showSuccess("Thêm mới thành công");
-      },error: err =>{
-        this.showError(err.message);
-      }
-    })
+  createImport() {
+    const { nameShipper, phoneShipper, note, totalPrice, importDetails } = this.importForm;
+    if(nameShipper != '' && phoneShipper != ''){
+      this.importService
+        .placeImport(nameShipper, phoneShipper, note, totalPrice, importDetails)
+        .subscribe({
+          next: (res) => {
+            this.getListImport();
+            this.showForm = false;
+            this.showSuccess('Thêm mới thành công');
+          },
+          error: (err) => {
+            this.showError('Thêm mới thất bại');
+          },
+        });
+    } else{
+      this.showError('Bạn cần nhập đủ thông tin');
+    }
   }
 
-  updateImport(){
-    const {id,nameShipper,phoneShipper,note,totalPrice,importDetails} = this.importForm;
-    // console.log(this.importForm);
-    this.importService.updateImport(id,nameShipper,phoneShipper,note,totalPrice,importDetails).subscribe({
-      next: res =>{
-        this.getListImport();
-        this.showForm = false;
-        this.showSuccess("Cập nhật thành công");
-      },error: err =>{
-        this.showError(err.message);
-      }
-    })
-
+  updateImport() {
+    const { id, nameShipper, phoneShipper, note, totalPrice, importDetails } = this.importForm;
+    if(id != 0 && nameShipper != '' && phoneShipper != '' && note != null && totalPrice != null && importDetails != null){
+      this.importService
+        .updateImport(
+          id,
+          nameShipper,
+          phoneShipper,
+          note,
+          totalPrice,
+          importDetails
+        )
+        .subscribe({
+          next: (res) => {
+            this.getListImport();
+            this.showForm = false;
+            this.showSuccess('Cập nhật thành công');
+          },
+          error: (err) => {
+            this.showError('Cập nhật thất bại');
+          },
+        });
+    } else{
+      this.showError('Thông tin còn thiếu, bạn cần nhập thêm thông tin');
+    }
   }
 
-  onDelete(id: number){
-    // this.importDetailForm.id = null;
+  onDelete(id: number) {
     this.showDelete = true;
     this.importForm.id = id;
   }
 
-  deleteImport(){
+  deleteImport() {
     this.importService.deleteImport(this.importForm.id).subscribe({
-      next: res =>{
+      next: (res) => {
         this.getListImport();
-        this.showWarn("Xóa thành công");
+        this.showWarn('Xóa thành công');
         this.showDelete = false;
-      },error: err =>{
-        this.showError(err.message);
-      }
-    })
+      },
+      error: (err) => {
+        this.showError('Thất bại');
+      },
+    });
   }
 
   showSuccess(text: string) {
-    this.messageService.add({severity:'success', summary: 'Success', detail: text});
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: text,
+    });
   }
   showError(text: string) {
-    this.messageService.add({severity:'error', summary: 'Error', detail: text});
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: text,
+    });
   }
-
-  showWarn(text : string) {
-    this.messageService.add({severity:'warn', summary: 'Warn', detail: text});
+  showWarn(text: string) {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Warn',
+      detail: text,
+    });
   }
 }

@@ -3,7 +3,7 @@
     <div class="account">
       <div class="account__sidebar">
         <div class="account__sidebar-user">
-          <img src="./../../../assets/img/icon-5359553_1280.webp" alt="avatar" *ngIf="!showImageUser"/>
+          <!-- <img src="./../../users-vector-icon-png_260862.jpg" alt="avatar" *ngIf="!showImageUser"/> -->
           <img src="{{'data:image/jpg;base64,' + listImage[0].data}}" alt="avatar" *ngIf="showImageUser">
           <div class="info">
             Tài khoản của<strong>{{user.firstname}} {{user.lastname}}</strong>
@@ -41,12 +41,10 @@
             <div class="row p-5">
               <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5" style="position: relative;">
-                  <img class="rounded-circle" style="width: 75%" src="./../../../assets/img/icon-5359553_1280.webp" alt="avatar" *ngIf="!showImageUser"/>
+                  <!-- <img class="rounded-circle" style="width: 75%" src="./../../users-vector-icon-png_260862.jpg" alt="avatar" *ngIf="!showImageUser"/> -->
                   <img class="rounded-circle" style="width: 75%" src="{{'data:image/jpg;base64,' + listImage[0].data}}" alt="avatar" *ngIf="showImageUser">
                     <input type="file" #file (change)="setImg($event)" hidden>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded btn_pencil" (click)="file.click()"></button>
-                    <!-- <button pButton (click)="file.click()" label="Tải ảnh lên" icon="pi pi-plus"
-                      class="border-round p-button-warning w-auto"></button> -->
                   <span class="font-weight-bold">{{ user.username }}</span>
                   <span class="text-black-50">{{ user.email }}</span>
                   <span></span>
@@ -126,7 +124,7 @@
                       </div>
                     </form>
                   </div>
-                  <div>
+                  <!-- <div>
                     <a pButton pRipple type="button" label="Cài lại mật khẩu" class="primary-btn cart-btn"
                       *ngIf="!resetPassword" (click)="showResetPassword()"></a>
                     <form action="" *ngIf="resetPassword" class="formgrid grid">
@@ -138,7 +136,7 @@
                         Ok
                       </button>
                     </form>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>

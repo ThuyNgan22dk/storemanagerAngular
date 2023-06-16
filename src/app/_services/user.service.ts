@@ -27,10 +27,6 @@ export class UserService {
     return this.http.put(USER_API + 'enable/'+ id,httpOptions);
   }
 
-  // setImageForUser(username: string, imageId: number):Observable<any>{
-  //   return this.http.put(USER_API + 'uploadImage/'+ username + '/' + imageId,httpOptions);
-  // }
-
   updateProfile(username: string,firstname: string,lastname:string,email:string,country:string,address: string,phone: string):Observable<any>{
     return this.http.put(USER_API +'update',{username,firstname,lastname,email,country,address,phone},httpOptions);
   }

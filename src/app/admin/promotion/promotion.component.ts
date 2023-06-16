@@ -7,137 +7,166 @@ import { PromotionService } from 'src/app/_services/promotion.service';
   selector: 'app-promotion',
   templateUrl: './promotion.component.html',
   styleUrls: ['./promotion.component.css'],
-  providers: [MessageService]
+  providers: [MessageService],
 })
 export class PromotionComponent {
-  listPromotion : any;
-
+  listPromotion: any;
   displayForm: boolean = false;
-
-  deleteForm : boolean = false;
-
-  onUpdate : boolean = false;
-
-  promotionForm : Promotion = {
+  deleteForm: boolean = false;
+  onUpdate: boolean = false;
+  promotionForm: Promotion = {
     id: 0,
-    name : "string",
-    detail: "string",
-    code: "string",
+    name: 'string',
+    detail: 'string',
+    code: 'string',
     quantity: 0,
     percent: 0,
     enabled: false,
-  }
+  };
 
-  constructor(private messageService : MessageService,private promotionService: PromotionService){}
+  constructor(
+    private messageService: MessageService,
+    private promotionService: PromotionService
+  ) {}
 
   ngOnInit(): void {
     this.getListPromotion();
   }
 
-
-  getListPromotion(){
+  getListPromotion() {
     this.promotionService.getListPromotion().subscribe({
-      next: res =>{
+      next: (res) => {
         this.listPromotion = res;
         // console.log(res);
-      },error: err =>{
+      },
+      error: (err) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 
-  showForm(){
+  showForm() {
     this.onUpdate = false;
-    this.promotionForm ={
-      id : 0,
-      name : "string",
-      detail: "string",
-      code: "string",
+    this.promotionForm = {
+      id: 0,
+      name: '',
+      detail: '',
+      code: '',
       quantity: 0,
       percent: 0,
       enabled: false,
-    }
+    };
     this.displayForm = true;
   }
 
-
- onUpdateForm(id: number,name : string,detail: string,code: string, quantity: number,percent: number){
-      this.onUpdate = true;
-      this.displayForm =true;
-      this.promotionForm.id = id;
-      this.promotionForm.name = name;
-      this.promotionForm.detail = detail;
-      this.promotionForm.code = code;
-      this.promotionForm.quantity = quantity;
-      this.promotionForm.percent = percent;
+  onUpdateForm(
+    id: number,
+    name: string,
+    detail: string,
+    code: string,
+    quantity: number,
+    percent: number
+  ) {
+    this.onUpdate = true;
+    this.displayForm = true;
+    this.promotionForm.id = id;
+    this.promotionForm.name = name;
+    this.promotionForm.detail = detail;
+    this.promotionForm.code = code;
+    this.promotionForm.quantity = quantity;
+    this.promotionForm.percent = percent;
   }
 
-  onDelete(id:number){
+  onDelete(id: number) {
     this.deleteForm = true;
     this.promotionForm.id = id;
   }
 
-  createPromotion(){
-    const {name,detail,quantity,percent} = this.promotionForm;
-    this.promotionService.createPromotion(name,detail,quantity,percent).subscribe({
-      next: res =>{
-        this.getListPromotion();
-        this.showSuccess("Tạo thành công!");
-        this.displayForm = false;
-      },error: err=>{
-        this.showError(err.message);
-      }
-    })
+  createPromotion() {
+    const { name, detail, quantity, percent } = this.promotionForm;
+    if(name != '' && detail != '' && quantity != null && percent != null) {
+      this.promotionService
+        .createPromotion(name, detail, quantity, percent)
+        .subscribe({
+          next: (res) => {
+            this.getListPromotion();
+            this.showSuccess('Tạo thành công!');
+            this.displayForm = false;
+          },
+          error: (err) => {
+            this.showError('Tạo mới thất bại');
+          },
+        });
+    } else{
+      this.showError('Mời bạn nhập đủ thông tin');
+    }
   }
 
-  updatePromotion(){
-    const {id,name,detail,code,quantity,percent} = this.promotionForm;
-    this.promotionService.updatePromotion(id,name,detail,code,quantity,percent).subscribe({
-      next: res =>{
-        this.getListPromotion();
-        this.showSuccess("Cập nhật thành công!");
-        this.displayForm = false;
-      },error: err =>{
-        this.showError(err.message);
-      }
-    })
+  updatePromotion() {
+    const { id, name, detail, code, quantity, percent } = this.promotionForm;
+    if(id != 0 && name != '' && detail != '' && code != null && quantity != null && percent != null){
+      this.promotionService
+        .updatePromotion(id, name, detail, code, quantity, percent)
+        .subscribe({
+          next: (res) => {
+            this.getListPromotion();
+            this.showSuccess('Cập nhật thành công!');
+            this.displayForm = false;
+          },
+          error: (err) => {
+            this.showError('Cập nhật không thành công!');
+          },
+        });
+    } else{
+      this.showError('Thông tin chưa đủ, bạn cần điền đủ các mục');
+    }
   }
 
-
-  enablePromotion(id : number){
+  enablePromotion(id: number) {
     this.promotionService.enablePromotion(id).subscribe({
-      next: res =>{
+      next: (res) => {
         this.getListPromotion();
-        this.showSuccess("Cập nhật thành công!!");
-      },error: err=>{
-        this.showError(err.message);
-      }
-    })
+        this.showSuccess('Cập nhật thành công!');
+      },
+      error: (err) => {
+        this.showError('Không thành công!');
+      },
+    });
   }
 
-  deletePromotion(){
-    const {id} = this.promotionForm;
+  deletePromotion() {
+    const { id } = this.promotionForm;
     this.promotionService.deletePromotion(id).subscribe({
-      next: res =>{
+      next: (res) => {
         this.getListPromotion();
-        this.showWarn("Xóa thành công!!");
+        this.showWarn('Xóa thành công!');
         this.deleteForm = false;
-      },error: err=>{
-        this.showError(err.message);
-      }
-    })
+      },
+      error: (err) => {
+        this.showError('Thất bại');
+      },
+    });
   }
 
   showSuccess(text: string) {
-    this.messageService.add({severity:'success', summary: 'Success', detail: text});
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: text,
+    });
   }
-
   showError(text: string) {
-    this.messageService.add({severity:'error', summary: 'Error', detail: text});
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: text,
+    });
   }
-
-  showWarn(text : string) {
-    this.messageService.add({severity:'warn', summary: 'Warn', detail: text});
+  showWarn(text: string) {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Warn',
+      detail: text,
+    });
   }
-
 }
