@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Order } from '../_models/order';
 import { OrderDetail } from '../_models/order-detail';
 
-const ORDER_API = "http://localhost:8080/api/order/";
+const ORDER_API = "http://192.168.0.6:8080/api/order/";
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -35,6 +35,16 @@ export class OrderService {
   
   getTotalDayOrder(date: string):Observable<any>{
     return this.http.get(ORDER_API + 'totalDay/' + date, httpOptions);
+  }
+
+  getListDates():Observable<any>{
+    return this.http.get(ORDER_API + 'listDate', httpOptions);
+  }
+  
+  getListTotalForChart(dates: any):Observable<any>{
+    let params = new HttpParams();
+    params = params.append('dates', dates);
+    return this.http.get(ORDER_API + 'listTotal',{params: params});
   }
 
   setOrderState(id: number, state: number): Observable<any>{

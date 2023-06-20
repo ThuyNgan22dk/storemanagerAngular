@@ -4,7 +4,13 @@
 <div style="min-height: calc(100vh - 100px); margin-top: 16px;">
     <div class="form__cart">
         <div class="cart__main">
-            <a class="btn-primary" *ngIf="checkouted" href="javascript:void(0)" routerLink="/">Quay lại trang chủ</a>
+            <div *ngIf="checkouted"
+                style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+                <a class="btn-primary" href="javascript:void(0)" routerLink="/" (click)="reload()"
+                    style="margin: 0 80px 0 40px;">Quay lại trang
+                    chủ</a>
+                <img src="./../../../assets/img/hinh-anh-dong-cam-on-thank-you-dep.gif" alt="">
+            </div>
             <div *ngIf="!checkouted" style="background: #fff;padding: 0 38px 38px 38px;border-radius: 8px;">
                 <div class="cart__title">
                     <div>Thông tin giao hàng</div>
@@ -59,31 +65,50 @@
                         <h4>Thông tin đơn hàng</h4>
                         <ul>
                             <li>
-                                <div class="checkout__order__products" style="font-size: 1.4rem;">Sản phẩm</div> <span style="font-size: 1.4rem;">Tổng cộng</span>
+                                <div class="checkout__order__products" style="font-size: 1.4rem;">Sản phẩm</div> <span
+                                    style="font-size: 1.4rem;">Tổng cộng</span>
                             </li>
                             <li class="checkout__order__products" *ngFor="let item of items">
-                                <div style="width: 420px;">{{item.name}}</div> <span>{{item.total | currency:'VND'}}</span>
+                                <div style="width: 420px;">{{item.name}}</div> <span>{{item.total |
+                                    currency:'VND'}}</span>
                             </li>
                         </ul>
                         <ul>
                             <li class="checkout__order__products">
-                                <div style="width: 420px; font-size: 1.4rem;">Tổng tiền</div> <span style="font-size: 1.4rem;">{{price.totalPrice | currency:'VND'}}</span>
+                                <div style="width: 420px; font-size: 1.4rem;">Tổng tiền</div> <span
+                                    style="font-size: 1.4rem;">{{price.totalPrice | currency:'VND'}}</span>
                             </li>
-                            <li class="checkout__order__products" *ngIf="!showDiscount" >
-                                <div style="width: 420px; font-size: 1.4rem;">Giảm giá</div> <span style="font-size: 1.4rem;">0%</span>
+                            <li class="checkout__order__products" *ngIf="!showDiscount">
+                                <div style="width: 420px; font-size: 1.4rem;">Giảm giá</div> <span
+                                    style="font-size: 1.4rem;">0%</span>
                             </li>
                             <li class="checkout__order__products" *ngIf="showDiscount">
-                                <div style="width: 420px; font-size: 1.4rem;">Giảm giá</div> <span style="font-size: 1.4rem;">{{promotionForm.percent}}%</span>
+                                <div style="width: 420px; font-size: 1.4rem;">Giảm giá</div> <span
+                                    style="font-size: 1.4rem;">{{promotionForm.percent}}%</span>
                             </li>
                             <li class="checkout__order__products">
-                                <div class="checkout__order__total" style="width: 420px; font-size: 1.4rem;">Thành tiền</div> <span style="font-size: 1.4rem;">{{price.total | currency:'VND'}}</span>
+                                <div class="checkout__order__total" style="width: 420px; font-size: 1.4rem;">Thành tiền
+                                </div> <span style="font-size: 1.4rem;">{{price.total | currency:'VND'}}</span>
                             </li>
                         </ul>
-                        <p style="width: 83%;">Đơn hàng của bạn sẽ được thanh toán theo phương thức <span style="color: red;">COD</span> (thanh toán khi hàng giao tới bạn)</p>
-                        <a type="submit" class="btn-primary" (click)="placeOrder()">ĐẶT HÀNG</a>
+                        <p style="width: 83%;">Đơn hàng của bạn sẽ được thanh toán theo phương thức <span
+                                style="color: red;">COD</span> (thanh toán khi hàng giao tới bạn)</p>
+                        <a type="submit" class="btn-primary" (click)="showFormPlace()">XÁC NHẬN ĐẶT HÀNG</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<p-dialog header="Xác nhận" [(visible)]="showPlaceOrder" [style]="{width :'30vw'}" [modal]="true"
+    [transitionOptions]="'.3s'">
+    <div>
+        <span class="">Bạn chắc chắn xác nhận đặt đơn hàng này?</span>
+        <span class="ml-2">Xin kiểm tra kĩ các thông tin trước khi đặt hàng.</span>
+    </div>
+    <div class="flex justify-content-end mt-3">
+        <p-button label="Xác nhận" icon="pi pi-check" class="border-round mr-2" (click)="placeOrder()"></p-button>
+        <p-button label="Hủy" icon="pi pi-times" class="border-round" (click)="showPlaceOrder=false"></p-button>
+    </div>
+</p-dialog>

@@ -12,7 +12,7 @@ export class StorageService {
   username: string;
   promotion ={
     percent: 0,
-    code: ''
+    code: null
   };
   // promotionPercent: number = null;
   // promotionCode: string = null;

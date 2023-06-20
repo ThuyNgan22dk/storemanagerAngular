@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
 import { AuthService } from '../../_services/auth.service';
 import { StorageService } from '../../_services/storage.service';
 import { Login, Register } from '../../_models/auth';
+import { ImageService } from 'src/app/_services/image.service';
 
 @Component({
   selector: 'app-auth',
@@ -55,9 +56,12 @@ export class AuthComponent {
       { type: 'maxlength', message: 'Xác nhận mật khẩu quá dài.' },
     ],
   };
+  selectedFiles: any;
+  currentFile: File;
 
   constructor(
     private authService: AuthService,
+    private imageService: ImageService,
     private storageService: StorageService,
     private messageService: MessageService,
     public formBuilder: FormBuilder,
@@ -113,6 +117,9 @@ export class AuthComponent {
         this.storageService.saveUser(res);
         this.isLoggedIn = true;
         this.isLoginFailed = false;
+        if(res == null){
+          this.showError('Người dùng không tồn tại');
+        }
         this.roles = this.storageService.getUser().roles;
         this.showSuccess('Đăng nhập thành công!');
         if (this.roles[0] == 'ROLE_USER') {
@@ -155,6 +162,13 @@ export class AuthComponent {
         },
       });
   }
+  
+  // username(username: any, currentFile: any) {
+  //   throw new Error('Method not implemented.');
+  // }
+  // getListImage() {
+  //   throw new Error('Method not implemented.');
+  // }
 
   loginFormChange() {
     document

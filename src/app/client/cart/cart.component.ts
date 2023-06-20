@@ -48,7 +48,7 @@ export class CartComponent implements OnInit {
     // this.promotionForm = this.storageService.loadPromotion();
     this.showPromotionEnabled();
     this.getItems();
-    // this.getProducts();
+    this.getProducts();
   }
 
   showPromotionEnabled(){
@@ -67,17 +67,17 @@ export class CartComponent implements OnInit {
     this.showDepartment = !this.showDepartment;
   }
 
-  // getProducts() {
-  //   this.productService.getListProduct().subscribe({
-  //     next: (res) => {
-  //       this.listProduct = res;
-  //       console.log(this.listProduct);
-  //     },
-  //     error: (err) => {
-  //       console.log(err);
-  //     },
-  //   });
-  // }
+  getProducts() {
+    this.productService.getListProduct().subscribe({
+      next: (res) => {
+        this.listProduct = res;
+        // console.log(this.listProduct);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
 
   getTotalPrice(items: any[]) {
     this.price.totalPrice = 0;
@@ -120,7 +120,7 @@ export class CartComponent implements OnInit {
         this.showWarn('Xóa thành công');
       },
       error: (err) => {
-        this.showError(err.message);
+        this.showError('Lỗi! mời bạn kiểm tra lại');
       },
     });
   }
@@ -155,6 +155,7 @@ export class CartComponent implements OnInit {
 
   plusQuantity(item: any) {
     let quantity = Number(item.quantity) + 1;
+    // console.log(this.listProduct.length);
     for (let i = 0; i < this.listProduct.length; i++) {
       if (this.listProduct[i].productname === item.name) {
         console.log('cập nhật');
@@ -207,8 +208,8 @@ export class CartComponent implements OnInit {
           this.storageService.promotion.code = this.promotionForm.code;
           this.storageService.promotion.percent = this.promotionForm.percent;
           this.addPromotion(this.promotionForm.percent);
-          console.log(this.storageService.promotion.percent);
-          console.log(this.storageService.promotion.code);          
+          // console.log(this.storageService.promotion.percent);
+          // console.log(this.storageService.promotion.code);          
         }
       },
       error: (err) => {

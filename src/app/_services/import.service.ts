@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ImportGood } from '../_models/import-good';
 import { ImportDetail } from '../_models/import-detail';
 
-const IMPORT_API = "http://localhost:8080/api/import/";
+const IMPORT_API = "http://192.168.0.6:8080/api/import/";
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -45,6 +45,16 @@ export class ImportService {
       return this.http.get(IMPORT_API + 'importDetail',httpOptions);
     }
   }
+
+  // getListDates():Observable<any>{
+  //   return this.http.get(IMPORT_API + 'listDate', httpOptions);
+  // }
+  
+  // getListTotalForChart(dates: any):Observable<any>{
+  //   let params = new HttpParams();
+  //   params = params.append('dates', dates);
+  //   return this.http.get(IMPORT_API + 'listTotal',{params: params});
+  // }
 
   getTotalImport():Observable<any>{
     return this.http.get(IMPORT_API + 'totalImport', httpOptions);

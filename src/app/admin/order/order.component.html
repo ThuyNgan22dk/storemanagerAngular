@@ -1,4 +1,5 @@
 <!-- <p>order works!</p> -->
+<p-toast></p-toast>
 <div class="card">
     <p-table #dt [value]="listOrder" [rows]="5" [paginator]="true" [tableStyle]="{'min-width': '50rem'}"
         [rowHover]="true" dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
@@ -38,7 +39,7 @@
 </div>
 <p-dialog header="Tình trạng đơn hàng" [(visible)]="showState" [style]="{width: '50vw'}" [modal]="true"
     [draggable]="false" [resizable]="false">
-    <button pButton label="Update" class="p-button-text" (click)="update()"></button>
+    <button pButton label="Update" class="p-button-text btn-update" (click)="update()"></button>
     <p-timeline [value]="listStates" align="alternate" styleClass="customized-timeline">
         <ng-template pTemplate="marker" let-state>
             <span class="custom-marker shadow-2 p-button p-button-rounded" [style.backgroundColor]="state.color"
@@ -50,7 +51,7 @@
             <!-- {{ event }} -->
             <p-card [header]="state.state" [subheader]="state.datetime">
                 <p-toggleButton [ngModel]="state.checked" onLabel="Đã xác nhận" offLabel="Chưa xác nhận"
-                    onIcon="pi pi-check" offIcon="pi pi-times" [style]="{ width: '10em' }" 
+                    onIcon="pi pi-check" offIcon="pi pi-times" [style]="{ width: '10em' }" (onChange)="setState(state.id)"
                     [disabled]="state.checked == true">
                 </p-toggleButton>
             </p-card>

@@ -75,6 +75,7 @@ export class ProductDetailComponent implements OnInit {
     this.username = this.storageService.loadUsername();
     this.id = this.route.snapshot.params['id'];
     this.getProduct();
+    this.getItems();
   }
 
   showDepartmentClick() {
@@ -108,6 +109,7 @@ export class ProductDetailComponent implements OnInit {
 
   addToCart(item: any) {
     this.addOrChange = true; //true -> add, false -> change
+    // console.log(this.quantity + ', item: ' + item.quantity);
     if (this.quantity < 0) {
       this.showError('Lỗi số lượng! Yêu cầu bạn không nhập giá trị âm.');
     } else if (this.items != null) {
@@ -116,6 +118,7 @@ export class ProductDetailComponent implements OnInit {
           this.addOrChange = false;
           var quantity = Number(this.items[i].quantity) + Number(this.quantity);
           if (quantity <= item.quantity) {
+            console.log('quantity: ' + quantity);
             this.cartService
               .productAvailableOnCart(
                 this.username,
@@ -142,7 +145,7 @@ export class ProductDetailComponent implements OnInit {
       }
       if (this.addOrChange) {
         this.cartService
-          .addToCart(this.username, item.productname, 1)
+          .addToCart(this.username, item.productname, this.quantity)
           .subscribe({
             next: (res) => {
               this.getItems();
@@ -158,6 +161,8 @@ export class ProductDetailComponent implements OnInit {
     }
     if(this.username != null){
       window.location.reload();
+    } else{
+      this.showWarn('Mời bạn đăng nhập để thêm sản phẩm vào giở hàng');
     }
   }
 
@@ -166,6 +171,7 @@ export class ProductDetailComponent implements OnInit {
       this.cartService.getItems(this.username).subscribe({
         next: (res) => {
           this.items = res;
+          // console.log('this.item: ' + this.items);
         },
         error: (err) => {
           console.log(err);

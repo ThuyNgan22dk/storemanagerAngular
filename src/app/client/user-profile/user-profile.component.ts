@@ -95,7 +95,7 @@ export class UserProfileComponent implements OnInit {
     this.userService.getUser(this.username).subscribe({
       next: (res) => {
         this.user = res;
-        console.log(this.user);
+        // console.log(this.user);
         this.updateForm.firstname = res.firstname;
         this.updateForm.lastname = res.lastname;
         this.updateForm.email = res.email;
@@ -162,8 +162,8 @@ export class UserProfileComponent implements OnInit {
     this.userService.resetPassword(this.username).subscribe({
       next: (res) => {
         this.code = res;
-        console.log('res: ' + res);
-        console.log(this.code);
+        // console.log('res: ' + res);
+        // console.log(this.code);
         this.showSuccess('Đổi mật khẩu thành công');
       },
       error: (err) => {

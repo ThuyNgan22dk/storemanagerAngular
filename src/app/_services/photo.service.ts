@@ -9,6 +9,11 @@ export class PhotoService {
             //     alt: 'Description for Image 1',
             //     title: 'NutriFood'
             // },
+            // {
+            //     itemImageSrc: 'D:/DoAnTotNghiep/Main/storeNewAngular/src/assets/img/promotion.png',
+            //     alt: 'Description for Image 1',
+            //     title: 'Khuyến mãi'
+            // },
             {
                 itemImageSrc: 'https://i.ytimg.com/vi/ahnFy-Vorug/maxresdefault.jpg',
                 alt: 'Description for Image 2',

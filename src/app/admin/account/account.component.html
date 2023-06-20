@@ -84,12 +84,12 @@
           <button pButton type="button" icon="pi pi-info" class="p-button-rounded p-button-primary"
             (click)="onUpdateForm(user)"></button>
           <button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2"
-            (click)="onDelete(user.id)"></button>
+            (click)="onDelete(user.username)"></button>
           <p-dialog header="Xác nhận" [(visible)]="deleteForm" [style]="{width :'30vw'}" [modal]="true"
             [transitionOptions]="'.3s'">
             <div>
               <i class="pi pi pi-exclamation-triangle"></i>
-              <span class="ml-2">Bạn có chắc xóa <span>{{userForm.id}}</span> ?</span>
+              <span class="ml-2">Bạn có chắc xóa <span>{{userForm.username}}</span> ?</span>
             </div>
             <div class="flex justify-content-end mt-3">
               <p-button label="Yes" icon="pi pi-check" class="border-round mr-2" (click)="deleteUser()"></p-button>

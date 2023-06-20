@@ -52,6 +52,8 @@ export class SearchComponent implements OnInit {
     this.getListProduct();
     this.getListCategoryEnabled();
     this.getNewestProduct();
+    document.querySelector('.active')?.classList.remove('active');
+    // document.getElementsByClassName('sort-item')[5].classList.add('active');
   }
 
   getListProductByCategoryId(id: number) {
@@ -110,6 +112,8 @@ export class SearchComponent implements OnInit {
         console.log(err);
       },
     });
+    document.querySelector('.active')?.classList.remove('active');
+    document.getElementsByClassName('sort-item')[4].classList.add('active');
   }
 
   getListCategoryEnabled() {
@@ -135,7 +139,7 @@ export class SearchComponent implements OnInit {
   }
 
   addToCart(item: any) {
-    this.addOrChange = true; //true -> add, false -> change
+    this.addOrChange = true;
     if (this.items != null) {
       for (let i = 0; i < this.items.length; i++) {
         if (this.items[i].name === item.productname) {
@@ -177,14 +181,16 @@ export class SearchComponent implements OnInit {
             },
             error: (err) => {
               // this.showError(err.message);
-              this.showWarn('Mời bạn đăng nhập để thêm sản phẩm vào giở hàng');
+              this.showWarn('Lỗi! Mời kiểm tra lại');
             },
           });
       }
-      window.location.reload();
+      // window.location.reload();
     } 
     if(this.username != null){
       window.location.reload();
+    } else{
+      this.showWarn('Mời bạn đăng nhập để thêm sản phẩm vào giở hàng');
     }
   }
 

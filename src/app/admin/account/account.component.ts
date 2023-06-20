@@ -76,9 +76,9 @@ export class AccountComponent implements OnInit {
     this.userForm.enabled = data.enabled;
   }
 
-  onDelete(id: number) {
+  onDelete(username: string) {
     this.deleteForm = true;
-    this.userForm.id = id;
+    this.userForm.username = username;
   }
 
   updateUser() {
@@ -110,7 +110,7 @@ export class AccountComponent implements OnInit {
           this.displayForm = false;
         },
         error: (err) => {
-          this.showError(err.message);
+          this.showError("Lỗi! Mời kiểm tra lại");
         },
       });
   }
@@ -122,7 +122,7 @@ export class AccountComponent implements OnInit {
         this.showSuccess('Cập nhật thành công!!');
       },
       error: (err) => {
-        this.showError(err.message);
+        this.showError("Lỗi! Mời kiểm tra lại");
       },
     });
   }
@@ -131,12 +131,12 @@ export class AccountComponent implements OnInit {
     const { id } = this.userForm;
     this.userService.deleteUser(id).subscribe({
       next: (res) => {
-        this.getListUser();
-        this.showWarn('Xóa danh mục thành công!!');
+        this.showWarn('Xóa người dùng thành công!!');
         this.deleteForm = false;
+        this.getListUser();
       },
       error: (err) => {
-        this.showError(err.message);
+        this.showError("Lỗi! Mời kiểm tra lại");
       },
     });
   }

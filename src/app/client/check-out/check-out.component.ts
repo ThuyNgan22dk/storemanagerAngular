@@ -26,6 +26,7 @@ export class CheckOutComponent implements OnInit {
   phone = faPhone;
   bars = faBars;
   showDepartment = false;
+  showPlaceOrder = false;
   order = new Order();
   listOrderDetail: any[] = [];
   username!: string;
@@ -60,7 +61,7 @@ export class CheckOutComponent implements OnInit {
     // console.log(this.username);
     this.getItems();
     // this.promotionForm = this.storageService.loadPromotion();
-    console.log(this.promotionForm);
+    // console.log(this.promotionForm);
     if (this.storageService.promotion != null) {
       this.showDiscount = true;
       this.promotionForm = this.storageService.promotion;
@@ -85,7 +86,7 @@ export class CheckOutComponent implements OnInit {
       this.price.totalPrice += res.total;
     });
     this.price.total = (this.price.totalPrice * (100 - promotionPercent)) / 100;
-    console.log({ totalPrice: this.price.totalPrice, total: this.price.total });
+    // console.log({ totalPrice: this.price.totalPrice, total: this.price.total });
     return { totalPrice: this.price.totalPrice, total: this.price.total };
   }
 
@@ -113,6 +114,19 @@ export class CheckOutComponent implements OnInit {
         console.log(err);
       },
     });
+  }
+
+  showFormPlace(){
+    const { firstname, lastname, phone, country, address, note } = this.orderForm;
+    if(firstname != '' && lastname != '' && phone != '' && country != '' && address != '' ){
+      this.showPlaceOrder = true;
+    } else{
+      this.showWarn('Quý khách cần nhập đầy đủ thông tin');
+    }
+  }
+
+  reload(){
+    // window.location.reload();
   }
 
   getUser() {
@@ -147,10 +161,9 @@ export class CheckOutComponent implements OnInit {
       }
       this.listOrderDetail.push(orderDetail);
     });
+    // console.log(this.promotionForm.code);
     const { firstname, lastname, phone, country, address, note } = this.orderForm;
-    if(firstname === null || lastname === null || phone === null || country === null || address === null ){
-      this.showWarn('Quý khách cần nhập đầy đủ thông tin');
-    } else{
+    if(firstname != '' && lastname != '' && phone != '' && country != '' && address != '' ){
       this.orderService
         .placeOrder(
           this.username,
@@ -168,14 +181,14 @@ export class CheckOutComponent implements OnInit {
             this.getItems();
             this.showSuccess('Đặt hàng thành công');
             this.checkouted = true;
+            this.showPlaceOrder = false;
           },
           error: (err) => {
             this.showError("Đặt hàng thất bại");
           },
         });
-        // setTimeout(function(){
-        //   window.location.reload();
-        // }, 10000);
+    } else{
+      this.showWarn('Quý khách cần nhập đầy đủ thông tin');
     }
   }
 

@@ -52,7 +52,7 @@
     styleClass="p-fluid">
     <ng-template pTemplate="content" p-scroller>
         <div class="field grid" style="margin-left: 4px;" *ngIf="!onUpdate">
-            <label for="name" class="col-12 mb-2 md:col-2 md:mb-0">Tên</label><span style="color: red;">*</span>
+            <label for="name" class="col-12 mb-2 md:col-2 md:mb-0">Tên<span style="color: red;">*</span></label>
             <p-autoComplete [(ngModel)]="selectedProduct" [suggestions]="filteredProducts" style="width: 100%;"
                 (completeMethod)="filterProduct($event)" field="productname" [dropdown]="true">
                 <ng-template let-product pTemplate="item">
@@ -70,7 +70,7 @@
         </div>
 
         <div class="field grid">
-            <label for="name" class="col-12 mb-2 md:col-2 md:mb-0" *ngIf="onUpdate">Tên sản phẩm</label><span style="color: red;">*</span>
+            <label for="name" class="col-12 mb-2 md:col-2 md:mb-0" *ngIf="onUpdate">Tên sản phẩm<span style="color: red;">*</span></label>
             <div class="col-12 md:col-10">
                 <!-- <p-calendar [(ngModel)]="importDetailForm.expiry" dateFormat="yy-mm-dd" p-scroller></p-calendar> -->
                 <input id="expiry" type="text" *ngIf="onUpdate"

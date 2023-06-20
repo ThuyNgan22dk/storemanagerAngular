@@ -4,7 +4,7 @@
   <p>Quản lý đơn hàng</p>
   <div class="card">
     <p-table #dt [value]="listOrder" [rows]="5" [paginator]="true" [rowHover]="true" dataKey="id"
-      [tableStyle]="{'width': '56rem'}" [showCurrentPageReport]="true">
+      [tableStyle]="{'width': '100%'}" [showCurrentPageReport]="true">
       <ng-template pTemplate="caption">
         <div class="flex align-items-center justify-content-between">
           <h5 class="m-0">Đơn hàng của bạn</h5>
@@ -60,10 +60,10 @@
       <ng-template pTemplate="body" let-orderDetails>
         <tr>
           <td>{{ orderDetails.name }}</td>
-          <td>{{ orderDetails.price | currency : "VND" }}</td>
+          <td>{{ orderDetails.price | currency : "VND"}}</td>
           <td>{{ orderDetails.quantity }}</td>
           <td>{{ orderDetails.expiry }}</td>
-          <td>{{ orderDetails.subTotal }}</td>
+          <td>{{ orderDetails.subTotal | currency : "VND"}}</td>
         </tr>
       </ng-template>
     </p-table>

@@ -34,9 +34,19 @@
                 <div class="quantity">
                   <p style="font-weight: bold; margin-bottom: 4px;">Số lượng</p>
                   <div class="product-qty">
-                    <p-inputNumber [(ngModel)]="quantity" [showButtons]="true" buttonLayout="horizontal" [step]="1" decrementButtonClass="p-button-danger"
+                    <!-- <p-inputNumber [(ngModel)]="quantity" [showButtons]="true" buttonLayout="horizontal" [step]="1" decrementButtonClass="p-button-danger"
                       incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus"
-                      decrementButtonIcon="pi pi-minus"></p-inputNumber>
+                      decrementButtonIcon="pi pi-minus"></p-inputNumber> -->
+                      <span class="qty-decrease" (click)="subtractQuantity()">
+                      <img src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/decrease.svg"
+                        alt="decrease">
+                      </span>
+                      <input type="tel" class="qty-input" value="1" [ngModel]="quantity"
+                        (change)="updateQuantity(product,$event)" min="1" max="product.quantity">
+                      <span class="qty-increase" (click)="plusQuantity(product)">
+                        <img src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/increase.svg"
+                          alt="increase">
+                      </span>
                   </div>
                   <p>{{product.quantity}} sản phẩm có sẵn</p>
                 </div>
@@ -65,34 +75,36 @@
   </div>
 
   <div class="form__template-box">
-    <div class="form__detail-product">
-      <section id="product1">
-        <h2>Sản phẩm liên quan</h2>
-        <p-carousel [value]="listRelatedProduct" [numVisible]="4" [numScroll]="4"
-          [responsiveOptions]="responsiveOptions">
-          <ng-template let-product pTemplate="item">
-            <div class="product-item">
-              <div class="product-item-content">
-                <div class="pro-container">
-                  <div class="pro">
-                    <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}">
-                      <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
-                      <div class="des">
-                        <span>{{product.category.name}}</span>
-                        <h5>{{product.productname}}</h5>
+    <div class="product-details container">
+      <div class="form__detail-product">
+        <section id="product1">
+          <h2>Sản phẩm liên quan</h2>
+          <p-carousel [value]="listRelatedProduct" [numVisible]="4" [numScroll]="4"
+            [responsiveOptions]="responsiveOptions">
+            <ng-template let-product pTemplate="item">
+              <div class="product-item">
+                <div class="product-item-content">
+                  <div class="pro-container">
+                    <div class="pro">
+                      <a href="javascript:void(0)" routerLink="/productDetail/{{product.id}}">
+                        <img src="{{'data:image/jpg;base64,' + product.images[0].data}}" alt="">
+                        <div class="des">
+                          <span>{{product.category.name}}</span>
+                          <h5>{{product.productname}}</h5>
+                        </div>
+                      </a>
+                      <div class="flex align-items-center justify-content-between">
+                        <span class="text-base font-semibold text-red-500">{{ product.price | currency:'VND'}}</span>
+                        <button pButton icon="pi pi-shopping-cart" class="p-button-rounded" (click)="addToCart(product)"
+                          [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>
                       </div>
-                    </a>
-                    <div class="flex align-items-center justify-content-between">
-                      <span class="text-base font-semibold text-red-500">{{ product.price | currency:'VND'}}</span>
-                      <button pButton icon="pi pi-shopping-cart" class="p-button-rounded" (click)="addToCart(product)"
-                        [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </ng-template>
-        </p-carousel>
-      </section>
+            </ng-template>
+          </p-carousel>
+        </section>
+      </div>
     </div>
   </div>

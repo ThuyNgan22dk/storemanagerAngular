@@ -32,6 +32,7 @@ export class OrderComponent implements OnInit {
     icon: '',
     color: '',
   };
+  listNumber: number[] = [];
   listStates: state[] = [
     {
       id: 1,
@@ -80,20 +81,28 @@ export class OrderComponent implements OnInit {
 
   update() {
     this.showState = false;
-    this.getListOrder();
+    window.location.reload();
   }
 
   getListOrder() {
     this.orderService.getListOrder().subscribe({
       next: (res) => {
         this.listOrder = res;
-        // console.log(this.listOrder);
       },
       error: (err) => {
         console.log(err);
       },
     });
   }
+
+  addNumber(id: number){
+    this.listNumber.push(id);
+  }
+
+  resetListnumber(){
+    this.listNumber = [];
+  }
+
   resetListState(){
     for (let i = 0; i < this.listStates.length; i++) {
         this.listStates[i].datetime = null;
@@ -106,6 +115,7 @@ export class OrderComponent implements OnInit {
       if (list[i].state === this.listStates[i].state) {
         this.listStates[i].datetime = list[i].datetime;
         this.listStates[i].checked = true;
+        this.addNumber(i+1);
       } else{
         this.listStates[i].datetime = null;
         this.listStates[i].checked = false;
@@ -115,32 +125,52 @@ export class OrderComponent implements OnInit {
 
   showStates(order: any) {
     this.resetListState();
+    this.resetListnumber();
     this.showState = true;
     this.orderId = order.id;
-    console.log(this.orderId);
+    // console.log(this.orderId);
     this.orderService.getListStateByOrderId(this.orderId).subscribe({
       next: (res) => {
         this.listStatesForm = res;
-        console.log(this.listStatesForm);
         this.comparableState(this.listStatesForm);
       },
       error: (err) => {
-        console.log(err);
+        this.showError(err);
       },
     });
   }
 
   setState(numberState: number) {
-    // this.resetListState();
-    this.orderService.setOrderState(this.orderId, numberState).subscribe({
-      next: (res) => {
-        this.listStatesForm = res;
-        this.comparableState(this.listStatesForm);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    var check1 = false;
+    var check2 = false;
+    this.addNumber(numberState);
+    if(this.listNumber[this.listNumber.length-2] == (numberState-1)){
+      check1 = true;
+    } else{
+      check1 = false;
+    } 
+
+    console.log(check1);
+    if(check1){
+      this.orderService.setOrderState(this.orderId, numberState).subscribe({
+        next: (res) => {
+          this.listStatesForm = res;
+          this.comparableState(this.listStatesForm);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+      this.showSuccess('Thêm trạng thái thành công');
+    } else{
+      this.showError('Thêm trạng thái thất bại');
+      if(this.listNumber[this.listNumber.length-1] == this.listNumber[this.listNumber.length-2]){
+        check2 = true;
+        this.listNumber.pop();
+        this.listNumber.pop();
+      }
+    }
+    
   }
 
   getSeverity(order: any) {

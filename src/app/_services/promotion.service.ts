@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-const PROMOTION_API = "http://localhost:8080/api/promotion/";
+const PROMOTION_API = "http://192.168.0.6:8080/api/promotion/";
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -22,7 +22,7 @@ export class PromotionService {
   }
 
   getPromotionByCode(code: string){
-    console.log(PROMOTION_API + 'findCode/' + code);
+    // console.log(PROMOTION_API + 'findCode/' + code);
     return this.http.get(PROMOTION_API + 'findCode/' + code,httpOptions);
   }
 

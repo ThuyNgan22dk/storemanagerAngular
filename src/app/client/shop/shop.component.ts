@@ -237,7 +237,7 @@ export class ShopComponent implements OnInit {
   }
 
   addToCart(item: any) {
-    this.addOrChange = true; //true -> add, false -> change
+    this.addOrChange = true;
     if (this.items != null) {
       for (let i = 0; i < this.items.length; i++) {
         if (this.items[i].name === item.productname) {
@@ -279,14 +279,16 @@ export class ShopComponent implements OnInit {
             },
             error: (err) => {
               // this.showError(err.message);
-              this.showWarn('Mời bạn đăng nhập để thêm sản phẩm vào giở hàng');
+              this.showWarn('Lỗi! Mời kiểm tra lại');
             },
           });
       }
       // window.location.reload();
-    }
-    if (this.username != null) {
+    } 
+    if(this.username != null){
       window.location.reload();
+    } else{
+      this.showWarn('Mời bạn đăng nhập để thêm sản phẩm vào giở hàng');
     }
   }
 

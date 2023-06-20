@@ -60,6 +60,9 @@
                   <button class="sort-item" *ngFor="let sort of listSort" (click)="addActive(sort.id)">
                     {{sort.name}}
                   </button>
+                  <button class="sort-item active" *ngIf="showSearch">
+                    Kết quả
+                  </button>
                   <!-- <li id="sort" class="sort-item" (click)="addActive(1)">Giá thấp đến cao</li>
                   <li id="sort" class="sort-item" (click)="addActive(2)">Giá cao đến thấp</li> -->
                 </div>
