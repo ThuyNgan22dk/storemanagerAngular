@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Order } from '../_models/order';
 import { OrderDetail } from '../_models/order-detail';
 
-const ORDER_API = "http://192.168.0.6:8080/api/order/";
+const ORDER_API = "http://localhost:8080/api/order/";
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };

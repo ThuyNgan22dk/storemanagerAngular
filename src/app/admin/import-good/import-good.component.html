@@ -61,10 +61,12 @@
 
         <div class="formgrid grid">
             <div class="field col">
-                <label for="note">Ghi chú</label>
-                <input id="note" type="text"
+                <label for="note" class="col-12 mb-2 md:col-2 md:mb-0">Ghi chú</label>
+                <div class="col-12 md:col-10 mb-2">
+                    <input id="note" type="text"
                     class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
                     pInputText [(ngModel)]="importForm.note" required autofocus>
+                </div>                
             </div>
         </div>
         <!-- <app-import-detail *ngIf="!onUpdate" [importGood]="importForm" [id]="importForm.id" [subTotal]="importForm.totalPrice" ></app-import-detail> -->
@@ -75,6 +77,18 @@
         <button type="submit" pButton class="border-round" *ngIf="onUpdate" (click)="updateImport()">Cập nhật</button>
         <button pButton type="button" class="border-round p-button-danger ml-3" (click)="showForm=false">Hủy</button>
     </ng-template>
+</p-dialog>
+
+<p-dialog header="Xác nhận" [(visible)]="showDelete" [style]="{width :'30vw'}" [modal]="true"
+    [transitionOptions]="'.3s'">
+    <div>
+        <i class="pi pi pi-exclamation-triangle"></i>
+        <span class="ml-2">Bạn có chắc xóa <span>{{importForm.id}}</span> ?</span>
+    </div>
+    <div class="flex justify-content-end mt-3">
+        <p-button label="Yes" icon="pi pi-check" class="border-round mr-2" (click)="deleteImport()"></p-button>
+        <p-button label="No" icon="pi pi-times" class="border-round" (click)="showDelete=false"></p-button>
+    </div>
 </p-dialog>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

@@ -118,7 +118,7 @@ export class CheckOutComponent implements OnInit {
 
   showFormPlace(){
     const { firstname, lastname, phone, country, address, note } = this.orderForm;
-    if(firstname != '' && lastname != '' && phone != '' && country != '' && address != '' ){
+    if(firstname != null && lastname != null && phone != null && country != null && address != null ){
       this.showPlaceOrder = true;
     } else{
       this.showWarn('Quý khách cần nhập đầy đủ thông tin');

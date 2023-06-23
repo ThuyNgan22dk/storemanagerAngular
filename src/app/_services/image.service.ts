@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const IMAGE_API = "http://192.168.0.6:8080/api/image/";
+const IMAGE_API = "http://localhost:8080/api/image/";
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
